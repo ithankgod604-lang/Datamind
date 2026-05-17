@@ -708,8 +708,83 @@ tr:hover td { background: rgba(0,229,255,0.02); color: #CBD5E1; }
 
       <!-- PHASE 2 -->
       <div class="page" id="page-phase2">
+
+        <!-- Upload for cleaning -->
         <div class="panel">
-          <div class="panel-header"><div class="panel-title">🧹 Phase 2 — Data Cleaning</div></div>
+          <div class="panel-header"><div class="panel-title">📁 Step 1 — Upload Your Dataset</div></div>
+          <div class="panel-body">
+            <div class="upload-zone" id="cleanUploadZone" onclick="document.getElementById('cleanFileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleCleanDrop(event)">
+              <div class="upload-icon">📊</div>
+              <div class="upload-title">Drop your CSV file here or click to browse</div>
+              <div class="upload-sub">Upload your raw dataset — AI will automatically detect and fix all issues</div>
+              <div class="upload-formats">
+                <span class="fmt-badge">CSV</span>
+                <span class="fmt-badge">TXT</span>
+              </div>
+            </div>
+            <input type="file" id="cleanFileInput" accept=".csv,.txt" onchange="handleCleanUpload(event)" style="display:none" />
+          </div>
+        </div>
+
+        <!-- Before preview -->
+        <div class="panel" id="cleanBeforePanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">⚠️ Raw Data — Before Cleaning</div>
+            <div style="display:flex;gap:8px">
+              <span id="cleanIssuesBadge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#F87171"></span>
+              <button class="run-btn" id="cleanBtn" onclick="runDataCleaning()" style="padding:8px 16px;font-size:12px">🧹 Clean This Data</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:14px">
+              <div class="stat-card"><div class="stat-val" id="clean-rows" style="color:#F87171">0</div><div class="stat-lbl">Total Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-cols" style="color:#F87171">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-missing" style="color:#F87171">0</div><div class="stat-lbl">Missing Values</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-dupes" style="color:#F87171">0</div><div class="stat-lbl">Duplicates</div></div>
+            </div>
+            <div class="table-wrap" id="cleanBeforeTable"></div>
+          </div>
+        </div>
+
+        <!-- Issues found -->
+        <div class="panel" id="cleanIssuesPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">🔍 Issues Detected</div></div>
+          <div class="panel-body">
+            <div id="cleanIssuesList" class="insight-cards"></div>
+          </div>
+        </div>
+
+        <!-- After cleaning -->
+        <div class="panel" id="cleanAfterPanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">✅ Clean Data — After Cleaning</div>
+            <div style="display:flex;gap:8px">
+              <span id="cleanFixedBadge" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#10B981"></span>
+              <button class="tb-btn primary" onclick="downloadCleanCSV()">⬇ Download Clean CSV</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:14px">
+              <div class="stat-card"><div class="stat-val" id="after-rows" style="color:var(--green)">0</div><div class="stat-lbl">Clean Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-cols" style="color:var(--green)">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-missing" style="color:var(--green)">0</div><div class="stat-lbl">Missing Values</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-dupes" style="color:var(--green)">0</div><div class="stat-lbl">Duplicates</div></div>
+            </div>
+            <div class="table-wrap" id="cleanAfterTable"></div>
+          </div>
+        </div>
+
+        <!-- AI Cleaning Report -->
+        <div class="panel" id="cleanReportPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">📋 AI Cleaning Report</div></div>
+          <div class="panel-body">
+            <div id="cleanReportText" class="output-area fadeIn"></div>
+          </div>
+        </div>
+
+        <!-- Manual description fallback -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">💬 Or Describe Your Data Issues</div></div>
           <div class="panel-body">
             <div class="tabs" id="p2tabs">
               <button class="tab active" onclick="switchTab('p2tabs','p2tab',0,'Excel')">Excel</button>
@@ -718,12 +793,13 @@ tr:hover td { background: rgba(0,229,255,0.02); color: #CBD5E1; }
               <button class="tab" onclick="switchTab('p2tabs','p2tab',3,'Power Query')">Power Query</button>
             </div>
             <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p2input" placeholder="Describe the data quality issues you are facing or paste a sample of your data..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhaseWithTool('2','p2input','p2output')">Clean</button>
+              <textarea class="question-input" id="p2input" placeholder="Describe your data issues or paste a sample — I will provide step-by-step cleaning solutions..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhaseWithTool('2','p2input','p2output')">Get Solutions</button>
             </div>
             <div id="p2output" class="output-area empty">Cleaning solutions will appear here...</div>
           </div>
         </div>
+
       </div>
 
       <!-- PHASE 3 -->
@@ -1470,6 +1546,280 @@ function toast(msg) {
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 3000);
+}
+
+// ═══════════════════════════════════
+// DATA CLEANING ENGINE
+// ═══════════════════════════════════
+var rawCSVData = null;
+var cleanCSVData = null;
+var rawHeaders = [];
+var rawRows = [];
+var cleanRows = [];
+
+function handleCleanDrop(e) {
+  e.preventDefault();
+  document.getElementById('cleanUploadZone').classList.remove('dragover');
+  var file = e.dataTransfer.files[0];
+  if (file) processCleanFile(file);
+}
+
+function handleCleanUpload(e) {
+  var file = e.target.files[0];
+  if (file) processCleanFile(file);
+}
+
+function processCleanFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    rawCSVData = e.target.result;
+    parseAndPreview(rawCSVData);
+    toast('✅ File loaded: ' + file.name);
+  };
+  reader.readAsText(file);
+}
+
+function parseCSV(text) {
+  var lines = text.split('
+').filter(l => l.trim());
+  var headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
+  var rows = [];
+  for (var i = 1; i < lines.length; i++) {
+    var vals = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g,''));
+    if (vals.length >= headers.length - 1) {
+      var row = {};
+      headers.forEach((h, j) => row[h] = vals[j] || '');
+      rows.push(row);
+    }
+  }
+  return { headers, rows };
+}
+
+function countMissing(rows, headers) {
+  var count = 0;
+  rows.forEach(row => headers.forEach(h => { if (!row[h] || row[h].trim() === '' || row[h].toLowerCase() === 'null' || row[h].toLowerCase() === 'n/a' || row[h].toLowerCase() === 'na' || row[h] === 'undefined') count++; }));
+  return count;
+}
+
+function countDuplicates(rows) {
+  var seen = new Set();
+  var dupes = 0;
+  rows.forEach(row => {
+    var key = JSON.stringify(row);
+    if (seen.has(key)) dupes++;
+    else seen.add(key);
+  });
+  return dupes;
+}
+
+function parseAndPreview(csvText) {
+  var parsed = parseCSV(csvText);
+  rawHeaders = parsed.headers;
+  rawRows = parsed.rows;
+  var missing = countMissing(rawRows, rawHeaders);
+  var dupes = countDuplicates(rawRows);
+
+  document.getElementById('clean-rows').textContent = rawRows.length;
+  document.getElementById('clean-cols').textContent = rawHeaders.length;
+  document.getElementById('clean-missing').textContent = missing;
+  document.getElementById('clean-dupes').textContent = dupes;
+
+  var issues = [];
+  if (missing > 0) issues.push(missing + ' missing values');
+  if (dupes > 0) issues.push(dupes + ' duplicates');
+  document.getElementById('cleanIssuesBadge').textContent = issues.length ? '⚠️ ' + issues.join(', ') + ' found' : '✅ No obvious issues';
+
+  // Render before table
+  renderTable('cleanBeforeTable', rawHeaders, rawRows.slice(0, 8), rawRows);
+  document.getElementById('cleanBeforePanel').style.display = 'block';
+
+  // Detect issues
+  detectIssues(rawHeaders, rawRows, missing, dupes);
+}
+
+function detectIssues(headers, rows, missing, dupes) {
+  var issues = [];
+  if (missing > 0) issues.push({ type:'error', label:'Missing Values', text: missing + ' empty/null/NA values detected across your dataset. These will be filled with appropriate defaults (mean for numbers, "Unknown" for text).' });
+  if (dupes > 0) issues.push({ type:'error', label:'Duplicate Rows', text: dupes + ' duplicate rows found. These will be removed to ensure data integrity.' });
+
+  // Check for inconsistent text (mixed case)
+  var textCols = headers.filter(h => rows.some(r => r[h] && isNaN(r[h])));
+  textCols.forEach(col => {
+    var vals = rows.map(r => r[col]).filter(v => v);
+    var hasMixedCase = vals.some(v => v !== v.toLowerCase() && v !== v.toUpperCase() && v !== v.charAt(0).toUpperCase() + v.slice(1).toLowerCase());
+    if (hasMixedCase) issues.push({ type:'warning', label:'Inconsistent Casing — ' + col, text: 'Column "' + col + '" has mixed case values. Will be standardised to Title Case.' });
+  });
+
+  // Check for leading/trailing spaces
+  var hasSpaces = rows.some(row => headers.some(h => row[h] && row[h] !== row[h].trim()));
+  if (hasSpaces) issues.push({ type:'warning', label:'Whitespace Issues', text: 'Leading/trailing spaces detected in values. These will be trimmed automatically.' });
+
+  // Check numeric columns with text
+  headers.forEach(col => {
+    var vals = rows.map(r => r[col]).filter(v => v);
+    var numCount = vals.filter(v => !isNaN(v) && v !== '').length;
+    if (numCount > vals.length * 0.7 && numCount < vals.length) {
+      issues.push({ type:'warning', label:'Mixed Data Type — ' + col, text: 'Column "' + col + '" appears mostly numeric but has ' + (vals.length - numCount) + ' non-numeric values. These will be flagged.' });
+    }
+  });
+
+  if (issues.length === 0) issues.push({ type:'success', label:'Good News', text: 'No major data quality issues detected. Dataset appears relatively clean. AI will still optimise formatting and standardise values.' });
+
+  var list = document.getElementById('cleanIssuesList');
+  list.innerHTML = issues.map(i => `<div class="insight-card ${i.type}"><div class="insight-label">${i.label}</div>${i.text}</div>`).join('');
+  document.getElementById('cleanIssuesPanel').style.display = 'block';
+}
+
+async function runDataCleaning() {
+  if (!rawCSVData) { toast('Please upload a CSV file first'); return; }
+  var btn = document.getElementById('cleanBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Cleaning...';
+
+  // Step 1 — JS auto-cleaning
+  cleanRows = autoClean(rawHeaders, rawRows);
+
+  // Step 2 — Show after table
+  var afterMissing = countMissing(cleanRows, rawHeaders);
+  var afterDupes = countDuplicates(cleanRows);
+  document.getElementById('after-rows').textContent = cleanRows.length;
+  document.getElementById('after-cols').textContent = rawHeaders.length;
+  document.getElementById('after-missing').textContent = afterMissing;
+  document.getElementById('after-dupes').textContent = afterDupes;
+
+  var fixed = rawRows.length - cleanRows.length;
+  document.getElementById('cleanFixedBadge').textContent = '✅ ' + (countMissing(rawRows, rawHeaders) - afterMissing) + ' issues fixed · ' + fixed + ' rows removed';
+
+  renderTable('cleanAfterTable', rawHeaders, cleanRows.slice(0, 8), cleanRows);
+  document.getElementById('cleanAfterPanel').style.display = 'block';
+
+  // Step 3 — AI cleaning report
+  var reportPanel = document.getElementById('cleanReportPanel');
+  var reportText = document.getElementById('cleanReportText');
+  reportPanel.style.display = 'block';
+  reportText.innerHTML = '<div class="loading"><div class="spin"></div>Generating AI cleaning report...</div>';
+
+  var sampleBefore = rawHeaders.join(',') + '
+' + rawRows.slice(0,5).map(r => rawHeaders.map(h => r[h]).join(',')).join('
+');
+  var sampleAfter  = rawHeaders.join(',') + '
+' + cleanRows.slice(0,5).map(r => rawHeaders.map(h => r[h]).join(',')).join('
+');
+
+  try {
+    var prompt = `You are a senior data analyst. Analyse this data cleaning operation and write a professional cleaning report.
+
+BEFORE (raw data sample):
+${sampleBefore}
+
+AFTER (cleaned data sample):
+${sampleAfter}
+
+Stats:
+- Rows before: ${rawRows.length} → after: ${cleanRows.length}
+- Missing values before: ${countMissing(rawRows, rawHeaders)} → after: ${countMissing(cleanRows, rawHeaders)}
+- Duplicates removed: ${countDuplicates(rawRows)}
+
+Write a professional data cleaning report covering:
+1. Issues Found & Fixed
+2. Cleaning Actions Taken (with specific column names)
+3. Data Quality Score Before vs After
+4. Remaining Recommendations
+5. Business Impact of Cleaning
+
+Be specific and professional.`;
+
+    var res = await callAI(prompt);
+    reportText.innerHTML = formatOutput(res);
+    completedPhases.add('2');
+    updateProgress();
+  } catch(e) {
+    reportText.innerHTML = '⚠️ Could not generate AI report: ' + e.message;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Cleaned!';
+  toast('✅ Data cleaned successfully! Download your clean CSV below.');
+  document.getElementById('cleanAfterPanel').scrollIntoView({ behavior:'smooth' });
+}
+
+function autoClean(headers, rows) {
+  // Step 1: Remove duplicates
+  var seen = new Set();
+  var deduped = rows.filter(row => {
+    var key = JSON.stringify(row);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  // Step 2: Clean each row
+  return deduped.map(row => {
+    var clean = {};
+    headers.forEach(h => {
+      var val = row[h] || '';
+      // Trim whitespace
+      val = val.trim();
+      // Fix null/na/n/a
+      if (['null','na','n/a','none','undefined','#n/a','#na'].includes(val.toLowerCase())) {
+        val = '';
+      }
+      // Check if numeric column
+      var colVals = rows.map(r => r[h]).filter(v => v && v.trim());
+      var numericCount = colVals.filter(v => !isNaN(v)).length;
+      var isNumeric = numericCount > colVals.length * 0.7;
+      if (isNumeric && val === '') {
+        // Fill missing numeric with mean
+        var nums = colVals.filter(v => !isNaN(v)).map(Number);
+        var mean = nums.length ? (nums.reduce((a,b) => a+b, 0) / nums.length).toFixed(2) : '0';
+        val = mean;
+      } else if (!isNumeric && val === '') {
+        val = 'Unknown';
+      }
+      // Standardise text case for text columns
+      if (!isNumeric && val && val !== 'Unknown') {
+        val = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+      }
+      clean[h] = val;
+    });
+    return clean;
+  }).filter(row => {
+    // Remove rows that are all empty
+    return headers.some(h => row[h] && row[h] !== 'Unknown' && row[h] !== '0');
+  });
+}
+
+function renderTable(containerId, headers, previewRows, allRows) {
+  var html = '<table><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+  previewRows.forEach(row => {
+    html += '<tr>' + headers.map(h => {
+      var val = row[h] || '';
+      var isEmpty = !val || val === 'Unknown' || val === '';
+      return `<td style="${isEmpty?'color:#F87171':''}">${val || '—'}</td>`;
+    }).join('') + '</tr>';
+  });
+  if (allRows.length > previewRows.length) {
+    html += `<tr><td colspan="${headers.length}" style="text-align:center;color:var(--muted);font-size:11px;padding:10px">... and ${allRows.length - previewRows.length} more rows</td></tr>`;
+  }
+  html += '</table>';
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function downloadCleanCSV() {
+  if (!cleanRows.length) { toast('No clean data to download'); return; }
+  var csv = rawHeaders.join(',') + '
+';
+  csv += cleanRows.map(row => rawHeaders.map(h => {
+    var val = row[h] || '';
+    return val.includes(',') ? '"' + val + '"' : val;
+  }).join(',')).join('
+');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cleaned_dataset.csv';
+  a.click();
+  toast('✅ Clean CSV downloaded!');
 }
 </script>
 </body>
