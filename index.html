@@ -1,1083 +1,1276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DataMind AI -- Professional Data Analytics Assistant</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DataMind AI - Professional Analytics Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg: #080C14; --surface: #0E1421; --surface2: #141B2D;
-  --border: #1E2A42; --accent: #00E5FF; --accent2: #7C3AED;
-  --gold: #F59E0B; --green: #10B981; --red: #EF4444;
-  --text: #E2E8F0; --muted: #64748B;
-  --mono: 'Space Mono', monospace; --sans: 'Outfit', sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
-body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; z-index: 0; }
-.app { position: relative; z-index: 1; display: flex; height: 100vh; }
-.sidebar { width: 260px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
-.sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
-.logo-title { font-family: var(--mono); font-size: 16px; font-weight: 700; color: #fff; }
-.logo-title span { color: var(--accent); }
-.logo-sub { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.1em; }
-.sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 8px; }
-.nav-label { font-size: 9px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.15em; color: #2D3F5C; padding: 10px 10px 4px; display: block; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; cursor: pointer; transition: all 0.15s; border: 1px solid transparent; color: var(--muted); font-size: 13px; font-weight: 500; margin-bottom: 1px; background: none; width: 100%; text-align: left; }
-.nav-item:hover { background: rgba(0,229,255,0.05); color: #CBD5E1; border-color: rgba(0,229,255,0.08); }
-.nav-item.active { background: rgba(0,229,255,0.1); color: var(--accent); border-color: rgba(0,229,255,0.2); }
-.nav-item .ni { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
-.nav-badge { margin-left: auto; background: var(--accent); color: #000; border-radius: 4px; padding: 1px 6px; font-size: 9px; font-family: var(--mono); font-weight: 700; }
-.sidebar-footer { padding: 12px 8px; border-top: 1px solid var(--border); }
-.phase-progress { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
-.pp-label { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-bottom: 6px; }
-.pp-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.pp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.4s; }
-.pp-text { font-size: 10px; color: var(--accent); font-family: var(--mono); margin-top: 4px; }
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.topbar { height: 54px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
-.topbar-left { display: flex; align-items: center; gap: 12px; }
-.topbar-title { font-family: var(--mono); font-size: 13px; color: #fff; }
-.topbar-badge { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.25); border-radius: 100px; padding: 3px 10px; font-size: 10px; font-family: var(--mono); color: var(--accent); }
-.topbar-right { display: flex; align-items: center; gap: 8px; }
-.tb-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 7px; padding: 6px 14px; font-size: 12px; font-family: var(--mono); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-.tb-btn:hover { border-color: rgba(0,229,255,0.3); color: var(--accent); }
-.tb-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
-.content { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-.content::-webkit-scrollbar { width: 4px; }
-.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); background: rgba(0,229,255,0.03); }
-.panel-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-.panel-body { padding: 18px; }
-.upload-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
-.upload-zone:hover { border-color: var(--accent); background: rgba(0,229,255,0.04); }
-.upload-icon { font-size: 36px; margin-bottom: 12px; }
-.upload-title { font-family: var(--mono); font-size: 14px; color: #fff; margin-bottom: 6px; }
-.upload-sub { font-size: 12px; color: var(--muted); }
-.upload-formats { display: flex; gap: 6px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
-.fmt-badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; font-size: 10px; font-family: var(--mono); color: var(--muted); }
-.phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.phase-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
-.phase-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-2px); }
-.phase-card.selected { border-color: var(--accent); background: rgba(0,229,255,0.08); }
-.phase-card.completed { border-color: var(--green); background: rgba(16,185,129,0.06); }
-.phase-num { font-family: var(--mono); font-size: 9px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
-.phase-icon { font-size: 22px; margin-bottom: 6px; }
-.phase-name { font-size: 11px; font-weight: 600; color: #CBD5E1; line-height: 1.3; }
-.phase-card.selected .phase-name { color: var(--accent); }
-.phase-card.completed .phase-name { color: var(--green); }
-.question-row { display: flex; gap: 10px; }
-.question-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; resize: none; min-height: 48px; max-height: 120px; }
-.question-input:focus { border-color: rgba(0,229,255,0.4); }
-.question-input::placeholder { color: #2D3F5C; }
-.run-btn { background: var(--accent); color: #000; border: none; border-radius: 10px; padding: 12px 20px; font-family: var(--mono); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
-.run-btn:hover { background: #33EAFF; transform: translateY(-1px); }
-.run-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-.output-area { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; font-size: 14px; line-height: 1.85; color: #CBD5E1; min-height: 200px; }
-.output-area.empty { display: flex; align-items: center; justify-content: center; color: var(--muted); font-family: var(--mono); font-size: 12px; }
-.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
-table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--mono); }
-th { background: var(--surface2); padding: 10px 12px; text-align: left; color: var(--accent); font-size: 10px; text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
-td { padding: 9px 12px; border-bottom: 1px solid rgba(30,42,66,0.5); color: #94A3B8; white-space: nowrap; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(0,229,255,0.02); color: #CBD5E1; }
-.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-.stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
-.stat-val { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-.stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--mono); }
-.insight-cards { display: flex; flex-direction: column; gap: 10px; }
-.insight-card { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: #CBD5E1; line-height: 1.65; }
-.insight-card.warning { border-left-color: var(--gold); }
-.insight-card.error { border-left-color: var(--red); }
-.insight-card.success { border-left-color: var(--green); }
-.insight-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
-.insight-card.warning .insight-label { color: var(--gold); }
-.insight-card.error .insight-label { color: var(--red); }
-.insight-card.success .insight-label { color: var(--green); }
-.messages { display: flex; flex-direction: column; gap: 16px; }
-.msg { display: flex; gap: 12px; }
-.msg.user { flex-direction: row-reverse; }
-.msg-avatar { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-.msg.ai .msg-avatar { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); }
-.msg.user .msg-avatar { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25); }
-.msg-bubble { padding: 12px 16px; border-radius: 12px; font-size: 13.5px; line-height: 1.75; max-width: 85%; }
-.msg.ai .msg-bubble { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 4px 12px 12px 12px; }
-.msg.user .msg-bubble { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25); color: #fff; border-radius: 12px 4px 12px 12px; }
-.quick-prompts { display: flex; flex-wrap: wrap; gap: 7px; }
-.qp-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 11px; font-family: var(--mono); color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.qp-btn:hover { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.25); color: var(--accent); }
-.code-block { background: #020812; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: var(--mono); font-size: 12px; color: #A8D4FF; overflow-x: auto; margin: 10px 0; white-space: pre; }
-.code-label { font-size: 9px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-.copy-code-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: 9px; font-family: var(--mono); color: var(--muted); cursor: pointer; }
-.copy-code-btn:hover { color: var(--accent); }
-.loading { display: flex; align-items: center; gap: 10px; color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 16px 0; }
-.spin { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-.fadeIn { animation: fadeUp 0.3s ease; }
-.tabs { display: flex; gap: 2px; background: var(--surface2); border-radius: 8px; padding: 3px; margin-bottom: 16px; }
-.tab { flex: 1; padding: 8px; border: none; border-radius: 6px; font-family: var(--mono); font-size: 11px; cursor: pointer; transition: all 0.15s; background: transparent; color: var(--muted); }
-.tab.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-.page { display: none; }
-.page.active { display: flex; flex-direction: column; gap: 20px; }
-.toast-el { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid rgba(0,229,255,0.3); border-radius: 10px; padding: 10px 20px; font-family: var(--mono); font-size: 12px; color: #fff; z-index: 9999; white-space: nowrap; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-@media(max-width:768px){ .sidebar{ display:none; } .phase-grid{ grid-template-columns: repeat(2,1fr); } .stats-grid{ grid-template-columns: repeat(2,1fr); } }
+:root{--bg:#060A10;--surface:#0C1220;--surface2:#111827;--surface3:#1A2436;--border:#1E2D45;--border2:#2A3F5F;--accent:#00D4FF;--accent2:#7C3AED;--accent3:#10B981;--gold:#F59E0B;--red:#EF4444;--orange:#F97316;--text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;--mono:'Space Mono',monospace;--sans:'Outfit',sans-serif;--r8:8px;--r12:12px;--r16:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,212,255,.07),transparent);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;display:flex;height:100vh}
+.sidebar{width:255px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.content{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:18px}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.page{display:none}
+.page.active{display:flex;flex-direction:column;gap:18px}
+.logo{padding:18px 14px 14px;border-bottom:1px solid var(--border)}
+.logo-t{font-family:var(--mono);font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.logo-t span{color:var(--accent)}
+.logo-dot{width:7px;height:7px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.logo-s{font-size:8px;color:var(--text3);font-family:var(--mono);margin-top:2px;text-transform:uppercase;letter-spacing:.12em}
+.ds-banner{margin:8px 6px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:var(--r8);padding:9px 11px}
+.ds-banner.empty{background:rgba(255,255,255,.02);border-color:var(--border)}
+.ds-bl{font-size:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:5px}
+.ds-bl.e{color:var(--text3)}
+.ds-bn{font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.ds-m{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.ds-mi{font-size:8px;font-family:var(--mono);color:var(--text2)}
+.ds-mi span{color:var(--accent)}
+.ds-sc{display:flex;align-items:center;gap:5px;margin-top:5px}
+.sc-bar{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.sc-fill{height:100%;border-radius:2px;transition:width .5s}
+.sc-t{font-size:9px;font-family:var(--mono);font-weight:700}
+.nav{flex:1;overflow-y:auto;padding:6px}
+.nav::-webkit-scrollbar{width:0}
+.nl{font-size:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.15em;color:var(--text3);padding:7px 9px 2px;display:block}
+.nb{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--r8);cursor:pointer;border:1px solid transparent;color:var(--text3);font-size:11px;font-weight:500;margin-bottom:1px;background:none;width:100%;text-align:left;font-family:var(--sans);transition:all .15s}
+.nb:hover{background:rgba(0,212,255,.05);color:var(--text);border-color:rgba(0,212,255,.1)}
+.nb.on{background:rgba(0,212,255,.1);color:var(--accent);border-color:rgba(0,212,255,.2)}
+.nb .ic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.nb .dd{width:5px;height:5px;background:var(--accent3);border-radius:50%;margin-left:auto;flex-shrink:0}
+.sfoot{padding:8px 6px;border-top:1px solid var(--border)}
+.pb{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r8);padding:8px 10px}
+.pb-steps{display:flex;gap:2px;margin-bottom:5px}
+.pb-step{flex:1;height:3px;border-radius:2px;background:var(--border);transition:background .4s}
+.pb-step.done{background:var(--accent3)}
+.pb-step.cur{background:var(--accent)}
+.pb-txt{font-size:8px;color:var(--text3);font-family:var(--mono)}
+.pb-txt span{color:var(--accent)}
+.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-t{font-family:var(--mono);font-size:12px;color:#fff;font-weight:700}
+.tb-s{font-size:10px;color:var(--text3)}
+.tb-r{display:flex;gap:7px}
+.tbb{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:10px;font-family:var(--mono);color:var(--text2);cursor:pointer;transition:all .15s}
+.tbb:hover{border-color:rgba(0,212,255,.3);color:var(--accent)}
+.tbb.p{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.tbb.p:hover{background:#33DCFF}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r16);overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.pt{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
+.pb2{padding:16px}
+.cg{display:grid;gap:10px}
+.cg2{grid-template-columns:repeat(2,1fr)}
+.cg3{grid-template-columns:repeat(3,1fr)}
+.cg4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.cg4{grid-template-columns:repeat(2,1fr)}.cg3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cg2,.cg3,.cg4{grid-template-columns:1fr}.sidebar{display:none}}
+.sc{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r12);padding:12px 14px}
+.sc.ac{border-color:rgba(0,212,255,.2);background:rgba(0,212,255,.04)}
+.sc.gr{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.04)}
+.sc.re{border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.04)}
+.sc.go{border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.04)}
+.sv{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:3px}
+.sv.gr{color:var(--accent3)}
+.sv.re{color:var(--red)}
+.sv.go{color:var(--gold)}
+.sl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono)}
+.ss{font-size:10px;color:var(--text2);margin-top:2px}
+.ic2{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r12);padding:12px 14px;border-left:3px solid var(--accent)}
+.ic2.w{border-left-color:var(--gold)}
+.ic2.e{border-left-color:var(--red)}
+.ic2.ok{border-left-color:var(--accent3)}
+.ic2.pu{border-left-color:var(--accent2)}
+.ic2-l{font-size:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:4px}
+.ic2.w .ic2-l{color:var(--gold)}
+.ic2.e .ic2-l{color:var(--red)}
+.ic2.ok .ic2-l{color:var(--accent3)}
+.ic2.pu .ic2-l{color:var(--accent2)}
+.ic2-t{font-size:12px;font-weight:600;color:#fff;margin-bottom:3px}
+.ic2-b{font-size:11px;color:var(--text2);line-height:1.6}
+.uz{border:2px dashed var(--border2);border-radius:var(--r16);padding:44px 22px;text-align:center;cursor:pointer;transition:all .25s}
+.uz:hover,.uz.drag{border-color:var(--accent);background:rgba(0,212,255,.03)}
+.uz.done{border-color:var(--accent3);border-style:solid;background:rgba(16,185,129,.03)}
+.uz.loading{border-color:var(--accent);animation:bp 1s ease-in-out infinite}
+@keyframes bp{0%,100%{border-color:var(--accent)}50%{border-color:rgba(0,212,255,.25)}}
+.uz-i{font-size:44px;margin-bottom:12px}
+.uz-t{font-family:var(--mono);font-size:14px;color:#fff;margin-bottom:7px;font-weight:700}
+.uz-s{font-size:11px;color:var(--text3);margin-bottom:12px;line-height:1.6}
+.uz-f{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+.fmt{background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:4px;padding:2px 9px;font-size:8px;font-family:var(--mono);color:var(--text3)}
+.up-st{display:none;flex-direction:column;align-items:center;gap:10px;padding:16px 0}
+.up-st.act{display:flex}
+.up-sp{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.up-l{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.up-p{width:180px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.up-pf{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .3s}
+.rbtn{background:var(--accent);color:#000;border:none;border-radius:var(--r8);padding:9px 16px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.rbtn:hover{background:#33DCFF;transform:translateY(-1px)}
+.rbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.rbtn.gr{background:var(--accent3);color:#000}
+.rbtn.ou{background:transparent;color:var(--accent);border:1px solid rgba(0,212,255,.3)}
+.rbtn.ou:hover{background:rgba(0,212,255,.1)}
+.rbtn.sm{padding:6px 12px;font-size:9px}
+.rbtn.lg{padding:12px 22px;font-size:12px}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.pnb{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid rgba(0,212,255,.2);border-radius:var(--r12);padding:12px 16px;cursor:pointer;transition:all .2s;margin-top:4px}
+.pnb:hover{background:rgba(0,212,255,.07);border-color:var(--accent)}
+.pnb-l{display:flex;flex-direction:column;gap:3px}
+.pnb-t{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent)}
+.pnb-s{font-size:11px;color:var(--text3)}
+.pnb-a{font-size:18px;color:var(--accent)}
+.qin{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r8);padding:10px 13px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;resize:none;width:100%;transition:border-color .2s}
+.qin:focus{border-color:rgba(0,212,255,.4)}
+.qin::placeholder{color:var(--text3)}
+.qrow{display:flex;gap:8px}
+.qrow .qin{flex:1}
+.tabs{display:flex;gap:2px;background:var(--surface2);border-radius:var(--r8);padding:3px;margin-bottom:14px}
+.tab{flex:1;padding:6px 8px;border:none;border-radius:6px;font-family:var(--mono);font-size:9px;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s}
+.tab.on{background:var(--surface);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:18px;padding:4px 11px;font-size:9px;font-family:var(--mono);color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.chip:hover{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.25);color:var(--accent)}
+.chip.on{background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.4);color:var(--accent)}
+.oa{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r12);padding:16px;font-size:12px;line-height:1.85;color:var(--text2);min-height:150px}
+.oa.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;color:var(--text3);font-family:var(--mono);font-size:10px;min-height:180px}
+.ei{font-size:32px;opacity:.4}
+.cb{background:#020812;border:1px solid var(--border);border-radius:var(--r8);padding:12px 14px;font-family:var(--mono);font-size:10px;color:#93C5FD;overflow-x:auto;margin:7px 0;white-space:pre}
+.cl{font-size:8px;font-family:var(--mono);text-transform:uppercase;color:var(--text3);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.cpb{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:3px;padding:2px 7px;font-size:8px;font-family:var(--mono);color:var(--text3);cursor:pointer}
+.cpb:hover{color:var(--accent)}
+.ld{display:flex;align-items:center;gap:9px;color:var(--text3);font-family:var(--mono);font-size:10px;padding:14px 0}
+.sp{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:18px;font-size:8px;font-family:var(--mono);font-weight:700;text-transform:uppercase}
+.badge.pass{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--accent3)}
+.badge.warn{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--gold)}
+.badge.fail{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+.badge.info{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--accent)}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r8);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:10px;font-family:var(--mono)}
+th{background:var(--surface2);padding:8px 11px;text-align:left;color:var(--accent);font-size:8px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:7px 11px;border-bottom:1px solid rgba(30,45,69,.5);color:var(--text2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,212,255,.02);color:var(--text)}
+.pt-wrap{display:flex;align-items:center;gap:0;margin-bottom:6px}
+.pt-node{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.pt-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--mono);color:var(--text3);background:var(--surface2);transition:all .3s;cursor:pointer;flex-shrink:0}
+.pt-dot.done{border-color:var(--accent3);background:rgba(16,185,129,.15);color:var(--accent3)}
+.pt-dot.cur{border-color:var(--accent);background:rgba(0,212,255,.15);color:var(--accent);box-shadow:0 0 10px rgba(0,212,255,.25)}
+.pt-line{flex:1;height:2px;background:var(--border);margin:0 -1px;margin-bottom:18px;transition:background .3s}
+.pt-line.done{background:var(--accent3)}
+.pt-lbl{font-size:7px;font-family:var(--mono);color:var(--text3);text-align:center;white-space:nowrap}
+.pt-lbl.cur{color:var(--accent)}
+.pt-lbl.done{color:var(--accent3)}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.rc{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r8);padding:9px 10px;cursor:pointer;transition:all .15s;text-align:center}
+.rc:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04)}
+.rc.on{border-color:var(--accent);background:rgba(0,212,255,.1)}
+.rc-i{font-size:16px;margin-bottom:3px}
+.rc-n{font-size:9px;font-family:var(--mono);color:var(--text2);font-weight:700}
+.rc.on .rc-n{color:var(--accent)}
+.msgs{display:flex;flex-direction:column;gap:14px;max-height:440px;overflow-y:auto;padding:2px 0}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border2)}
+.msg{display:flex;gap:9px}
+.msg.user{flex-direction:row-reverse}
+.mav{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;font-family:var(--mono);font-weight:700}
+.msg.ai .mav{background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.25);color:var(--accent)}
+.msg.user .mav{background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.3);color:#A78BFA}
+.mbbl{padding:10px 13px;border-radius:9px;font-size:11.5px;line-height:1.75;max-width:86%}
+.msg.ai .mbbl{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:3px 9px 9px 9px}
+.msg.user .mbbl{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.25);color:#E9D5FF;border-radius:9px 3px 9px 9px}
+.db-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.db{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:9px;font-family:var(--mono);color:var(--text3);cursor:pointer;transition:all .15s}
+.db.on{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.07)}
+.mi{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--text3);padding:3px 0}
+.mi.done{color:var(--text2)}
+.mi .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.mi.done .dot{background:var(--accent3)}
+.sm-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sm-b{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r12);padding:12px;cursor:pointer;transition:all .2s;text-align:center}
+.sm-b:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);transform:translateY(-1px)}
+.sm-i{font-size:22px;margin-bottom:6px}
+.sm-n{font-family:var(--mono);font-size:10px;color:var(--text);font-weight:700;margin-bottom:2px}
+.sm-d{font-size:9px;color:var(--text3)}
+.pn{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.15);border-radius:6px;padding:8px 12px}
+.pn span{color:var(--accent3)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid rgba(0,212,255,.3);border-radius:var(--r12);padding:9px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:9999;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.val-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r12);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;margin-bottom:9px}
+.vc-i{font-size:18px;flex-shrink:0}
+.vc-b{flex:1}
+.vc-t{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.vc-d{font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:4px}
+.vc-m{font-size:9px;font-family:var(--mono);color:var(--text3)}
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-title">Data<span>Mind</span> AI</div>
-      <div class="logo-sub">Professional Analytics Assistant</div>
+<aside class="sidebar">
+  <div class="logo"><div class="logo-t"><div class="logo-dot"></div>Data<span>Mind</span> AI</div><div class="logo-s">Professional Analytics Platform v2</div></div>
+  <div class="ds-banner" id="dsb">
+    <div class="ds-bl e" id="dsb-l">No Dataset Loaded</div>
+    <div class="ds-bn" id="dsb-n" style="color:var(--text3);font-size:10px">Upload a dataset to begin</div>
+    <div class="ds-m" id="dsb-m" style="display:none">
+      <div class="ds-mi">Rows: <span id="sb-r">--</span></div><div class="ds-mi">Cols: <span id="sb-c">--</span></div>
+      <div class="ds-mi">Missing: <span id="sb-ms">--</span></div><div class="ds-mi">Type: <span id="sb-tp">--</span></div>
     </div>
-    <nav class="sidebar-nav">
-      <span class="nav-label">Core</span>
-      <button class="nav-item active" id="nav-home" onclick="navigate('home',this)"><span class="ni">&#127968;</span> Dashboard</button>
-      <button class="nav-item" id="nav-upload" onclick="navigate('upload',this)"><span class="ni">&#128193;</span> Upload Dataset <span class="nav-badge">NEW</span></button>
-      <button class="nav-item" id="nav-chat" onclick="navigate('chat',this)"><span class="ni">&#128172;</span> AI Chat Analyst</button>
-      <span class="nav-label" style="margin-top:8px">Analysis Phases</span>
-      <button class="nav-item" id="nav-phase1" onclick="navigate('phase1',this)"><span class="ni">&#128269;</span> Phase 1 -- Understand</button>
-      <button class="nav-item" id="nav-phase2" onclick="navigate('phase2',this)"><span class="ni">&#129529;</span> Phase 2 -- Clean Data</button>
-      <button class="nav-item" id="nav-phase3" onclick="navigate('phase3',this)"><span class="ni">&#9989;</span> Phase 3 -- Validate</button>
-      <button class="nav-item" id="nav-phase4" onclick="navigate('phase4',this)"><span class="ni">&#128202;</span> Phase 4 -- EDA</button>
-      <button class="nav-item" id="nav-phase5" onclick="navigate('phase5',this)"><span class="ni">&#128200;</span> Phase 5 -- KPIs</button>
-      <button class="nav-item" id="nav-phase6" onclick="navigate('phase6',this)"><span class="ni">&#127919;</span> Phase 6 -- Root Cause</button>
-      <span class="nav-label" style="margin-top:8px">Tools</span>
-      <button class="nav-item" id="nav-sql" onclick="navigate('sql',this)"><span class="ni">&#128451;</span> SQL Engine</button>
-      <button class="nav-item" id="nav-excel" onclick="navigate('excel',this)"><span class="ni">&#128209;</span> Excel Mode</button>
-      <button class="nav-item" id="nav-python" onclick="navigate('python',this)"><span class="ni">&#128013;</span> Python Mode</button>
-      <button class="nav-item" id="nav-powerbi" onclick="navigate('powerbi',this)"><span class="ni">&#9889;</span> Power BI Mode</button>
-      <button class="nav-item" id="nav-stats" onclick="navigate('stats',this)"><span class="ni">&#128208;</span> Statistics</button>
-      <button class="nav-item" id="nav-report" onclick="navigate('report',this)"><span class="ni">&#128221;</span> Report Writer</button>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="phase-progress">
-        <div class="pp-label">ANALYSIS PROGRESS</div>
-        <div class="pp-track"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
-        <div class="pp-text" id="progressText">0 / 16 phases complete</div>
-      </div>
-    </div>
-  </aside>
-
-  <div class="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <div class="topbar-title" id="pageTitle">Dashboard</div>
-        <div class="topbar-badge" id="pageBadge">Ready</div>
-      </div>
-      <div class="topbar-right">
-        <button class="tb-btn" onclick="clearAll()">Clear</button>
-        <button class="tb-btn" onclick="exportResults()">Export</button>
-        <button class="tb-btn primary" onclick="navigate('chat', document.getElementById('nav-chat'))">Ask AI</button>
-      </div>
-    </div>
-
-    <div class="content">
-
-      <!-- HOME -->
-      <div class="page active" id="page-home">
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-val" id="stat-rows">--</div><div class="stat-lbl">Rows</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-cols">--</div><div class="stat-lbl">Columns</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-missing">--</div><div class="stat-lbl">Missing</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-dupes">--</div><div class="stat-lbl">Duplicates</div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Welcome to DataMind AI</div></div>
-          <div class="panel-body">
-            <div style="font-size:14px;color:#94A3B8;line-height:1.8;margin-bottom:20px">Your professional AI-powered data analytics assistant. Upload a dataset or describe your data to get started across all <strong style="color:var(--accent)">16 analytical phases</strong>.</div>
-            <div class="phase-grid">
-              <div class="phase-card" id="pc1" onclick="navigate('phase1',null)"><div class="phase-num">Phase 01</div><div class="phase-icon">&#128269;</div><div class="phase-name">Dataset Understanding</div></div>
-              <div class="phase-card" id="pc2" onclick="navigate('phase2',null)"><div class="phase-num">Phase 02</div><div class="phase-icon">&#129529;</div><div class="phase-name">Data Cleaning</div></div>
-              <div class="phase-card" id="pc3" onclick="navigate('phase3',null)"><div class="phase-num">Phase 03</div><div class="phase-icon">&#9989;</div><div class="phase-name">Data Validation</div></div>
-              <div class="phase-card" id="pc4" onclick="navigate('phase4',null)"><div class="phase-num">Phase 04</div><div class="phase-icon">&#128202;</div><div class="phase-name">EDA</div></div>
-              <div class="phase-card" id="pc5" onclick="navigate('phase5',null)"><div class="phase-num">Phase 05</div><div class="phase-icon">&#128200;</div><div class="phase-name">KPI Analysis</div></div>
-              <div class="phase-card" id="pc6" onclick="navigate('phase6',null)"><div class="phase-num">Phase 06</div><div class="phase-icon">&#127919;</div><div class="phase-name">Root Cause</div></div>
-              <div class="phase-card" onclick="navigate('sql',null)"><div class="phase-num">Phase 07</div><div class="phase-icon">&#128451;</div><div class="phase-name">SQL Engine</div></div>
-              <div class="phase-card" onclick="navigate('excel',null)"><div class="phase-num">Phase 08</div><div class="phase-icon">&#128209;</div><div class="phase-name">Excel Mode</div></div>
-              <div class="phase-card" onclick="navigate('powerbi',null)"><div class="phase-num">Phase 09</div><div class="phase-icon">&#9889;</div><div class="phase-name">Power BI Mode</div></div>
-              <div class="phase-card" onclick="navigate('python',null)"><div class="phase-num">Phase 10</div><div class="phase-icon">&#128013;</div><div class="phase-name">Python Mode</div></div>
-              <div class="phase-card" onclick="navigate('stats',null)"><div class="phase-num">Phase 11</div><div class="phase-icon">&#128208;</div><div class="phase-name">Statistics</div></div>
-              <div class="phase-card" onclick="navigate('report',null)"><div class="phase-num">Phase 12-16</div><div class="phase-icon">&#128221;</div><div class="phase-name">Reports</div></div>
-            </div>
-            <div style="margin-top:20px">
-              <div class="quick-prompts" style="margin-bottom:14px">
-                <button class="qp-btn" onclick="quickNav('Revenue Analysis -- identify top revenue drivers and trends')">Revenue Analysis</button>
-                <button class="qp-btn" onclick="quickNav('Clean my dataset -- fix all missing values and duplicates')">Data Cleaning</button>
-                <button class="qp-btn" onclick="quickNav('Generate SQL queries to analyse customer behaviour')">SQL Queries</button>
-                <button class="qp-btn" onclick="quickNav('Write Python pandas code for exploratory data analysis')">Python EDA</button>
-                <button class="qp-btn" onclick="quickNav('Create Excel formulas and pivot table suggestions')">Excel Help</button>
-                <button class="qp-btn" onclick="quickNav('Identify KPIs and build a dashboard structure for executives')">KPI Dashboard</button>
-              </div>
-              <div class="question-row">
-                <textarea class="question-input" id="homeInput" placeholder="Describe your dataset or ask any data analytics question..." rows="2"></textarea>
-                <button class="run-btn" onclick="runHomeQuery()">Analyse</button>
-              </div>
-              <div id="homeOutput" style="display:none;margin-top:14px">
-                <div class="output-area fadeIn" id="homeOutputText"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- UPLOAD -->
-      <div class="page" id="page-upload">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Upload Your Dataset</div></div>
-          <div class="panel-body">
-            <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
-              <div class="upload-icon">&#128202;</div>
-              <div class="upload-title">Drop your dataset here or click to browse</div>
-              <div class="upload-sub">Supports CSV files</div>
-              <div class="upload-formats"><span class="fmt-badge">CSV</span><span class="fmt-badge">TXT</span></div>
-            </div>
-            <input type="file" id="fileInput" accept=".csv,.txt" onchange="handleFileUpload(event)" style="display:none" />
-          </div>
-        </div>
-        <div class="panel" id="dataPreviewPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">Data Preview</div><button class="tb-btn primary" onclick="analyseDataset()">Run Full Analysis</button></div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:16px">
-              <div class="stat-card"><div class="stat-val" id="prev-rows">0</div><div class="stat-lbl">Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-cols">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-size">0KB</div><div class="stat-lbl">Size</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-type">CSV</div><div class="stat-lbl">Type</div></div>
-            </div>
-            <div class="table-wrap" id="dataTable"></div>
-          </div>
-        </div>
-        <div class="panel" id="autoAnalysisPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">AI Auto-Analysis Results</div></div>
-          <div class="panel-body"><div class="output-area fadeIn" id="autoAnalysisText"></div></div>
-        </div>
-      </div>
-
-      <!-- CHAT -->
-      <div class="page" id="page-chat">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">AI Data Analyst Chat</div><button class="tb-btn" onclick="clearChat()">Clear Chat</button></div>
-          <div class="panel-body" style="display:flex;flex-direction:column;gap:14px">
-            <div class="quick-prompts">
-              <button class="qp-btn" onclick="chatQuick('Perform a complete Phase 1 dataset understanding analysis')">Phase 1: Understand</button>
-              <button class="qp-btn" onclick="chatQuick('Identify and fix all data quality issues step by step')">Phase 2: Clean</button>
-              <button class="qp-btn" onclick="chatQuick('Run full exploratory data analysis with chart recommendations')">Phase 4: EDA</button>
-              <button class="qp-btn" onclick="chatQuick('Generate all relevant KPIs for this dataset')">Phase 5: KPIs</button>
-              <button class="qp-btn" onclick="chatQuick('Write production-ready SQL queries for this data')">SQL Queries</button>
-              <button class="qp-btn" onclick="chatQuick('Write Python pandas code to analyse this dataset')">Python Code</button>
-              <button class="qp-btn" onclick="chatQuick('Create Power BI DAX measures and dashboard layout')">Power BI</button>
-              <button class="qp-btn" onclick="chatQuick('Write an executive summary report of findings')">Executive Report</button>
-            </div>
-            <div class="messages" id="chatMessages">
-              <div class="msg ai">
-                <div class="msg-avatar">AI</div>
-                <div class="msg-bubble">Hello! I am DataMind AI -- your professional data analytics assistant. I can help you with all 16 phases of data analysis including SQL, Python, Excel, Power BI, statistics and executive reports. What business problem are we solving today?</div>
-              </div>
-            </div>
-            <div class="question-row">
-              <textarea class="question-input" id="chatInput" placeholder="Ask anything about your data..." rows="2" onkeydown="handleChatKey(event)"></textarea>
-              <button class="run-btn" id="chatSendBtn" onclick="sendChatMessage()">Send</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 1 -->
-      <div class="page" id="page-phase1">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 1 -- Dataset Understanding</div></div>
-          <div class="panel-body">
-            <div class="insight-cards" style="margin-bottom:16px">
-              <div class="insight-card"><div class="insight-label">What Phase 1 covers</div>Rows and columns -- Data types -- Missing values -- Duplicates -- Business meaning -- Data quality risks -- Dataset type identification</div>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p1input" placeholder="Describe your dataset -- columns, rows, sector, what it contains..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('1','p1input','p1output','Dataset Understanding')">Analyse</button>
-            </div>
-            <div id="p1output" class="output-area empty">Run analysis to see results here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 2 CLEAN DATA -->
-      <div class="page" id="page-phase2">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 2 -- Upload CSV to Clean</div></div>
-          <div class="panel-body">
-            <div class="upload-zone" onclick="document.getElementById('cleanFileInput').click()">
-              <div class="upload-icon">&#128202;</div>
-              <div class="upload-title">Upload your raw CSV file</div>
-              <div class="upload-sub">AI will automatically detect and fix all data quality issues</div>
-              <div class="upload-formats"><span class="fmt-badge">CSV</span><span class="fmt-badge">TXT</span></div>
-            </div>
-            <input type="file" id="cleanFileInput" accept=".csv,.txt" onchange="handleCleanUpload(event)" style="display:none" />
-          </div>
-        </div>
-        <div class="panel" id="cleanBeforePanel" style="display:none">
-          <div class="panel-header">
-            <div class="panel-title">Raw Data -- Before Cleaning</div>
-            <button class="run-btn" id="cleanBtn" onclick="runDataCleaning()" style="padding:8px 16px;font-size:12px">Clean This Data</button>
-          </div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:14px">
-              <div class="stat-card"><div class="stat-val" id="clean-rows" style="color:var(--red)">0</div><div class="stat-lbl">Total Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-cols" style="color:var(--red)">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-missing" style="color:var(--red)">0</div><div class="stat-lbl">Missing Values</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-dupes" style="color:var(--red)">0</div><div class="stat-lbl">Duplicates</div></div>
-            </div>
-            <div class="insight-cards" id="cleanIssuesList" style="margin-bottom:14px"></div>
-            <div class="table-wrap" id="cleanBeforeTable"></div>
-          </div>
-        </div>
-        <div class="panel" id="cleanAfterPanel" style="display:none">
-          <div class="panel-header">
-            <div class="panel-title">Clean Data -- After Cleaning</div>
-            <button class="tb-btn primary" onclick="downloadCleanCSV()">Download Clean CSV</button>
-          </div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:14px">
-              <div class="stat-card"><div class="stat-val" id="after-rows" style="color:var(--green)">0</div><div class="stat-lbl">Clean Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-cols" style="color:var(--green)">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-missing" style="color:var(--green)">0</div><div class="stat-lbl">Missing Values</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-dupes" style="color:var(--green)">0</div><div class="stat-lbl">Duplicates</div></div>
-            </div>
-            <div class="table-wrap" id="cleanAfterTable"></div>
-          </div>
-        </div>
-        <div class="panel" id="cleanReportPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">AI Cleaning Report</div></div>
-          <div class="panel-body"><div id="cleanReportText" class="output-area fadeIn"></div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Or Describe Data Issues</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="p2tabs">
-              <button class="tab active" onclick="switchTab('p2tabs',0,'Excel')">Excel</button>
-              <button class="tab" onclick="switchTab('p2tabs',1,'SQL')">SQL</button>
-              <button class="tab" onclick="switchTab('p2tabs',2,'Python')">Python</button>
-              <button class="tab" onclick="switchTab('p2tabs',3,'Power Query')">Power Query</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p2input" placeholder="Describe your data issues..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhaseWithTool('p2input','p2output')">Get Solutions</button>
-            </div>
-            <div id="p2output" class="output-area empty">Cleaning solutions will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 3 -->
-      <div class="page" id="page-phase3">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 3 -- Data Validation</div></div>
-          <div class="panel-body">
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p3input" placeholder="Describe your data and validation rules needed..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('3','p3input','p3output','Data Validation')">Validate</button>
-            </div>
-            <div id="p3output" class="output-area empty">Validation results will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 4 -->
-      <div class="page" id="page-phase4">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 4 -- Exploratory Data Analysis</div></div>
-          <div class="panel-body">
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p4input" placeholder="Describe your dataset for EDA..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('4','p4input','p4output','Exploratory Data Analysis')">Run EDA</button>
-            </div>
-            <div id="p4output" class="output-area empty">EDA results will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 5 -->
-      <div class="page" id="page-phase5">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 5 -- KPI Analysis</div></div>
-          <div class="panel-body">
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p5input" placeholder="Describe your business and dataset. What sector? What are your goals?" rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('5','p5input','p5output','KPI Analysis')">Generate KPIs</button>
-            </div>
-            <div id="p5output" class="output-area empty">KPI analysis will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 6 -->
-      <div class="page" id="page-phase6">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Phase 6 -- Root Cause Analysis</div></div>
-          <div class="panel-body">
-            <div class="insight-cards" style="margin-bottom:14px">
-              <div class="insight-card warning"><div class="insight-label">Methods used</div>5 Whys -- Pareto Analysis -- Correlation Analysis -- Fishbone Thinking</div>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p6input" placeholder="What problem are you investigating? Describe the symptoms..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('6','p6input','p6output','Root Cause Analysis')">Investigate</button>
-            </div>
-            <div id="p6output" class="output-area empty">Root cause analysis will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SQL -->
-      <div class="page" id="page-sql">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">SQL Solution Engine</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="sqltabs">
-              <button class="tab active" onclick="switchTab('sqltabs',0,'Beginner')">Beginner</button>
-              <button class="tab" onclick="switchTab('sqltabs',1,'Intermediate')">Intermediate</button>
-              <button class="tab" onclick="switchTab('sqltabs',2,'Advanced')">Advanced</button>
-              <button class="tab" onclick="switchTab('sqltabs',3,'Optimise')">Optimise</button>
-            </div>
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','SELECT with WHERE and ORDER BY')">SELECT basics</button>
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','GROUP BY with HAVING and aggregation')">GROUP BY</button>
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','INNER LEFT RIGHT FULL JOINS explained')">JOINs</button>
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','CTEs and subqueries with examples')">CTEs</button>
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','Window functions ROW_NUMBER RANK DENSE_RANK')">Window Functions</button>
-              <button class="qp-btn" onclick="quickTool('sqlinput','sqloutput','sql','CASE WHEN statements with examples')">CASE WHEN</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="sqlinput" placeholder="Describe your table structure and what SQL query you need..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('sql','sqlinput','sqloutput')">Generate SQL</button>
-            </div>
-            <div id="sqloutput" class="output-area empty">SQL queries will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- EXCEL -->
-      <div class="page" id="page-excel">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Excel Analyst Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','VLOOKUP vs XLOOKUP vs INDEX MATCH comparison')">Lookup Formulas</button>
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','Pivot table setup and design best practices')">Pivot Tables</button>
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','Conditional formatting rules and examples')">Conditional Format</button>
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','Power Query data transformation steps')">Power Query</button>
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','Dashboard creation best practices in Excel')">Dashboard</button>
-              <button class="qp-btn" onclick="quickTool('excelinput','exceloutput','excel','SUMIFS COUNTIFS AVERAGEIFS with examples')">SUMIFS/COUNTIFS</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="excelinput" placeholder="Describe your Excel problem..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('excel','excelinput','exceloutput')">Get Excel Help</button>
-            </div>
-            <div id="exceloutput" class="output-area empty">Excel solutions will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PYTHON -->
-      <div class="page" id="page-python">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Python Analyst Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','Load and inspect a CSV file with pandas')">Load CSV</button>
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','Clean data with pandas -- missing values duplicates outliers')">Clean Data</button>
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','EDA with matplotlib and seaborn visualisations')">EDA Charts</button>
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','Correlation matrix and heatmap with seaborn')">Correlation</button>
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','Groupby aggregation and pivot tables in pandas')">GroupBy</button>
-              <button class="qp-btn" onclick="quickTool('pythoninput','pythonoutput','python','Linear regression with scikit-learn step by step')">Regression</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="pythoninput" placeholder="Describe what Python code you need..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('python','pythoninput','pythonoutput')">Generate Python</button>
-            </div>
-            <div id="pythonoutput" class="output-area empty">Python code will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POWER BI -->
-      <div class="page" id="page-powerbi">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Power BI Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickTool('pbiinput','pbioutput','powerbi','DAX measures for sales analysis')">DAX Measures</button>
-              <button class="qp-btn" onclick="quickTool('pbiinput','pbioutput','powerbi','Star schema data model design')">Star Schema</button>
-              <button class="qp-btn" onclick="quickTool('pbiinput','pbioutput','powerbi','KPI cards and executive dashboard layout')">Dashboard Layout</button>
-              <button class="qp-btn" onclick="quickTool('pbiinput','pbioutput','powerbi','Power Query M code transformations')">Power Query M</button>
-              <button class="qp-btn" onclick="quickTool('pbiinput','pbioutput','powerbi','Drill through and drill down report design')">Drill Through</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="pbiinput" placeholder="Describe your Power BI needs..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('powerbi','pbiinput','pbioutput')">Generate Power BI</button>
-            </div>
-            <div id="pbioutput" class="output-area empty">Power BI solutions will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STATS -->
-      <div class="page" id="page-stats">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Statistics Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickTool('statsinput','statsoutput','stats','Explain mean median mode with business examples')">Mean/Median/Mode</button>
-              <button class="qp-btn" onclick="quickTool('statsinput','statsoutput','stats','Hypothesis testing step by step')">Hypothesis Testing</button>
-              <button class="qp-btn" onclick="quickTool('statsinput','statsoutput','stats','Correlation vs causation with examples')">Correlation</button>
-              <button class="qp-btn" onclick="quickTool('statsinput','statsoutput','stats','A/B testing design and analysis')">A/B Testing</button>
-              <button class="qp-btn" onclick="quickTool('statsinput','statsoutput','stats','Linear regression explained with business context')">Regression</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="statsinput" placeholder="Ask any statistics question..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('stats','statsinput','statsoutput')">Explain</button>
-            </div>
-            <div id="statsoutput" class="output-area empty">Statistics explanations will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- REPORT -->
-      <div class="page" id="page-report">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">Report Writer -- Phases 12-16</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="reporttabs">
-              <button class="tab active" onclick="switchTab('reporttabs',0,'Executive Report')">Executive</button>
-              <button class="tab" onclick="switchTab('reporttabs',1,'Stakeholder Report')">Stakeholder</button>
-              <button class="tab" onclick="switchTab('reporttabs',2,'Interview Prep')">Interview Prep</button>
-              <button class="tab" onclick="switchTab('reporttabs',3,'Portfolio')">Portfolio</button>
-              <button class="tab" onclick="switchTab('reporttabs',4,'Learning Path')">Learning Path</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="reportinput" placeholder="Describe your analysis findings, dataset, industry and key insights..." rows="4"></textarea>
-              <button class="run-btn" onclick="runReport()">Generate Report</button>
-            </div>
-            <div id="reportoutput" class="output-area empty">Your professional report will appear here...</div>
-            <div style="margin-top:10px;display:flex;gap:8px">
-              <button class="tb-btn" onclick="copyReport()">Copy Report</button>
-              <button class="tb-btn" onclick="downloadReport()">Download TXT</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="ds-sc" id="dsb-sc" style="display:none"><div class="sc-bar"><div class="sc-fill" id="sc-f" style="width:0%"></div></div><div class="sc-t" id="sc-t">0%</div></div>
+  </div>
+  <nav class="nav">
+    <span class="nl">Home</span>
+    <button class="nb on" id="nb-home" onclick="gp('home',this)"><span class="ic">&#127968;</span>Dashboard</button>
+    <button class="nb" id="nb-upload" onclick="gp('upload',this)"><span class="ic">&#128228;</span>Upload Dataset</button>
+    <button class="nb" id="nb-chat" onclick="gp('chat',this)"><span class="ic">&#129302;</span>AI Chat Analyst</button>
+    <span class="nl" style="margin-top:5px">Analysis Phases</span>
+    <button class="nb" id="nb-p1" onclick="gp('p1',this)"><span class="ic">&#128269;</span>Phase 1 Understand</button>
+    <button class="nb" id="nb-p2" onclick="gp('p2',this)"><span class="ic">&#129529;</span>Phase 2 Clean</button>
+    <button class="nb" id="nb-p3" onclick="gp('p3',this)"><span class="ic">&#9989;</span>Phase 3 Validate</button>
+    <button class="nb" id="nb-p4" onclick="gp('p4',this)"><span class="ic">&#128202;</span>Phase 4 EDA</button>
+    <button class="nb" id="nb-p5" onclick="gp('p5',this)"><span class="ic">&#128200;</span>Phase 5 KPIs</button>
+    <button class="nb" id="nb-p6" onclick="gp('p6',this)"><span class="ic">&#127919;</span>Phase 6 Root Cause</button>
+    <span class="nl" style="margin-top:5px">Tools</span>
+    <button class="nb" id="nb-sql" onclick="gp('sql',this)"><span class="ic">&#128451;</span>SQL Engine</button>
+    <button class="nb" id="nb-excel" onclick="gp('excel',this)"><span class="ic">&#128209;</span>Excel Mode</button>
+    <button class="nb" id="nb-python" onclick="gp('python',this)"><span class="ic">&#128013;</span>Python Mode</button>
+    <button class="nb" id="nb-pbi" onclick="gp('pbi',this)"><span class="ic">&#9889;</span>Power BI Mode</button>
+    <button class="nb" id="nb-stats" onclick="gp('stats',this)"><span class="ic">&#128208;</span>Statistics</button>
+    <button class="nb" id="nb-report" onclick="gp('report',this)"><span class="ic">&#128221;</span>Report Writer</button>
+  </nav>
+  <div class="sfoot">
+    <div class="pb">
+      <div class="pb-steps"><div class="pb-step" id="ps-upload"></div><div class="pb-step" id="ps-p1"></div><div class="pb-step" id="ps-p2"></div><div class="pb-step" id="ps-p3"></div><div class="pb-step" id="ps-p4"></div><div class="pb-step" id="ps-p5"></div><div class="pb-step" id="ps-p6"></div><div class="pb-step" id="ps-report"></div></div>
+      <div class="pb-txt">Progress: <span id="prog-pct">0</span>% complete</div>
     </div>
   </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><div><div class="tb-t" id="tb-t">Dashboard</div><div class="tb-s" id="tb-s">Welcome to DataMind AI</div></div></div>
+    <div class="tb-r">
+      <button class="tbb" onclick="clearAll()">Clear</button>
+      <button class="tbb" onclick="gp('upload',document.getElementById('nb-upload'))">Upload</button>
+      <button class="tbb p" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Workflow Progress</div></div>
+        <div class="pb2">
+          <div class="pt-wrap">
+            <div class="pt-node"><div class="pt-dot" id="pd-upload" onclick="gp('upload',document.getElementById('nb-upload'))">&#128228;</div><div class="pt-lbl" id="pl-upload">Upload</div></div>
+            <div class="pt-line" id="pl1"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p1" onclick="gp('p1',document.getElementById('nb-p1'))">1</div><div class="pt-lbl" id="pl-p1">Understand</div></div>
+            <div class="pt-line" id="pl2"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p2" onclick="gp('p2',document.getElementById('nb-p2'))">2</div><div class="pt-lbl" id="pl-p2">Clean</div></div>
+            <div class="pt-line" id="pl3"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p3" onclick="gp('p3',document.getElementById('nb-p3'))">3</div><div class="pt-lbl" id="pl-p3">Validate</div></div>
+            <div class="pt-line" id="pl4"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p4" onclick="gp('p4',document.getElementById('nb-p4'))">4</div><div class="pt-lbl" id="pl-p4">EDA</div></div>
+            <div class="pt-line" id="pl5"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p5" onclick="gp('p5',document.getElementById('nb-p5'))">5</div><div class="pt-lbl" id="pl-p5">KPIs</div></div>
+            <div class="pt-line" id="pl6"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p6" onclick="gp('p6',document.getElementById('nb-p6'))">6</div><div class="pt-lbl" id="pl-p6">Root Cause</div></div>
+            <div class="pt-line" id="pl7"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-report" onclick="gp('report',document.getElementById('nb-report'))">&#128221;</div><div class="pt-lbl" id="pl-report">Report</div></div>
+          </div>
+          <div id="home-next" style="margin-top:8px">
+            <div class="pnb" onclick="gp('upload',document.getElementById('nb-upload'))">
+              <div class="pnb-l"><div class="pnb-t">Get Started -- Upload Your Dataset</div><div class="pnb-s">Upload once and all phases will use your data automatically</div></div>
+              <div class="pnb-a">&#8594;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cg cg4" id="home-stats">
+        <div class="sc"><div class="sv" id="h-r">--</div><div class="sl">Dataset Rows</div><div class="ss" id="h-rs">No dataset loaded</div></div>
+        <div class="sc"><div class="sv" id="h-c">--</div><div class="sl">Columns</div><div class="ss" id="h-cs">Upload a file</div></div>
+        <div class="sc re"><div class="sv re" id="h-m">--</div><div class="sl">Missing Values</div><div class="ss" id="h-ms">Quality check</div></div>
+        <div class="sc go"><div class="sv go" id="h-sc">--</div><div class="sl">Quality Score</div><div class="ss" id="h-scs">Out of 100</div></div>
+      </div>
+      <div class="panel" id="ai-imp" style="display:none">
+        <div class="ph"><div class="pt">AI First Impression</div><span class="badge info">Auto-detected</span></div>
+        <div class="pb2">
+          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">Dataset Intelligence</div><div class="ic2-b" id="ai-imp-t">Analysing...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Analysis &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Quick Actions</div></div>
+        <div class="pb2">
+          <div class="cg cg4">
+            <div class="sm-b" onclick="gp('upload',document.getElementById('nb-upload'))"><div class="sm-i">&#128228;</div><div class="sm-n">Upload Dataset</div><div class="sm-d">CSV, Excel, JSON, TSV</div></div>
+            <div class="sm-b" onclick="gp('chat',document.getElementById('nb-chat'))"><div class="sm-i">&#129302;</div><div class="sm-n">Ask AI Analyst</div><div class="sm-d">Chat with your data</div></div>
+            <div class="sm-b" onclick="gp('report',document.getElementById('nb-report'))"><div class="sm-i">&#128221;</div><div class="sm-n">Generate Report</div><div class="sm-d">Executive or technical</div></div>
+            <div class="sm-b" onclick="gp('sql',document.getElementById('nb-sql'))"><div class="sm-i">&#128451;</div><div class="sm-n">SQL Engine</div><div class="sm-d">Query your data</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="page" id="page-upload">
+      <div class="panel">
+        <div class="ph"><div class="pt">Upload Dataset</div><span class="badge info">Step 1 of 8</span></div>
+        <div class="pb2">
+          <div class="pn" style="margin-bottom:14px"><span>&#128274;</span> Files are processed securely and not stored permanently. Your data stays private.</div>
+          <div class="uz" id="upZ" ondragover="odv(event)" ondragleave="odl(event)" ondrop="odr(event)" onclick="document.getElementById('fi').click()">
+            <div id="up-idle"><div class="uz-i">&#128202;</div><div class="uz-t">Drop your dataset here or click to browse</div><div class="uz-s">DataMind AI auto-analyses your data, detects types and suggests insights</div><div class="uz-f"><span class="fmt">CSV</span><span class="fmt">XLSX</span><span class="fmt">JSON</span><span class="fmt">TSV</span><span class="fmt">TXT</span></div></div>
+            <div class="up-st" id="up-ld"><div class="up-sp"></div><div class="up-l" id="up-lbl">Reading file...</div><div class="up-p"><div class="up-pf" id="up-pf" style="width:0%"></div></div></div>
+          </div>
+          <input type="file" id="fi" accept=".csv,.xlsx,.json,.tsv,.txt" style="display:none" onchange="handleUpload(event)"/>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Try Sample Datasets</div></div>
+        <div class="pb2">
+          <div class="sm-g">
+            <div class="sm-b" onclick="loadSample('sales')"><div class="sm-i">&#128184;</div><div class="sm-n">Sales Dataset</div><div class="sm-d">Revenue, customers, products</div></div>
+            <div class="sm-b" onclick="loadSample('hr')"><div class="sm-i">&#128101;</div><div class="sm-n">HR Dataset</div><div class="sm-d">Employees, salaries, turnover</div></div>
+            <div class="sm-b" onclick="loadSample('healthcare')"><div class="sm-i">&#127973;</div><div class="sm-n">Healthcare Dataset</div><div class="sm-d">Patients, wait times, outcomes</div></div>
+            <div class="sm-b" onclick="loadSample('marketing')"><div class="sm-i">&#128293;</div><div class="sm-n">Marketing Dataset</div><div class="sm-d">Campaigns, conversions, ROI</div></div>
+            <div class="sm-b" onclick="loadSample('finance')"><div class="sm-i">&#128176;</div><div class="sm-n">Finance Dataset</div><div class="sm-d">Budgets, expenses, profit</div></div>
+            <div class="sm-b" onclick="loadSample('ecommerce')"><div class="sm-i">&#128722;</div><div class="sm-n">E-Commerce Dataset</div><div class="sm-d">Orders, returns, customers</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="up-summary" style="display:none">
+        <div class="ph"><div class="pt">Dataset Processed</div><span class="badge pass">Ready</span></div>
+        <div class="pb2">
+          <div class="cg cg4" style="margin-bottom:14px">
+            <div class="sc gr"><div class="sv gr" id="us-r">--</div><div class="sl">Total Rows</div></div>
+            <div class="sc ac"><div class="sv" id="us-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc re"><div class="sv re" id="us-m">--</div><div class="sl">Missing Values</div></div>
+            <div class="sc go"><div class="sv go" id="us-sc">--</div><div class="sl">Quality Score</div></div>
+          </div>
+          <div class="cg cg3" style="margin-bottom:14px">
+            <div class="ic2 ok"><div class="ic2-l">Dataset Type</div><div class="ic2-t" id="us-tp">Detecting...</div><div class="ic2-b" id="us-conf"></div></div>
+            <div class="ic2"><div class="ic2-l">File Info</div><div class="ic2-t" id="us-fn">--</div><div class="ic2-b" id="us-fs"></div></div>
+            <div class="ic2 w"><div class="ic2-l">Duplicates</div><div class="ic2-t" id="us-dp">--</div><div class="ic2-b" id="us-dpd"></div></div>
+          </div>
+          <div class="panel" style="margin-bottom:12px"><div class="ph"><div class="pt">Column Overview</div></div><div class="pb2"><div id="col-ov" class="tbl-wrap"></div></div></div>
+          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">AI First Impression</div><div class="ic2-b" id="us-ai">Analysing your dataset...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Dataset Understanding &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="page" id="page-chat">
+      <div class="panel">
+        <div class="ph"><div class="pt">AI Chat Analyst</div><div id="c-ds-status" class="badge info">No Dataset</div></div>
+        <div class="pb2" style="padding-top:10px;padding-bottom:10px">
+          <div id="c-ds-cards" class="cg cg4" style="display:none;margin-bottom:0">
+            <div class="sc"><div class="sv" id="c-r">--</div><div class="sl">Rows</div></div>
+            <div class="sc"><div class="sv" id="c-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc go"><div class="sv go" id="c-sc">--</div><div class="sl">Quality</div></div>
+            <div class="sc gr"><div class="sv gr" style="font-size:14px" id="c-tp">--</div><div class="sl">Type</div></div>
+          </div>
+          <div id="c-no-ds" style="font-size:11px;color:var(--text3)">Upload a dataset to enable full AI context. Every answer will use your actual data and column names.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Role and Mode</div></div>
+        <div class="pb2" style="padding-bottom:10px">
+          <div class="rg">
+            <div class="rc on" onclick="setRole('Data Analyst',this)"><div class="rc-i">&#128202;</div><div class="rc-n">Data Analyst</div></div>
+            <div class="rc" onclick="setRole('SQL Expert',this)"><div class="rc-i">&#128451;</div><div class="rc-n">SQL Expert</div></div>
+            <div class="rc" onclick="setRole('Power BI Consultant',this)"><div class="rc-i">&#9889;</div><div class="rc-n">Power BI</div></div>
+            <div class="rc" onclick="setRole('Statistician',this)"><div class="rc-i">&#128208;</div><div class="rc-n">Statistician</div></div>
+            <div class="rc" onclick="setRole('Business Analyst',this)"><div class="rc-i">&#128188;</div><div class="rc-n">Business</div></div>
+            <div class="rc" onclick="setRole('Executive Advisor',this)"><div class="rc-i">&#127970;</div><div class="rc-n">Executive</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Conversation</div><button class="tbb" onclick="clearChat()">Clear</button></div>
+        <div class="pb2" style="display:flex;flex-direction:column;gap:10px">
+          <div class="chips">
+            <button class="chip" onclick="cq('Analyse all missing values and suggest specific fixes for each column')">Analyse missing values</button>
+            <button class="chip" onclick="cq('Suggest the most relevant KPIs for this dataset with formulas')">Suggest KPIs</button>
+            <button class="chip" onclick="cq('Generate SQL CREATE TABLE and analysis queries for this dataset')">Generate SQL</button>
+            <button class="chip" onclick="cq('Write complete Python pandas code to analyse this dataset')">Python code</button>
+            <button class="chip" onclick="cq('Design a Power BI dashboard with DAX measures for this data')">Power BI dashboard</button>
+            <button class="chip" onclick="cq('Find all anomalies and outliers in this dataset using IQR method')">Find anomalies</button>
+            <button class="chip" onclick="cq('Explain the key business insights from this dataset in plain language')">Business insights</button>
+            <button class="chip" onclick="cq('Write a professional executive report summary for this dataset')">Executive report</button>
+          </div>
+          <div class="msgs" id="cmsgs">
+            <div class="msg ai"><div class="mav">AI</div><div class="mbbl">Hello! I am DataMind AI -- your intelligent analytics assistant.<br><br>&#128228; <strong>Upload a dataset</strong> and I will use your actual data in every answer.<br>&#127775; <strong>Switch roles</strong> above for SQL, statistics, Power BI or executive perspective.<br><br>What would you like to analyse?</div></div>
+          </div>
+          <div class="qrow">
+            <textarea class="qin" id="cin" placeholder="Ask anything... e.g. What are the top 3 insights from my dataset?" rows="2" onkeydown="ckk(event)" style="min-height:44px"></textarea>
+            <button class="rbtn" id="cbtn" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Memory</div></div>
+        <div class="pb2">
+          <div id="mem-items">
+            <div class="mi" id="mem-upload"><div class="dot"></div>Dataset uploaded</div>
+            <div class="mi" id="mem-p1"><div class="dot"></div>Phase 1: Dataset Understanding complete</div>
+            <div class="mi" id="mem-p2"><div class="dot"></div>Phase 2: Data Cleaning complete</div>
+            <div class="mi" id="mem-p3"><div class="dot"></div>Phase 3: Validation complete</div>
+            <div class="mi" id="mem-p4"><div class="dot"></div>Phase 4: EDA complete</div>
+            <div class="mi" id="mem-p5"><div class="dot"></div>Phase 5: KPIs generated</div>
+            <div class="mi" id="mem-p6"><div class="dot"></div>Phase 6: Root causes identified</div>
+            <div class="mi" id="mem-report"><div class="dot"></div>Report generated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="page" id="page-p1">
+      <div class="panel"><div class="ph"><div class="pt">Phase 1: Dataset Understanding</div><span class="badge info">Step 2 of 8</span></div><div class="pb2">
+        <div id="p1-e" class="oa empty"><div class="ei">&#128228;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p1-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('1','full dataset understanding with column meanings and data types')">Full Understanding</button>
+            <button class="chip" onclick="rph('1','business meaning of each column and potential use cases')">Column Meanings</button>
+            <button class="chip" onclick="rph('1','data quality risks and issues that could affect analysis')">Quality Risks</button>
+            <button class="chip" onclick="rph('1','5 important business questions this dataset can answer')">Suggested Questions</button>
+            <button class="chip" onclick="rph('1','recommended cleaning and preparation steps before analysis')">Cleaning Steps</button>
+            <button class="chip" onclick="rph('1','detect dataset type with confidence score and explain why')">Detect Type</button>
+          </div>
+          <div class="qrow" style="margin-bottom:12px"><textarea class="qin" id="p1q" placeholder="Ask anything about understanding this dataset..." rows="2"></textarea><button class="rbtn" onclick="rphc('1','p1q','p1o')">Analyse</button></div>
+          <div id="p1o" class="oa empty"><div class="ei">&#128269;</div><div>Select an analysis type or ask a question</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p2',document.getElementById('nb-p2'))"><div class="pnb-l"><div class="pnb-t">Phase 2: Clean Data</div><div class="pnb-s">Fix missing values, duplicates and formatting issues</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="page" id="page-p2">
+      <div class="panel"><div class="ph"><div class="pt">Phase 2: Data Cleaning</div><span class="badge warn">Step 3 of 8</span></div><div class="pb2">
+        <div id="p2-e" class="oa empty"><div class="ei">&#129529;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p2-c" style="display:none">
+          <div id="p2-ic" style="margin-bottom:12px"></div>
+          <div class="tabs" id="p2t"><button class="tab on" onclick="setTab('p2t',0,'Excel')">Excel</button><button class="tab" onclick="setTab('p2t',1,'SQL')">SQL</button><button class="tab" onclick="setTab('p2t',2,'Python')">Python</button><button class="tab" onclick="setTab('p2t',3,'Power Query')">Power Query</button></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('2','scan all data quality issues and provide severity ratings')">Scan All Issues</button>
+            <button class="chip" onclick="rph('2','fix all missing values with appropriate methods per column type')">Fix Missing Values</button>
+            <button class="chip" onclick="rph('2','identify and remove all duplicate records safely')">Remove Duplicates</button>
+            <button class="chip" onclick="rph('2','fix formatting inconsistencies and standardise text fields')">Fix Formatting</button>
+            <button class="chip" onclick="rph('2','detect and handle outliers using IQR method')">Handle Outliers</button>
+            <button class="chip" onclick="rph('2','complete step-by-step data cleaning plan')">Full Cleaning Plan</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p2q" placeholder="Describe a specific cleaning task..." rows="2"></textarea><button class="rbtn" onclick="rphc('2','p2q','p2o')">Get Solution</button></div>
+          <div id="p2o" class="oa empty"><div class="ei">&#129529;</div><div>Select a cleaning task above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p3',document.getElementById('nb-p3'))"><div class="pnb-l"><div class="pnb-t">Phase 3: Validate Data</div><div class="pnb-s">Check data rules, reliability and completeness</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="page" id="page-p3">
+      <div class="panel"><div class="ph"><div class="pt">Phase 3: Data Validation</div><span class="badge info">Step 4 of 8</span></div><div class="pb2">
+        <div id="p3-e" class="oa empty"><div class="ei">&#9989;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p3-c" style="display:none">
+          <div id="p3-vc" style="margin-bottom:12px"></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('3','run all validation checks with pass/fail and severity')">Run All Checks</button>
+            <button class="chip" onclick="rph('3','check for duplicate ID values in key columns')">Duplicate IDs</button>
+            <button class="chip" onclick="rph('3','validate all date columns for correct format and range')">Validate Dates</button>
+            <button class="chip" onclick="rph('3','check for negative values where logically inappropriate')">Negative Values</button>
+            <button class="chip" onclick="rph('3','check required columns have no empty values')">Required Columns</button>
+            <button class="chip" onclick="rph('3','anomaly detection with statistical methods')">Anomaly Detection</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p3q" placeholder="Add a custom validation rule..." rows="2"></textarea><button class="rbtn" onclick="rphc('3','p3q','p3o')">Validate</button></div>
+          <div id="p3o" class="oa empty"><div class="ei">&#9989;</div><div>Select a validation check above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p4',document.getElementById('nb-p4'))"><div class="pnb-l"><div class="pnb-t">Phase 4: EDA</div><div class="pnb-s">Explore patterns, trends and relationships</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="page" id="page-p4">
+      <div class="panel"><div class="ph"><div class="pt">Phase 4: Exploratory Data Analysis</div><span class="badge info">Step 5 of 8</span></div><div class="pb2">
+        <div id="p4-e" class="oa empty"><div class="ei">&#128202;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p4-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('4','distribution analysis for all numeric columns with business insight')">Distribution Analysis</button>
+            <button class="chip" onclick="rph('4','correlation analysis between columns with business interpretation')">Correlation Analysis</button>
+            <button class="chip" onclick="rph('4','outlier detection using IQR with business impact')">Outlier Detection</button>
+            <button class="chip" onclick="rph('4','trend analysis for time-based patterns')">Trend Analysis</button>
+            <button class="chip" onclick="rph('4','categorical column analysis with frequency distributions')">Categorical Analysis</button>
+            <button class="chip" onclick="rph('4','full EDA with top 5 business insights in plain language')">Full EDA + Insights</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p4q" placeholder="Ask an EDA question about your data..." rows="2"></textarea><button class="rbtn" onclick="rphc('4','p4q','p4o')">Analyse</button></div>
+          <div id="p4o" class="oa empty"><div class="ei">&#128202;</div><div>Select an analysis type above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p5',document.getElementById('nb-p5'))"><div class="pnb-l"><div class="pnb-t">Phase 5: KPI Analysis</div><div class="pnb-s">Generate performance metrics and business indicators</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="page" id="page-p5">
+      <div class="panel"><div class="ph"><div class="pt">Phase 5: KPI Analysis</div><span class="badge info">Step 6 of 8</span></div><div class="pb2">
+        <div id="p5-e" class="oa empty"><div class="ei">&#128200;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p5-c" style="display:none">
+          <div class="chips" style="margin-bottom:6px">
+            <button class="chip" onclick="rph('5','Sales KPIs with Excel formulas DAX and SQL')">Sales</button>
+            <button class="chip" onclick="rph('5','Healthcare KPIs including patient wait time and readmission')">Healthcare</button>
+            <button class="chip" onclick="rph('5','Finance KPIs including profit margin and cost ratios')">Finance</button>
+            <button class="chip" onclick="rph('5','HR KPIs including turnover rate and absenteeism')">HR</button>
+            <button class="chip" onclick="rph('5','E-Commerce KPIs including conversion and return rates')">E-Commerce</button>
+            <button class="chip" onclick="rph('5','Marketing KPIs including ROI and conversion rate')">Marketing</button>
+            <button class="chip" onclick="rph('5','Operations KPIs including efficiency and throughput')">Operations</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('5','auto-detect best KPIs from this specific dataset')">Auto-Detect KPIs</button>
+            <button class="chip" onclick="rph('5','critical KPIs that need immediate attention')">Critical KPIs</button>
+            <button class="chip" onclick="rph('5','executive dashboard KPI layout recommendation')">Executive KPIs</button>
+            <button class="chip" onclick="rph('5','all KPIs with DAX measures SQL queries and Excel formulas')">Full KPI Pack</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p5q" placeholder="Ask about specific KPIs or metrics..." rows="2"></textarea><button class="rbtn" onclick="rphc('5','p5q','p5o')">Generate KPIs</button></div>
+          <div id="p5o" class="oa empty"><div class="ei">&#128200;</div><div>Select an industry or ask for specific KPIs</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p6',document.getElementById('nb-p6'))"><div class="pnb-l"><div class="pnb-t">Phase 6: Root Cause Analysis</div><div class="pnb-s">Investigate why trends occurred and what to do</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="page" id="page-p6">
+      <div class="panel"><div class="ph"><div class="pt">Phase 6: Root Cause Analysis</div><span class="badge info">Step 7 of 8</span></div><div class="pb2">
+        <div id="p6-e" class="oa empty"><div class="ei">&#127919;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p6-c" style="display:none">
+          <div class="chips" style="margin-bottom:6px">
+            <button class="chip" onclick="rph('6','investigate: Sales dropped unexpectedly')">Sales dropped</button>
+            <button class="chip" onclick="rph('6','investigate: Customer churn increased significantly')">Customer churn</button>
+            <button class="chip" onclick="rph('6','investigate: Low conversion rate')">Low conversion</button>
+            <button class="chip" onclick="rph('6','investigate: High employee turnover')">Employee turnover</button>
+            <button class="chip" onclick="rph('6','investigate: High operational costs')">High costs</button>
+            <button class="chip" onclick="rph('6','investigate: Low productivity metrics')">Low productivity</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('6','5 Whys analysis chain')">5 Whys</button>
+            <button class="chip" onclick="rph('6','Pareto 80/20 analysis to identify top causes')">Pareto Analysis</button>
+            <button class="chip" onclick="rph('6','Fishbone Ishikawa diagram analysis')">Fishbone</button>
+            <button class="chip" onclick="rph('6','full root cause investigation with action plan')">Full Investigation</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p6q" placeholder="Describe the problem you want to investigate..." rows="2"></textarea><button class="rbtn" onclick="rphc('6','p6q','p6o')">Investigate</button></div>
+          <div id="p6o" class="oa empty"><div class="ei">&#127919;</div><div>Select a problem template or describe the issue</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('report',document.getElementById('nb-report'))"><div class="pnb-l"><div class="pnb-t">Generate Executive Report</div><div class="pnb-s">Turn all findings into a professional report</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SQL -->
+    <div class="page" id="page-sql">
+      <div class="panel"><div class="ph"><div class="pt">SQL Solution Engine</div></div><div class="pb2">
+        <div id="sql-schema" style="display:none;margin-bottom:12px"><div class="ic2"><div class="ic2-l">Auto-Detected Schema</div><div class="ic2-b" id="sql-schema-t" style="font-family:var(--mono);font-size:10px;white-space:pre-wrap"></div></div></div>
+        <div class="db-row"><button class="db on" onclick="setSQLd('MySQL',this)">MySQL</button><button class="db" onclick="setSQLd('PostgreSQL',this)">PostgreSQL</button><button class="db" onclick="setSQLd('SQL Server',this)">SQL Server</button><button class="db" onclick="setSQLd('SQLite',this)">SQLite</button><button class="db" onclick="setSQLd('BigQuery',this)">BigQuery</button></div>
+        <div class="tabs" id="sqlt"><button class="tab on" onclick="setTab('sqlt',0,'Beginner')">Beginner</button><button class="tab" onclick="setTab('sqlt',1,'Intermediate')">Intermediate</button><button class="tab" onclick="setTab('sqlt',2,'Advanced')">Advanced</button><button class="tab" onclick="setTab('sqlt',3,'Optimise')">Optimise</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rSQL('Show top 10 records ordered by the main numeric column')">Top 10 records</button>
+          <button class="chip" onclick="rSQL('Find all duplicate rows in the dataset')">Find duplicates</button>
+          <button class="chip" onclick="rSQL('Calculate total average min max for all numeric columns')">Aggregation</button>
+          <button class="chip" onclick="rSQL('Group by each categorical column with counts')">Group by analysis</button>
+          <button class="chip" onclick="rSQL('Find records with missing null values')">Find nulls</button>
+          <button class="chip" onclick="rSQL('Monthly trend analysis if date column exists')">Monthly trend</button>
+          <button class="chip" onclick="rSQL('Window functions for ranking and running totals')">Window functions</button>
+          <button class="chip" onclick="rSQL('CTE for complex multi-step business logic')">CTE example</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="sqlq" placeholder="Describe what SQL you need..." rows="2"></textarea><button class="rbtn" onclick="rSQL(document.getElementById('sqlq').value)">Generate SQL</button></div>
+        <div id="sqlout" class="oa empty"><div class="ei">&#128451;</div><div>Select a query type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- EXCEL -->
+    <div class="page" id="page-excel">
+      <div class="panel"><div class="ph"><div class="pt">Excel Analyst Mode</div></div><div class="pb2">
+        <div class="chips">
+          <button class="chip" onclick="rExcel('XLOOKUP vs VLOOKUP vs INDEX MATCH with examples')">XLOOKUP / VLOOKUP</button>
+          <button class="chip" onclick="rExcel('INDEX MATCH for flexible two-way lookups')">INDEX MATCH</button>
+          <button class="chip" onclick="rExcel('Pivot table complete setup guide for this dataset')">Pivot Tables</button>
+          <button class="chip" onclick="rExcel('SUMIFS COUNTIFS AVERAGEIFS with multiple criteria')">SUMIFS / COUNTIFS</button>
+          <button class="chip" onclick="rExcel('Conditional formatting rules for data quality checks')">Conditional Formatting</button>
+          <button class="chip" onclick="rExcel('Data cleaning formulas TRIM CLEAN IFERROR PROPER')">Cleaning Formulas</button>
+          <button class="chip" onclick="rExcel('Dashboard formulas and dynamic named ranges')">Dashboard Formulas</button>
+          <button class="chip" onclick="rExcel('IF nested IFERROR IFS SWITCH logic formulas')">IF Statements</button>
+          <button class="chip" onclick="rExcel('Power Query transformation step-by-step guide')">Power Query</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="exq" placeholder="Describe your Excel problem..." rows="2"></textarea><button class="rbtn" onclick="rExcel(document.getElementById('exq').value)">Get Formula</button></div>
+        <div id="exout" class="oa empty"><div class="ei">&#128209;</div><div>Select a formula type or describe your problem</div></div>
+      </div></div>
+    </div>
+
+    <!-- PYTHON -->
+    <div class="page" id="page-python">
+      <div class="panel"><div class="ph"><div class="pt">Python Analyst Mode</div></div><div class="pb2">
+        <div class="tabs" id="pyt"><button class="tab on" onclick="setTab('pyt',0,'Load')">Load</button><button class="tab" onclick="setTab('pyt',1,'Clean')">Clean</button><button class="tab" onclick="setTab('pyt',2,'EDA')">EDA</button><button class="tab" onclick="setTab('pyt',3,'GroupBy')">GroupBy</button><button class="tab" onclick="setTab('pyt',4,'ML')">ML Starter</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rPython('Load and inspect CSV with pandas showing dtypes missing values shape and head')">Load and Inspect</button>
+          <button class="chip" onclick="rPython('Clean data: handle missing values remove duplicates fix data types')">Clean Data</button>
+          <button class="chip" onclick="rPython('Full EDA with matplotlib seaborn histograms boxplots correlation heatmap')">EDA Visualisations</button>
+          <button class="chip" onclick="rPython('Correlation matrix heatmap with seaborn and annotation')">Correlation Heatmap</button>
+          <button class="chip" onclick="rPython('Groupby aggregation analysis with multiple functions')">GroupBy Analysis</button>
+          <button class="chip" onclick="rPython('Linear regression with scikit-learn train test split and R-squared evaluation')">Linear Regression</button>
+          <button class="chip" onclick="rPython('Classification with scikit-learn random forest and confusion matrix')">Classification ML</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pyq" placeholder="Describe what Python code you need..." rows="2"></textarea><button class="rbtn" onclick="rPython(document.getElementById('pyq').value)">Generate Code</button></div>
+        <div id="pyout" class="oa empty"><div class="ei">&#128013;</div><div>Select a code type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- POWER BI -->
+    <div class="page" id="page-pbi">
+      <div class="panel"><div class="ph"><div class="pt">Power BI Mode</div></div><div class="pb2">
+        <div class="chips" style="margin-bottom:6px">
+          <button class="chip" onclick="rPBI('Executive Dashboard template with KPI cards and trend visuals')">Executive Dashboard</button>
+          <button class="chip" onclick="rPBI('Sales Dashboard with revenue profit and customer KPIs')">Sales Dashboard</button>
+          <button class="chip" onclick="rPBI('Finance Dashboard with P and L and budget vs actual')">Finance Dashboard</button>
+          <button class="chip" onclick="rPBI('HR Dashboard with headcount turnover and performance')">HR Dashboard</button>
+          <button class="chip" onclick="rPBI('Marketing Dashboard with campaign ROI and conversions')">Marketing Dashboard</button>
+          <button class="chip" onclick="rPBI('NHS Healthcare Dashboard with patient metrics')">NHS Dashboard</button>
+        </div>
+        <div class="chips">
+          <button class="chip" onclick="rPBI('DAX measures for this specific dataset columns')">DAX Measures</button>
+          <button class="chip" onclick="rPBI('Star schema data model with fact and dimension tables')">Star Schema</button>
+          <button class="chip" onclick="rPBI('Power Query M code transformation steps')">Power Query M</button>
+          <button class="chip" onclick="rPBI('Drill-through report design and setup')">Drill Through</button>
+          <button class="chip" onclick="rPBI('Row Level Security setup for multi-tenant access')">Row Level Security</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pbiq" placeholder="Describe your Power BI needs..." rows="2"></textarea><button class="rbtn" onclick="rPBI(document.getElementById('pbiq').value)">Generate</button></div>
+        <div id="pbiout" class="oa empty"><div class="ei">&#9889;</div><div>Select a template or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="page" id="page-stats">
+      <div class="panel"><div class="ph"><div class="pt">Statistics Mode</div></div><div class="pb2">
+        <div class="ic2" style="margin-bottom:12px"><div class="ic2-l">What Statistical Test Should I Use?</div><div class="ic2-b">Tell me your goal and I will recommend the right test with Python code and Excel method.</div></div>
+        <div class="chips">
+          <button class="chip" onclick="rStats('explain mean median mode standard deviation with business examples')">Mean / Median / Mode</button>
+          <button class="chip" onclick="rStats('hypothesis testing step by step with p-value and significance')">Hypothesis Testing</button>
+          <button class="chip" onclick="rStats('correlation analysis with Pearson Spearman and business interpretation')">Correlation</button>
+          <button class="chip" onclick="rStats('A/B testing design setup analysis and interpretation')">A/B Testing</button>
+          <button class="chip" onclick="rStats('linear regression with R-squared and residual analysis')">Regression</button>
+          <button class="chip" onclick="rStats('ANOVA one-way test for comparing multiple groups')">ANOVA</button>
+          <button class="chip" onclick="rStats('t-test for comparing means of two independent groups')">T-Test</button>
+          <button class="chip" onclick="rStats('chi-square test for categorical variable relationships')">Chi-Square</button>
+          <button class="chip" onclick="rStats('recommend statistical test for my dataset and goals')">What Test To Use?</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="stq" placeholder="Ask any statistics question..." rows="2"></textarea><button class="rbtn" onclick="rStats(document.getElementById('stq').value)">Explain</button></div>
+        <div id="stout" class="oa empty"><div class="ei">&#128208;</div><div>Select a statistical concept or ask a question</div></div>
+      </div></div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="page" id="page-report">
+      <div class="panel"><div class="ph"><div class="pt">Report Writer</div><span class="badge info">Step 8 of 8</span></div><div class="pb2">
+        <div class="tabs" id="rept"><button class="tab on" onclick="setTab('rept',0,'Executive')">Executive</button><button class="tab" onclick="setTab('rept',1,'Technical')">Technical</button><button class="tab" onclick="setTab('rept',2,'Data Quality')">Data Quality</button><button class="tab" onclick="setTab('rept',3,'KPI Report')">KPI Report</button><button class="tab" onclick="setTab('rept',4,'Full Report')">Full Report</button></div>
+        <div style="margin-bottom:10px">
+          <div style="font-size:9px;color:var(--text3);margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em">Report Tone</div>
+          <div class="chips" id="tone-chips" style="margin-bottom:0"><button class="chip on" onclick="setTone('Executive',this)">Executive</button><button class="chip" onclick="setTone('Academic',this)">Academic</button><button class="chip" onclick="setTone('Beginner-friendly',this)">Beginner Friendly</button><button class="chip" onclick="setTone('Technical',this)">Technical</button><button class="chip" onclick="setTone('Business',this)">Business</button></div>
+        </div>
+        <div class="qrow" style="margin-bottom:10px"><textarea class="qin" id="repq" placeholder="Add specific instructions (optional)..." rows="2"></textarea><button class="rbtn lg" onclick="rReport()">Generate Report</button></div>
+        <div id="repout" class="oa empty"><div class="ei">&#128221;</div><div>Click Generate Report to create a professional report</div></div>
+        <div id="rep-ex" class="btn-row" style="display:none"><button class="rbtn ou sm" onclick="cpRep()">Copy Report</button><button class="rbtn ou sm" onclick="dlRep('txt')">Download TXT</button><button class="rbtn ou sm" onclick="dlRep('md')">Download Markdown</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</div>
 </div>
 
 <script>
-// STATE
-var currentPage = 'home';
-var currentTool = 'Excel';
-var currentReportType = 'Executive Report';
-var chatHistory = [];
-var uploadedData = null;
-var completedPhases = new Set();
-var rawCSVData = null;
-var cleanCSVData = null;
-var rawHeaders = [];
-var rawRows = [];
-var cleanRows = [];
+// GLOBAL DATASET MEMORY
+var DS={loaded:false,filename:'',filetype:'',filesize:0,rowCount:0,colCount:0,headers:[],rows:[],dtypes:{},missingCount:0,missingByCol:{},duplicateCount:0,outlierCols:[],qualityScore:0,detectedType:'Unknown',typeConfidence:0,sampleCSV:'',sqlSchema:'',aiImpression:''};
+var DONE={upload:false,p1:false,p2:false,p3:false,p4:false,p5:false,p6:false,report:false};
+var curRole='Data Analyst', curDialect='MySQL', curTool='Excel', curRepTab='Executive', curTone='Executive';
 
 // NAVIGATION
-function navigate(page, el) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
-  var target = document.getElementById('page-' + page);
-  if (target) { target.classList.add('active'); }
-  if (el) { el.classList.add('active'); }
-  if (!el && document.getElementById('nav-' + page)) {
-    document.getElementById('nav-' + page).classList.add('active');
+function gp(pg,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  var p=document.getElementById('page-'+pg); if(p) p.classList.add('active');
+  if(el) el.classList.add('on');
+  else{var nb=document.getElementById('nb-'+pg);if(nb) nb.classList.add('on');}
+  var titles={home:'Dashboard',upload:'Upload Dataset',chat:'AI Chat Analyst',p1:'Phase 1: Dataset Understanding',p2:'Phase 2: Data Cleaning',p3:'Phase 3: Data Validation',p4:'Phase 4: EDA',p5:'Phase 5: KPI Analysis',p6:'Phase 6: Root Cause Analysis',sql:'SQL Solution Engine',excel:'Excel Analyst Mode',python:'Python Analyst Mode',pbi:'Power BI Mode',stats:'Statistics Mode',report:'Report Writer'};
+  document.getElementById('tb-t').textContent=titles[pg]||pg;
+  document.getElementById('tb-s').textContent=DS.loaded?DS.detectedType+' Dataset | '+DS.rowCount+' rows':'No dataset loaded';
+  if(['p1','p2','p3','p4','p5','p6'].indexOf(pg)>=0) rfPC(pg);
+  if(pg==='sql'&&DS.loaded) rfSQL();
+  if(pg==='chat') rfChat();
+}
+
+// AI CALL
+async function callAI(prompt,sys){
+  var system=sys||buildSys();
+  var truncPrompt=prompt.length>3000?prompt.substring(0,3000)+'... [truncated for length]':prompt;
+  try{
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:system,messages:[{role:'user',content:truncPrompt}]})});
+    if(!r.ok) throw new Error('Server error: '+r.status+' '+r.statusText);
+    var d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    if(!d.content||!d.content[0]) throw new Error('Empty response from AI');
+    return d.content[0].text;
+  }catch(e){
+    if(e.message==='Failed to fetch') throw new Error('Cannot reach AI service. Check your internet connection and ensure the Netlify function is deployed.');
+    throw e;
   }
-  currentPage = page;
-  var titles = { home:'Dashboard', upload:'Upload Dataset', chat:'AI Chat Analyst', phase1:'Phase 1 - Understand', phase2:'Phase 2 - Clean Data', phase3:'Phase 3 - Validate', phase4:'Phase 4 - EDA', phase5:'Phase 5 - KPIs', phase6:'Phase 6 - Root Cause', sql:'SQL Engine', excel:'Excel Mode', python:'Python Mode', powerbi:'Power BI Mode', stats:'Statistics', report:'Report Writer' };
-  document.getElementById('pageTitle').textContent = titles[page] || page;
-  var badges = { sql:'Phase 7', excel:'Phase 8', powerbi:'Phase 9', python:'Phase 10', stats:'Phase 11', report:'Phases 12-16' };
-  document.getElementById('pageBadge').textContent = badges[page] || 'Active';
 }
 
-// TABS
-function switchTab(tabsId, idx, label) {
-  var tabs = document.getElementById(tabsId).querySelectorAll('.tab');
-  tabs.forEach(function(t, i) { t.classList.toggle('active', i === idx); });
-  if (tabsId === 'p2tabs' || tabsId === 'sqltabs') { currentTool = label; }
-  if (tabsId === 'reporttabs') { currentReportType = label; }
-}
-
-// API CALL
-async function callAI(prompt) {
-  var SYSTEM = 'You are a world-class Professor of Data Analytics and Business Intelligence with over 20 years of experience. You are an intelligent AI Data Analyst mentor, consultant, teacher and problem solver. Always think like a senior analyst. Explain step-by-step. Teach while solving. When generating SQL use code blocks labeled SQL. When generating Python use code blocks labeled Python. Structure responses with clear sections. Always explain business impact. Be specific, practical and actionable.';
-  var res = await fetch('/.netlify/functions/claude', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: SYSTEM, messages: [{ role: 'user', content: prompt }] })
-  });
-  var data = await res.json();
-  if (data.error) { throw new Error(data.error.message); }
-  return data.content[0].text;
+function buildSys(){
+  var b='You are DataMind AI, a world-class Data Analytics Professor and senior analyst with 20 years experience. You are acting as a '+curRole+'. Always structure responses with clear sections. Use code blocks for SQL and Python. Be specific, practical and connect findings to business impact. For every response include: 1. Summary 2. Key Findings 3. Explanation 4. Recommended Action 5. Next Step. Avoid generic answers.';
+  if(DS.loaded){
+    var colSample=DS.headers.slice(0,30).join(', ')+(DS.headers.length>30?' ... and '+(DS.headers.length-30)+' more columns':'');
+    var sampleRows=DS.sampleCSV.split('\n').slice(0,4).join('\n');
+    b+=' DATASET CONTEXT: File='+DS.filename+' Type='+DS.detectedType+' Rows='+DS.rowCount+' Columns='+DS.colCount+' First 30 columns: '+colSample+' Missing='+DS.missingCount+' Duplicates='+DS.duplicateCount+' Quality='+DS.qualityScore+'/100 Sample data: '+sampleRows+' Use actual column names in all formulas queries and code.';
+  }
+  return b;
 }
 
 // FORMAT OUTPUT
-function formatOutput(text) {
-  text = text.replace(/```sql\n?([\s\S]*?)```/gi, function(m, c) { return '<div class="code-label"><span>SQL</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">' + escHtml(c.trim()) + '</div>'; });
-  text = text.replace(/```python\n?([\s\S]*?)```/gi, function(m, c) { return '<div class="code-label"><span>Python</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">' + escHtml(c.trim()) + '</div>'; });
-  text = text.replace(/```[\w]*\n?([\s\S]*?)```/gi, function(m, c) { return '<div class="code-label"><span>Code</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">' + escHtml(c.trim()) + '</div>'; });
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.split('\n').join('<br>');
-  return text;
+function fmtOut(t){
+  t=t.replace(/```sql\n?([\s\S]*?)```/gi,function(m,c){return '<div class="cl"><span>SQL</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/```python\n?([\s\S]*?)```/gi,function(m,c){return '<div class="cl"><span>Python</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/```[\w]*\n?([\s\S]*?)```/gi,function(m,c){return '<div class="cl"><span>Code</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#fff">$1</strong>');
+  t=t.replace(/^## (.*?)$/gm,'<div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);margin:12px 0 5px;text-transform:uppercase;letter-spacing:.08em">$1</div>');
+  t=t.replace(/^### (.*?)$/gm,'<div style="font-weight:600;color:#CBD5E1;margin:8px 0 3px">$1</div>');
+  t=t.replace(/^(\d+)\. (.*?)$/gm,'<div style="display:flex;gap:7px;margin:3px 0"><span style="color:var(--accent);font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0">$1.</span><span>$2</span></div>');
+  t=t.replace(/^- (.*?)$/gm,'<div style="display:flex;gap:7px;margin:2px 0"><span style="color:var(--accent3);flex-shrink:0">&#8226;</span><span>$1</span></div>');
+  return t.split('\n').join('<br>');
 }
-
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function copyCode(btn) {
-  var block = btn.closest('.code-label').nextElementSibling;
-  navigator.clipboard.writeText(block.innerText);
-  btn.textContent = 'Copied!';
-  setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
-}
-
-// HOME QUERY
-async function runHomeQuery() {
-  var q = document.getElementById('homeInput').value.trim();
-  if (!q) { showToast('Please enter a question'); return; }
-  var out = document.getElementById('homeOutputText');
-  var wrap = document.getElementById('homeOutput');
-  wrap.style.display = 'block';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Analysing...</div>';
-  out.className = 'output-area fadeIn';
-  try {
-    var res = await callAI(q + (uploadedData ? '\n\nDataset context: ' + uploadedData : ''));
-    out.innerHTML = formatOutput(res);
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-function quickNav(q) {
-  navigate('chat', document.getElementById('nav-chat'));
-  setTimeout(function() { document.getElementById('chatInput').value = q; sendChatMessage(); }, 200);
-}
-
-// PHASE RUNNER
-async function runPhase(num, inputId, outputId, phaseName) {
-  var q = document.getElementById(inputId).value.trim();
-  if (!q) { showToast('Please describe your dataset first'); return; }
-  var out = document.getElementById(outputId);
-  out.className = 'output-area';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Running Phase ' + num + '...</div>';
-  var prompts = {
-    '1': 'Perform a complete Phase 1 Dataset Understanding analysis. Cover: rows and columns, data types, missing values, duplicates, potential errors, business meaning of each column, data quality risks, dataset type. Then ask what business question we are trying to answer.\n\nDataset: ' + q,
-    '3': 'Perform Phase 3 Data Validation. Cover: accuracy checks, business logic, range validation, duplicate keys, referential integrity, null checks, completeness, validation rules to implement, business impact if ignored.\n\nDataset: ' + q,
-    '4': 'Perform a complete Phase 4 EDA. Cover: summary statistics (mean median mode std dev percentiles), distribution analysis, trend analysis, correlation analysis, anomaly detection, chart recommendations with storytelling rationale.\n\nDataset: ' + q,
-    '5': 'Perform Phase 5 KPI Analysis. Identify all relevant KPIs, provide formulas and calculations, targets and benchmarks, visualisation recommendations, dashboard structure, executive summary.\n\nBusiness/Dataset: ' + q,
-    '6': 'Perform Phase 6 Root Cause Analysis using 5 Whys, Pareto Analysis, correlation analysis, fishbone thinking. Investigate why trends occurred, supporting evidence, alternative explanations, recommended actions.\n\nProblem: ' + q
-  };
-  try {
-    var res = await callAI(prompts[num] || 'Perform Phase ' + num + ' ' + phaseName + ' analysis on: ' + q);
-    out.innerHTML = formatOutput(res);
-    completedPhases.add(num);
-    updateProgress();
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-// PHASE 2 TOOL RUNNER
-async function runPhaseWithTool(inputId, outputId) {
-  var q = document.getElementById(inputId).value.trim();
-  if (!q) { showToast('Please describe your data issues'); return; }
-  var out = document.getElementById(outputId);
-  out.className = 'output-area';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Generating ' + currentTool + ' solutions...</div>';
-  var prompt = 'Perform Phase 2 Data Cleaning using ' + currentTool + '. For each issue show: Problem, Reason, Risk, Solution. Cover: missing values, duplicates, formatting issues, blank records, outliers, invalid dates, inconsistent categories, wrong spellings, negative values, data type problems. Show exact ' + currentTool + ' formulas/code with line by line explanations.\n\nData/Issue: ' + q;
-  try {
-    var res = await callAI(prompt);
-    out.innerHTML = formatOutput(res);
-    completedPhases.add('2');
-    updateProgress();
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-// TOOL RUNNER
-async function runTool(tool, inputId, outputId) {
-  var q = document.getElementById(inputId).value.trim();
-  if (!q) { showToast('Please enter your question'); return; }
-  var out = document.getElementById(outputId);
-  out.className = 'output-area';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Generating ' + tool + ' solution...</div>';
-  var prompts = {
-    sql: 'Generate ' + currentTool + ' level SQL queries step by step. Include SELECT WHERE GROUP BY HAVING CASE JOINs CTEs Window Functions as needed. Explain every part. Show purpose, syntax, business use case. Optimise where possible.\n\nRequest: ' + q,
-    excel: 'Provide Excel solutions. Include exact formulas, pivot table setup, conditional formatting, Power Query steps, dashboard design as needed. Show each formula with explanation.\n\nRequest: ' + q,
-    python: 'Write beginner-friendly Python code using pandas numpy matplotlib seaborn as needed. Explain every single line. Show loading, cleaning, analysis, visualisation. Include error handling.\n\nRequest: ' + q,
-    powerbi: 'Provide Power BI solutions including DAX measures, calculated columns, Power Query M, data model design, dashboard layout, visualisation recommendations. Explain each DAX formula.\n\nRequest: ' + q,
-    stats: 'Explain this statistics topic. Structure: 1. Simple English explanation 2. Technical explanation 3. Business impact 4. Formula/calculation 5. Example with numbers 6. Common mistakes.\n\nTopic: ' + q
-  };
-  try {
-    var res = await callAI(prompts[tool] || 'Help with: ' + q);
-    out.innerHTML = formatOutput(res);
-    completedPhases.add(tool);
-    updateProgress();
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-function quickTool(inputId, outputId, tool, q) {
-  document.getElementById(inputId).value = q;
-  runTool(tool, inputId, outputId);
-}
-
-// REPORT RUNNER
-async function runReport() {
-  var q = document.getElementById('reportinput').value.trim();
-  if (!q) { showToast('Please describe your findings'); return; }
-  var out = document.getElementById('reportoutput');
-  out.className = 'output-area';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Writing ' + currentReportType + '...</div>';
-  var prompts = {
-    'Executive Report': 'Write a professional executive report. Include: Executive Summary (key findings), Major Trends, Business Risks, Opportunities, Strategic Recommendations, Next Steps. Translate technical findings into business language.\n\nAnalysis: ' + q,
-    'Stakeholder Report': 'Write a stakeholder report with background, methodology, findings, recommendations, action items with owners and timelines.\n\nAnalysis: ' + q,
-    'Interview Prep': 'Create interview preparation material for a data analyst role. Include: how to explain findings, key terms, potential interview questions with model answers, portfolio tips.\n\nAnalysis: ' + q,
-    'Portfolio': 'Write a portfolio project description. Include: problem statement, methodology, tools used, key findings, business impact, skills demonstrated.\n\nAnalysis: ' + q,
-    'Learning Path': 'Based on this analysis identify: skills used, skills missing, beginner mistakes made, interview questions this generates, portfolio ideas, real-world applications. Create a personalised learning roadmap.\n\nAnalysis: ' + q
-  };
-  try {
-    var res = await callAI(prompts[currentReportType] || prompts['Executive Report']);
-    out.innerHTML = formatOutput(res);
-    completedPhases.add('report');
-    updateProgress();
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-function copyReport() {
-  navigator.clipboard.writeText(document.getElementById('reportoutput').innerText);
-  showToast('Report copied!');
-}
-
-function downloadReport() {
-  var text = document.getElementById('reportoutput').innerText;
-  var blob = new Blob([text], {type:'text/plain'});
-  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'DataMind_Report.txt'; a.click();
-}
-
-// CHAT
-function handleChatKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
-}
-
-function chatQuick(q) {
-  document.getElementById('chatInput').value = q;
-  sendChatMessage();
-}
-
-async function sendChatMessage() {
-  var input = document.getElementById('chatInput');
-  var msg = input.value.trim();
-  if (!msg) { return; }
-  input.value = '';
-  var btn = document.getElementById('chatSendBtn');
-  btn.disabled = true;
-  appendMsg(msg, 'user');
-  chatHistory.push({ role: 'user', content: msg + (uploadedData ? '\n\nDataset context: ' + uploadedData : '') });
-  var typingId = appendMsg('', 'ai', true);
-  try {
-    var history = chatHistory.slice(-10);
-    var res = await fetch('/.netlify/functions/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: 'You are DataMind AI -- a world-class Data Analytics Professor and senior analyst. Mentor users through all 16 phases of data analysis. Teach while solving. Explain step by step. Use code blocks for SQL and Python. Be specific and practical.', messages: history })
-    });
-    var data = await res.json();
-    var reply = data.content[0].text;
-    chatHistory.push({ role: 'assistant', content: reply });
-    updateMsg(typingId, reply);
-  } catch(e) { updateMsg(typingId, 'Error: ' + e.message); }
-  btn.disabled = false;
-}
-
-var msgId = 0;
-function appendMsg(text, role, typing) {
-  var id = 'msg_' + (++msgId);
-  var msgs = document.getElementById('chatMessages');
-  var div = document.createElement('div');
-  div.className = 'msg ' + role;
-  div.id = id;
-  var avatarText = role === 'ai' ? 'AI' : 'You';
-  var bubble = typing ? '<div class="loading"><div class="spin"></div>Analysing...</div>' : formatOutput(text);
-  div.innerHTML = '<div class="msg-avatar">' + avatarText + '</div><div class="msg-bubble">' + bubble + '</div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return id;
-}
-
-function updateMsg(id, text) {
-  var el = document.getElementById(id);
-  if (el) { el.querySelector('.msg-bubble').innerHTML = formatOutput(text); }
-  var msgs = document.getElementById('chatMessages');
-  if (msgs) { msgs.scrollTop = msgs.scrollHeight; }
-}
-
-function clearChat() {
-  chatHistory = [];
-  document.getElementById('chatMessages').innerHTML = '<div class="msg ai"><div class="msg-avatar">AI</div><div class="msg-bubble">Chat cleared. Ready for a new analysis session!</div></div>';
-}
-
-// FILE UPLOAD
-function handleFileUpload(e) {
-  var file = e.target.files[0];
-  if (file) { processFile(file); }
-}
-
-function processFile(file) {
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var content = e.target.result;
-    var lines = content.split('\n').filter(function(l) { return l.trim(); });
-    var headers = lines[0] ? lines[0].split(',') : [];
-    var rows = lines.length - 1;
-    uploadedData = content.substring(0, 2000);
-    document.getElementById('prev-rows').textContent = rows;
-    document.getElementById('prev-cols').textContent = headers.length;
-    document.getElementById('prev-size').textContent = (file.size/1024).toFixed(1) + 'KB';
-    document.getElementById('prev-type').textContent = file.name.split('.').pop().toUpperCase();
-    document.getElementById('stat-rows').textContent = rows;
-    document.getElementById('stat-cols').textContent = headers.length;
-    var html = '<table><tr>' + headers.map(function(h) { return '<th>' + h.trim() + '</th>'; }).join('') + '</tr>';
-    lines.slice(1, 6).forEach(function(line) { html += '<tr>' + line.split(',').map(function(c) { return '<td>' + c.trim() + '</td>'; }).join('') + '</tr>'; });
-    html += '</table>';
-    document.getElementById('dataTable').innerHTML = html;
-    document.getElementById('dataPreviewPanel').style.display = 'block';
-    showToast('File loaded: ' + file.name);
-  };
-  reader.readAsText(file);
-}
-
-async function analyseDataset() {
-  if (!uploadedData) { showToast('No dataset loaded'); return; }
-  var panel = document.getElementById('autoAnalysisPanel');
-  var out = document.getElementById('autoAnalysisText');
-  panel.style.display = 'block';
-  out.innerHTML = '<div class="loading"><div class="spin"></div>Running AI analysis...</div>';
-  try {
-    var res = await callAI('Perform Phase 1 Dataset Understanding on this data. Identify columns, data types, potential issues, business meaning, and what questions this data can answer.\n\nData:\n' + uploadedData);
-    out.innerHTML = formatOutput(res);
-    completedPhases.add('1');
-    updateProgress();
-  } catch(e) { out.innerHTML = 'Error: ' + e.message; }
-}
-
-// DATA CLEANING
-function handleCleanUpload(e) {
-  var file = e.target.files[0];
-  if (file) { processCleanFile(file); }
-}
-
-function processCleanFile(file) {
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    rawCSVData = e.target.result;
-    parseAndPreview(rawCSVData);
-    showToast('File loaded: ' + file.name);
-  };
-  reader.readAsText(file);
-}
-
-function parseCSV(text) {
-  var lines = text.split('\n').filter(function(l) { return l.trim(); });
-  var headers = lines[0].split(',').map(function(h) { return h.trim().replace(/^"|"$/g,''); });
-  var rows = [];
-  for (var i = 1; i < lines.length; i++) {
-    var vals = lines[i].split(',').map(function(v) { return v.trim().replace(/^"|"$/g,''); });
-    if (vals.length >= headers.length - 1) {
-      var row = {};
-      headers.forEach(function(h, j) { row[h] = vals[j] || ''; });
-      rows.push(row);
-    }
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function cpCode(btn){var bl=btn.closest('.cl').nextElementSibling;navigator.clipboard.writeText(bl.innerText);btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},2000);}
+function setOut(id,html,loading){var el=document.getElementById(id);if(!el)return;if(loading){el.innerHTML='<div class="ld"><div class="sp"></div>'+loading+'</div>';el.className='oa';}else{el.innerHTML=html;el.className='oa';}}
+function parseCSV(text){
+  var lines=text.split('\n').filter(function(l){return l.trim();});
+  if(!lines.length) return{headers:[],rows:[]};
+  var headers=lines[0].split(',').map(function(h){return h.trim().replace(/^"|"$/g,'');});
+  var rows=[];
+  for(var i=1;i<lines.length;i++){
+    var vals=lines[i].split(',').map(function(v){return v.trim().replace(/^"|"$/g,'');});
+    var row={};
+    headers.forEach(function(h,j){row[h]=vals[j]!==undefined?vals[j]:'';});
+    rows.push(row);
   }
-  return { headers: headers, rows: rows };
+  return{headers:headers,rows:rows};
 }
+function parseJSON(text){var data=JSON.parse(text);if(Array.isArray(data)&&data.length){var headers=Object.keys(data[0]);var rows=data.map(function(d){var row={};headers.forEach(function(h){row[h]=d[h]!==undefined?String(d[h]):'';});return row;});return{headers:headers,rows:rows};}return{headers:[],rows:[]};}
+function parseTSV(text){var lines=text.split('\n').filter(function(l){return l.trim();});if(!lines.length)return{headers:[],rows:[]};var headers=lines[0].split('\t').map(function(h){return h.trim();});var rows=[];for(var i=1;i<lines.length;i++){var vals=lines[i].split('\t').map(function(v){return v.trim();});var row={};headers.forEach(function(h,j){row[h]=vals[j]!==undefined?vals[j]:'';});rows.push(row);}return{headers:headers,rows:rows};}
 
-function countMissing(rows, headers) {
-  var count = 0;
-  rows.forEach(function(row) {
-    headers.forEach(function(h) {
-      var v = row[h] || '';
-      if (!v || v.trim() === '' || ['null','n/a','na','none','undefined'].indexOf(v.toLowerCase()) >= 0) { count++; }
-    });
+// ============================================================
+// DATASET ANALYSIS ENGINE
+// ============================================================
+function analyseDS(parsed,filename,filesize,filetype){
+  var nulls=['','null','na','n/a','none','undefined','#n/a','nan'];
+  var headers=parsed.headers, rows=parsed.rows;
+  DS.loaded=true; DS.filename=filename; DS.filetype=filetype; DS.filesize=filesize;
+  DS.rowCount=rows.length; DS.colCount=headers.length; DS.headers=headers; DS.rows=rows;
+
+  // Missing values
+  var mbc={};var totalMiss=0;
+  headers.forEach(function(h){
+    var nc=rows.filter(function(r){return nulls.indexOf((r[h]||'').toLowerCase().trim())>=0;}).length;
+    mbc[h]=nc; totalMiss+=nc;
   });
-  return count;
-}
+  DS.missingCount=totalMiss; DS.missingByCol=mbc;
 
-function countDuplicates(rows) {
-  var seen = new Set();
-  var dupes = 0;
-  rows.forEach(function(row) {
-    var key = JSON.stringify(row);
-    if (seen.has(key)) { dupes++; } else { seen.add(key); }
+  // Duplicates
+  var seen=new Set();var dupes=0;
+  rows.forEach(function(row){var k=JSON.stringify(row);if(seen.has(k))dupes++;else seen.add(k);});
+  DS.duplicateCount=dupes;
+
+  // Data types
+  var dtypes={};
+  headers.forEach(function(h){
+    var vals=rows.map(function(r){return r[h]||'';}).filter(function(v){return nulls.indexOf(v.toLowerCase())<0&&v!=='';});
+    var numCount=vals.filter(function(v){return !isNaN(v)&&v!=='';}).length;
+    var dateCount=vals.filter(function(v){return !isNaN(Date.parse(v))&&v.length>5;}).length;
+    if(numCount>vals.length*0.7)dtypes[h]='Numeric';
+    else if(dateCount>vals.length*0.5)dtypes[h]='Date';
+    else dtypes[h]='Text';
   });
-  return dupes;
-}
+  DS.dtypes=dtypes;
 
-function parseAndPreview(csvText) {
-  var parsed = parseCSV(csvText);
-  rawHeaders = parsed.headers;
-  rawRows = parsed.rows;
-  var missing = countMissing(rawRows, rawHeaders);
-  var dupes = countDuplicates(rawRows);
-  document.getElementById('clean-rows').textContent = rawRows.length;
-  document.getElementById('clean-cols').textContent = rawHeaders.length;
-  document.getElementById('clean-missing').textContent = missing;
-  document.getElementById('clean-dupes').textContent = dupes;
-  renderCleanTable('cleanBeforeTable', rawHeaders, rawRows.slice(0, 8), rawRows.length);
-  detectIssues(rawHeaders, rawRows, missing, dupes);
-  document.getElementById('cleanBeforePanel').style.display = 'block';
-}
-
-function detectIssues(headers, rows, missing, dupes) {
-  var issues = [];
-  if (missing > 0) { issues.push({ type:'error', label:'Missing Values', text: missing + ' empty/null/NA values detected. These will be filled with column mean for numbers or "Unknown" for text.' }); }
-  if (dupes > 0) { issues.push({ type:'error', label:'Duplicate Rows', text: dupes + ' duplicate rows found. These will be removed.' }); }
-  var hasSpaces = rows.some(function(row) { return headers.some(function(h) { return row[h] && row[h] !== row[h].trim(); }); });
-  if (hasSpaces) { issues.push({ type:'warning', label:'Whitespace Issues', text: 'Leading/trailing spaces detected. These will be trimmed.' }); }
-  if (issues.length === 0) { issues.push({ type:'success', label:'Good News', text: 'No major issues detected. Dataset appears clean. AI will still optimise formatting.' }); }
-  document.getElementById('cleanIssuesList').innerHTML = issues.map(function(i) { return '<div class="insight-card ' + i.type + '"><div class="insight-label">' + i.label + '</div>' + i.text + '</div>'; }).join('');
-}
-
-function renderCleanTable(id, headers, rows, total) {
-  var html = '<table><tr>' + headers.map(function(h) { return '<th>' + h + '</th>'; }).join('') + '</tr>';
-  rows.forEach(function(row) {
-    html += '<tr>' + headers.map(function(h) {
-      var val = row[h] || '';
-      var isEmpty = !val || ['null','n/a','na',''].indexOf(val.toLowerCase()) >= 0;
-      return '<td style="' + (isEmpty ? 'color:#EF4444' : '') + '">' + (val || '--') + '</td>';
-    }).join('') + '</tr>';
+  // Outliers using IQR
+  var outlierCols=[];
+  headers.forEach(function(h){
+    if(dtypes[h]!=='Numeric')return;
+    var nums=rows.map(function(r){return parseFloat(r[h]);}).filter(function(v){return !isNaN(v);});
+    if(nums.length<4)return;
+    var sorted=nums.slice().sort(function(a,b){return a-b;});
+    var q1=sorted[Math.floor(sorted.length*0.25)];
+    var q3=sorted[Math.floor(sorted.length*0.75)];
+    var iqr=q3-q1;
+    var out=nums.filter(function(v){return v<q1-1.5*iqr||v>q3+1.5*iqr;}).length;
+    if(out>0)outlierCols.push({col:h,count:out,pct:(out/nums.length*100).toFixed(1)});
   });
-  if (total > rows.length) { html += '<tr><td colspan="' + headers.length + '" style="text-align:center;color:var(--muted);font-size:11px;padding:10px">... and ' + (total - rows.length) + ' more rows</td></tr>'; }
-  html += '</table>';
-  document.getElementById(id).innerHTML = html;
+  DS.outlierCols=outlierCols;
+
+  // Quality score
+  var mp=Math.min(40,(totalMiss/(Math.max(rows.length*headers.length,1)))*100);
+  var dp=Math.min(20,(dupes/Math.max(rows.length,1))*50);
+  var op=Math.min(10,outlierCols.length*3);
+  DS.qualityScore=Math.max(0,Math.round(100-mp-dp-op));
+
+  // Detect dataset type
+  var hs=headers.join(' ').toLowerCase();
+  var types=[
+    {type:'Sales',keys:['revenue','sales','order','product','customer','price','quantity','invoice'],conf:0},
+    {type:'Healthcare',keys:['patient','diagnosis','treatment','hospital','doctor','medication','ward','nhs'],conf:0},
+    {type:'HR',keys:['employee','salary','department','hire','turnover','performance','leave','staff'],conf:0},
+    {type:'Finance',keys:['budget','expense','profit','cost','payment','invoice','tax','balance'],conf:0},
+    {type:'Marketing',keys:['campaign','conversion','click','impression','lead','channel','cpc','roi'],conf:0},
+    {type:'E-Commerce',keys:['order','cart','checkout','return','shipping','product','sku','basket'],conf:0},
+    {type:'Education',keys:['student','grade','course','teacher','school','attendance','exam','score'],conf:0}
+  ];
+  types.forEach(function(t){t.keys.forEach(function(k){if(hs.indexOf(k)>=0)t.conf++;});t.conf=t.conf/t.keys.length*100;});
+  var best=types.sort(function(a,b){return b.conf-a.conf;})[0];
+  DS.detectedType=best.conf>20?best.type:'General';
+  DS.typeConfidence=Math.round(Math.min(97,best.conf*3+55));
+
+  // Sample CSV for AI context
+  DS.sampleCSV=(function(){
+    var sh=headers.slice(0,20);
+    return sh.join(',')+'
+'+rows.slice(0,5).map(function(r){return sh.map(function(h){return (r[h]||'').substring(0,50);}).join(',');}).join('
+');
+  })()
+
+  // SQL Schema
+  DS.sqlSchema=  DS.sqlSchema=(function(){
+    var tname=(filename.replace(/[^a-z0-9]/gi,'_').toLowerCase()||'dataset');
+    var sh=headers.slice(0,50);
+    return 'CREATE TABLE '+tname+' (
+'+sh.map(function(h){
+      var t2=dtypes[h]==='Numeric'?'DECIMAL(10,2)':dtypes[h]==='Date'?'DATE':'VARCHAR(255)';
+      return '  '+h.replace(/[^a-z0-9]/gi,'_').toLowerCase()+' '+t2;
+    }).join(',
+')+'
+)'+(headers.length>50?'
+-- '+headers.length+' total columns, first 50 shown':'')+';';
+  })()
 }
 
-async function runDataCleaning() {
-  if (!rawCSVData) { showToast('Please upload a CSV file first'); return; }
-  var btn = document.getElementById('cleanBtn');
-  btn.disabled = true;
-  btn.textContent = 'Cleaning...';
-  cleanRows = autoClean(rawHeaders, rawRows);
-  var afterMissing = countMissing(cleanRows, rawHeaders);
-  var afterDupes = countDuplicates(cleanRows);
-  document.getElementById('after-rows').textContent = cleanRows.length;
-  document.getElementById('after-cols').textContent = rawHeaders.length;
-  document.getElementById('after-missing').textContent = afterMissing;
-  document.getElementById('after-dupes').textContent = afterDupes;
-  renderCleanTable('cleanAfterTable', rawHeaders, cleanRows.slice(0, 8), cleanRows.length);
-  document.getElementById('cleanAfterPanel').style.display = 'block';
-  var reportPanel = document.getElementById('cleanReportPanel');
-  var reportText = document.getElementById('cleanReportText');
-  reportPanel.style.display = 'block';
-  reportText.innerHTML = '<div class="loading"><div class="spin"></div>Generating AI cleaning report...</div>';
-  var sampleBefore = rawHeaders.join(',') + '\n' + rawRows.slice(0,3).map(function(r) { return rawHeaders.map(function(h) { return r[h]; }).join(','); }).join('\n');
-  var sampleAfter = rawHeaders.join(',') + '\n' + cleanRows.slice(0,3).map(function(r) { return rawHeaders.map(function(h) { return r[h]; }).join(','); }).join('\n');
-  try {
-    var prompt = 'You are a senior data analyst. Write a professional data cleaning report.\n\nBEFORE (sample):\n' + sampleBefore + '\n\nAFTER (sample):\n' + sampleAfter + '\n\nStats: Rows ' + rawRows.length + ' to ' + cleanRows.length + '. Missing values ' + countMissing(rawRows, rawHeaders) + ' to ' + afterMissing + '. Duplicates removed: ' + countDuplicates(rawRows) + '\n\nWrite a professional report covering: 1. Issues Found and Fixed 2. Cleaning Actions Taken 3. Data Quality Score Before vs After 4. Remaining Recommendations 5. Business Impact of Cleaning';
-    var res = await callAI(prompt);
-    reportText.innerHTML = formatOutput(res);
-    completedPhases.add('2');
-    updateProgress();
-  } catch(e) { reportText.innerHTML = 'Could not generate AI report: ' + e.message; }
-  btn.disabled = false;
-  btn.textContent = 'Cleaned!';
-  showToast('Data cleaned! Download your clean CSV below.');
-  document.getElementById('cleanAfterPanel').scrollIntoView({ behavior:'smooth' });
+// ============================================================
+// FILE UPLOAD
+// ============================================================
+function handleUpload(ev){var file=ev.target.files[0];if(file)processFile(file);}
+function odv(e){e.preventDefault();document.getElementById('upZ').classList.add('drag');}
+function odl(e){document.getElementById('upZ').classList.remove('drag');}
+function odr(e){e.preventDefault();document.getElementById('upZ').classList.remove('drag');var file=e.dataTransfer.files[0];if(file)processFile(file);}
+
+function processFile(file){
+  var upZ=document.getElementById('upZ');
+  var idle=document.getElementById('up-idle');
+  var ld=document.getElementById('up-ld');
+  var lbl=document.getElementById('up-lbl');
+  var pf=document.getElementById('up-pf');
+  upZ.classList.add('loading'); idle.style.display='none'; ld.classList.add('act');
+  var steps=['Reading file...','Parsing data...','Detecting column types...','Calculating quality score...','Generating AI insights...'];
+  var step=0;
+  var timer=setInterval(function(){
+    if(step<steps.length){lbl.textContent=steps[step];pf.style.width=((step+1)/steps.length*85)+'%';step++;}
+  },350);
+  var reader=new FileReader();
+  reader.onload=function(e){
+    clearInterval(timer);
+    try{
+      var text=e.target.result;
+      var ext=file.name.split('.').pop().toLowerCase();
+      var parsed;
+      if(ext==='json')parsed=parseJSON(text);
+      else if(ext==='tsv')parsed=parseTSV(text);
+      else parsed=parseCSV(text);
+      if(!parsed.headers.length){toast('Could not parse file. Please check format.');resetUZ();return;}
+      analyseDS(parsed,file.name,file.size,ext);
+      pf.style.width='100%'; lbl.textContent='Dataset ready!';
+      setTimeout(function(){
+        upZ.classList.remove('loading'); upZ.classList.add('done'); ld.classList.remove('act'); idle.style.display='';
+        upZ.querySelector('.uz-i').textContent='\u2705';
+        upZ.querySelector('.uz-t').textContent=file.name+' loaded successfully';
+        upZ.querySelector('.uz-s').textContent=DS.rowCount+' rows and '+DS.colCount+' columns detected';
+        showUpSummary(); DONE.upload=true; updProg(); genAIImpression();
+      },500);
+    }catch(err){clearInterval(timer);toast('Error: '+err.message);resetUZ();}
+  };
+  reader.readAsText(file);
 }
 
-function autoClean(headers, rows) {
-  var seen = new Set();
-  var deduped = rows.filter(function(row) {
-    var key = JSON.stringify(row);
-    if (seen.has(key)) { return false; }
-    seen.add(key);
-    return true;
+function resetUZ(){
+  var upZ=document.getElementById('upZ');
+  document.getElementById('up-idle').style.display='';
+  document.getElementById('up-ld').classList.remove('act');
+  upZ.classList.remove('loading','done');
+}
+
+// ============================================================
+// UPLOAD SUMMARY
+// ============================================================
+function showUpSummary(){
+  document.getElementById('up-summary').style.display='';
+  document.getElementById('us-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('us-c').textContent=DS.colCount;
+  document.getElementById('us-m').textContent=DS.missingCount.toLocaleString();
+  document.getElementById('us-sc').textContent=DS.qualityScore+'/100';
+  document.getElementById('us-tp').textContent=DS.detectedType+' Dataset';
+  document.getElementById('us-conf').textContent='Confidence: '+DS.typeConfidence+'%';
+  document.getElementById('us-fn').textContent=DS.filename;
+  document.getElementById('us-fs').textContent=(DS.filesize/1024).toFixed(1)+' KB | '+DS.filetype.toUpperCase();
+  document.getElementById('us-dp').textContent=DS.duplicateCount+' duplicates';
+  document.getElementById('us-dpd').textContent=DS.duplicateCount>0?'Recommend removing before analysis.':'No duplicates detected.';
+  // Column table
+  // Cap column table at 100 rows for performance
+  var displayHeaders=DS.headers.slice(0,100);
+  var html='<table><tr><th>Column</th><th>Type</th><th>Missing</th><th>Missing %</th><th>Unique</th></tr>';
+  displayHeaders.forEach(function(h){
+    var miss=DS.missingByCol[h]||0;
+    var pct=DS.rowCount>0?(miss/DS.rowCount*100).toFixed(1):0;
+    var vals=DS.rows.map(function(r){return r[h]||'';});
+    var uniq=new Set(vals).size;
+    var missCol=miss>0?'style="color:var(--red)"':'';
+    html+='<tr><td>'+h+'</td><td><span class="badge info" style="font-size:7px">'+DS.dtypes[h]+'</span></td><td>'+miss+'</td><td><span '+missCol+'>'+pct+'%</span></td><td>'+uniq+'</td></tr>';
   });
-  return deduped.map(function(row) {
-    var clean = {};
-    headers.forEach(function(h) {
-      var val = (row[h] || '').trim();
-      if (['null','na','n/a','none','undefined'].indexOf(val.toLowerCase()) >= 0) { val = ''; }
-      var colVals = rows.map(function(r) { return r[h]; }).filter(function(v) { return v && v.trim(); });
-      var numCount = colVals.filter(function(v) { return !isNaN(v) && v !== ''; }).length;
-      var isNumeric = numCount > colVals.length * 0.7;
-      if (isNumeric && val === '') {
-        var nums = colVals.filter(function(v) { return !isNaN(v); }).map(Number);
-        var mean = nums.length ? (nums.reduce(function(a,b) { return a+b; }, 0) / nums.length).toFixed(2) : '0';
-        val = mean;
-      } else if (!isNumeric && val === '') {
-        val = 'Unknown';
-      }
-      if (!isNumeric && val && val !== 'Unknown') {
-        val = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
-      }
-      clean[h] = val;
-    });
-    return clean;
+  if(DS.headers.length>100){html+='<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:8px">... and '+(DS.headers.length-100)+' more columns</td></tr>';}
+  html+='</table>';
+  document.getElementById('col-ov').innerHTML=html;
+  updSidebar(); updHomeStats();
+}
+
+// ============================================================
+// SIDEBAR + HOME STATS
+// ============================================================
+function updSidebar(){
+  if(!DS.loaded)return;
+  document.getElementById('dsb-l').textContent=DS.detectedType+' Dataset';
+  document.getElementById('dsb-l').classList.remove('e');
+  document.getElementById('dsb-n').textContent=DS.filename;
+  document.getElementById('dsb-n').style.color='';
+  document.getElementById('dsb-m').style.display='';
+  document.getElementById('sb-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('sb-c').textContent=DS.colCount;
+  document.getElementById('sb-ms').textContent=DS.missingCount;
+  document.getElementById('sb-tp').textContent=DS.detectedType;
+  document.getElementById('dsb-sc').style.display='';
+  var score=DS.qualityScore;
+  var fill=document.getElementById('sc-f');
+  var txt=document.getElementById('sc-t');
+  fill.style.width=score+'%';
+  fill.style.background=score>=80?'var(--accent3)':score>=60?'var(--gold)':'var(--red)';
+  txt.style.color=score>=80?'var(--accent3)':score>=60?'var(--gold)':'var(--red)';
+  txt.textContent=score+'%';
+}
+
+function updHomeStats(){
+  if(!DS.loaded)return;
+  document.getElementById('h-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('h-rs').textContent=DS.detectedType+' dataset';
+  document.getElementById('h-c').textContent=DS.colCount;
+  document.getElementById('h-cs').textContent='Columns detected';
+  document.getElementById('h-m').textContent=DS.missingCount;
+  document.getElementById('h-ms').textContent=DS.missingCount>0?'Values need attention':'No missing values';
+  document.getElementById('h-sc').textContent=DS.qualityScore;
+  document.getElementById('h-scs').textContent=DS.qualityScore>=80?'Good quality':DS.qualityScore>=60?'Needs cleaning':'Poor quality';
+  document.getElementById('ai-imp').style.display='';
+}
+
+// ============================================================
+// AI FIRST IMPRESSION
+// ============================================================
+async function genAIImpression(){
+  var prompt='In 2-3 sentences give an intelligent first impression of this dataset. Mention the type, what it can be used for, and 2-3 specific use cases using the actual column names.\n\nFile: '+DS.filename+'\nType: '+DS.detectedType+'\nColumns: '+DS.headers.join(', ')+'\nRows: '+DS.rowCount+'\nSample:\n'+DS.sampleCSV;
+  try{
+    var text=await callAI(prompt,'You are DataMind AI. Give a concise, intelligent 2-3 sentence first impression of a dataset. Be specific about the columns and use cases.');
+    DS.aiImpression=text;
+    document.getElementById('ai-imp-t').textContent=text;
+    document.getElementById('us-ai').textContent=text;
+  }catch(e){
+    var fallback='DataMind AI detected a '+DS.detectedType+' dataset with '+DS.rowCount.toLocaleString()+' records and '+DS.colCount+' columns including '+DS.headers.slice(0,3).join(', ')+'. Potential use cases include KPI analysis, trend reporting and data-driven decision making.';
+    document.getElementById('ai-imp-t').textContent=fallback;
+    document.getElementById('us-ai').textContent=fallback;
+  }
+}
+
+// ============================================================
+// SAMPLE DATASETS
+// ============================================================
+function loadSample(type){
+  var samples={
+    sales:'OrderID,CustomerName,Product,Category,Revenue,Quantity,OrderDate,Region,SalesRep\n1001,Acme Corp,Widget A,Electronics,1250.00,5,2024-01-15,North,John Smith\n1002,Beta Ltd,Widget B,Furniture,890.50,2,2024-01-16,South,Jane Doe\n1003,Gamma Inc,,Electronics,2100.00,8,2024-01-17,East,John Smith\n1004,Delta Co,Widget A,Electronics,1250.00,5,2024-01-15,North,John Smith\n1005,Echo Corp,Widget C,Clothing,450.00,,2024-01-18,West,Bob Jones\n1006,Foxtrot Ltd,Widget D,Electronics,3200.00,12,2024-01-19,North,Jane Doe\n1007,Golf Inc,Widget B,Furniture,890.50,2,2024-01-20,South,Bob Jones\n1008,Hotel Co,Widget E,Clothing,675.00,3,2024-01-21,East,John Smith\n1009,India Corp,Widget A,Electronics,1250.00,5,2024-01-22,North,\n1010,Juliet Ltd,Widget F,Furniture,1100.00,4,2024-01-23,West,Jane Doe',
+    hr:'EmployeeID,Name,Department,JobTitle,Salary,HireDate,ExitDate,Performance,Location,Manager\nE001,Alice Brown,Sales,Sales Manager,65000,2019-03-01,,Excellent,London,CEO\nE002,Bob Wilson,IT,Developer,55000,2020-06-15,,Good,Manchester,CTO\nE003,Carol Davis,HR,HR Officer,42000,2018-01-10,2024-01-05,Average,London,HR Director\nE004,David Lee,Finance,Accountant,48000,2021-09-20,,Good,Birmingham,CFO\nE005,Emma Jones,Sales,Sales Rep,38000,2022-04-12,,Excellent,London,Alice Brown\nE006,Frank Green,IT,Senior Dev,72000,2017-11-30,,Excellent,Manchester,CTO\nE007,Grace Kim,Marketing,Marketing Manager,,2020-08-25,,Good,London,CEO\nE008,Henry Pope,Sales,Sales Rep,38000,2023-01-15,2024-03-20,Poor,London,Alice Brown\nE009,Iris Chan,Finance,Senior Accountant,58000,2016-05-10,,Excellent,Birmingham,CFO\nE010,Jack Ryan,IT,Junior Dev,42000,2023-07-01,,Good,Manchester,Frank Green',
+    healthcare:'PatientID,Name,Age,Diagnosis,AdmissionDate,DischargeDate,WaitTimeMins,Outcome,Ward,DoctorID\nP001,John A,45,Hypertension,2024-01-10,2024-01-13,45,Recovered,Cardiology,D001\nP002,Mary B,67,Diabetes,2024-01-11,,120,Ongoing,Endocrinology,D002\nP003,Peter C,23,Fracture,2024-01-12,2024-01-14,30,Recovered,Orthopaedics,D003\nP004,Sarah D,55,Pneumonia,2024-01-13,2024-01-20,95,Recovered,Respiratory,D004\nP005,Tom E,,Appendicitis,2024-01-14,2024-01-15,15,Recovered,Surgery,D005\nP006,Lisa F,72,Heart Disease,2024-01-15,,180,Ongoing,Cardiology,D001\nP007,James G,38,Back Pain,2024-01-16,2024-01-17,60,Recovered,Orthopaedics,D003\nP008,Anna H,81,Stroke,2024-01-17,,210,Ongoing,Neurology,D006\nP009,Chris I,44,Infection,2024-01-18,2024-01-22,75,Recovered,General,D007\nP010,Diana J,59,Cancer,2024-01-19,,150,Ongoing,Oncology,D008',
+    marketing:'CampaignID,Name,Channel,StartDate,Budget,Spend,Impressions,Clicks,Conversions,Revenue\nC001,Spring Sale,Email,2024-01-01,5000,4800,50000,2500,125,18750\nC002,Brand Awareness,Social,2024-01-15,10000,9500,200000,8000,320,48000\nC003,Product Launch,PPC,2024-02-01,15000,14200,100000,5000,450,90000\nC004,Retargeting,Display,2024-02-10,3000,2800,75000,1500,180,27000\nC005,SEO Content,Organic,2024-01-01,2000,1950,80000,4000,200,30000\nC006,Influencer,Social,2024-03-01,,8000,150000,6000,,60000\nC007,Newsletter,Email,2024-03-01,1500,1400,25000,1200,60,9000\nC008,Trade Show,Offline,2024-02-20,20000,19500,5000,500,100,50000',
+    finance:'TransactionID,Date,Description,Category,Amount,Balance,Department,Account,Approved\nT001,2024-01-05,Office Supplies,Operations,-250.00,50000,HR,Current,Yes\nT002,2024-01-08,Software License,IT,-1200.00,48800,IT,Current,Yes\nT003,2024-01-10,Sales Revenue,Revenue,15000.00,63800,Sales,Revenue,Yes\nT004,2024-01-12,Staff Salaries,Personnel,-35000.00,28800,HR,Payroll,Yes\nT005,2024-01-15,Marketing Campaign,Marketing,-5000.00,23800,Marketing,Current,Yes\nT006,2024-01-18,Client Payment,Revenue,22000.00,45800,Finance,Revenue,Yes\nT007,2024-01-20,Equipment Purchase,Capital,-8500.00,37300,Operations,Capital,\nT008,2024-01-22,Utilities,Operations,-450.00,36850,Facilities,Current,Yes\nT009,2024-01-25,Consultant Fee,Professional,-3000.00,33850,IT,Current,Yes\nT010,2024-01-28,Revenue,Revenue,,33850,Sales,Revenue,Yes',
+    ecommerce:'OrderID,CustomerID,ProductName,Category,Price,Quantity,OrderDate,ShipDate,Status,ReturnReason\nO001,C101,Laptop Pro,Electronics,1299.99,1,2024-01-10,2024-01-12,Delivered,\nO002,C102,Running Shoes,Clothing,89.99,2,2024-01-11,2024-01-14,Delivered,\nO003,C103,Desk Chair,Furniture,349.00,1,2024-01-12,,Processing,\nO004,C101,Phone Case,Accessories,19.99,3,2024-01-13,2024-01-15,Returned,Wrong size\nO005,C104,Headphones,Electronics,199.99,1,2024-01-14,2024-01-16,Delivered,\nO006,C105,T-Shirt,Clothing,,2,2024-01-15,2024-01-17,Delivered,\nO007,C106,Monitor,Electronics,399.00,1,2024-01-16,2024-01-19,Shipped,\nO008,C102,Yoga Mat,Sports,45.00,1,2024-01-17,2024-01-19,Delivered,\nO009,C107,Keyboard,Electronics,129.00,1,2024-01-18,,Cancelled,Out of stock\nO010,C108,Backpack,Accessories,75.00,1,2024-01-19,2024-01-21,Delivered,'
+  };
+  var csv=samples[type]||samples.sales;
+  var name=type+'_sample.csv';
+  var blob=new Blob([csv],{type:'text/csv'});
+  var f=new File([blob],name,{type:'text/csv',size:blob.size});
+  gp('upload',document.getElementById('nb-upload'));
+  setTimeout(function(){processFile(f);},100);
+  toast('Loading '+type+' sample dataset...');
+}
+
+// ============================================================
+// PHASE CONTEXT REFRESH
+// ============================================================
+function rfPC(pg){
+  if(!DS.loaded)return;
+  var e=document.getElementById(pg+'-e');
+  var c=document.getElementById(pg+'-c');
+  if(e)e.style.display='none';
+  if(c)c.style.display='';
+  if(pg==='p2'){
+    var html='';
+    if(DS.missingCount>0){
+      var topMissCol=Object.keys(DS.missingByCol).sort(function(a,b){return DS.missingByCol[b]-DS.missingByCol[a];})[0];
+      html+='<div class="val-card"><div class="vc-i">&#128308;</div><div class="vc-b"><div class="vc-t">Missing Values Detected</div><div class="vc-d">'+DS.missingCount+' missing values found across '+Object.keys(DS.missingByCol).filter(function(h){return DS.missingByCol[h]>0;}).length+' columns. Most affected: '+topMissCol+' ('+DS.missingByCol[topMissCol]+' missing).</div><div class="vc-m">Business impact: missing data can skew analysis and produce inaccurate KPIs</div></div><span class="badge fail">Fix Required</span></div>';
+    }
+    if(DS.duplicateCount>0){
+      html+='<div class="val-card"><div class="vc-i">&#128257;</div><div class="vc-b"><div class="vc-t">Duplicate Rows Found</div><div class="vc-d">'+DS.duplicateCount+' duplicate rows detected. These inflate counts and distort aggregations.</div><div class="vc-m">Recommend: remove duplicates before any analysis</div></div><span class="badge warn">Review</span></div>';
+    }
+    if(DS.outlierCols.length>0){
+      html+='<div class="val-card"><div class="vc-i">&#9888;&#65039;</div><div class="vc-b"><div class="vc-t">Outliers Detected</div><div class="vc-d">Outliers found in '+DS.outlierCols.length+' numeric column(s): '+DS.outlierCols.map(function(o){return o.col+' ('+o.count+' outliers, '+o.pct+'%)';}).join(', ')+'.</div><div class="vc-m">Using IQR method. Review and decide whether to cap, remove or keep.</div></div><span class="badge warn">Review</span></div>';
+    }
+    if(!html){html='<div class="ic2 ok"><div class="ic2-l">Data Quality</div><div class="ic2-t">Dataset looks clean!</div><div class="ic2-b">No major issues detected. Run a full scan below for detailed recommendations.</div></div>';}
+    document.getElementById('p2-ic').innerHTML=html;
+  }
+  if(pg==='p3'){
+    var vhtml='<div class="cg cg3" style="margin-bottom:12px">';
+    vhtml+='<div class="sc gr"><div class="sv gr">'+DS.rowCount.toLocaleString()+'</div><div class="sl">Rows Validated</div></div>';
+    vhtml+='<div class="sc '+(DS.missingCount>0?'re':'gr')+'"><div class="sv '+(DS.missingCount>0?'re':'gr')+'">'+DS.missingCount+'</div><div class="sl">Missing Values</div><div class="ss">'+(DS.missingCount>0?'Needs fixing':'Clean')+'</div></div>';
+    vhtml+='<div class="sc '+(DS.duplicateCount>0?'go':'gr')+'"><div class="sv '+(DS.duplicateCount>0?'go':'gr')+'">'+DS.duplicateCount+'</div><div class="sl">Duplicates</div><div class="ss">'+(DS.duplicateCount>0?'Remove recommended':'None found')+'</div></div>';
+    vhtml+='</div>';
+    document.getElementById('p3-vc').innerHTML=vhtml;
+  }
+}
+
+function rfSQL(){
+  if(!DS.loaded)return;
+  document.getElementById('sql-schema').style.display='';
+  document.getElementById('sql-schema-t').textContent=DS.sqlSchema;
+}
+
+function rfChat(){
+  if(DS.loaded){
+    document.getElementById('c-ds-status').textContent=DS.detectedType+' Dataset';
+    document.getElementById('c-ds-status').className='badge pass';
+    document.getElementById('c-ds-cards').style.display='';
+    document.getElementById('c-no-ds').style.display='none';
+    document.getElementById('c-r').textContent=DS.rowCount.toLocaleString();
+    document.getElementById('c-c').textContent=DS.colCount;
+    document.getElementById('c-sc').textContent=DS.qualityScore+'/100';
+    document.getElementById('c-tp').textContent=DS.detectedType;
+  }
+}
+
+// ============================================================
+// PHASE RUNNERS
+// ============================================================
+var phasePrompts={
+  '1':function(task){return 'Perform Phase 1 Dataset Understanding. Task: '+task+'\n\nProvide:\n## SUMMARY\nWhat type of dataset this is and its purpose\n## COLUMN ANALYSIS\nBusiness meaning of each column with data type\n## DATA QUALITY ASSESSMENT\nQuality score with specific issues found\n## DATA QUALITY RISKS\nTop 3 risks that could affect analysis\n## SUGGESTED BUSINESS QUESTIONS\n5 questions this data can answer\n## RECOMMENDED NEXT STEPS\nPrioritised action list\n\nUse actual column names throughout.';},
+  '2':function(task){return 'Perform Phase 2 Data Cleaning using '+curTool+'. Task: '+task+'\n\nFor each issue found provide:\n## ISSUE: [name]\n- **Problem**: What it is\n- **Column Affected**: Which column(s)\n- **Records Affected**: How many\n- **Business Impact**: Why this matters\n- **'+curTool+' Solution**: Exact code or formula\n- **Why Fix This**: Consequence if ignored\n\nBe specific with column names and exact solutions.';},
+  '3':function(task){return 'Perform Phase 3 Data Validation. Task: '+task+'\n\nFor each validation check:\n## CHECK: [name]\n- **Column**: Which column(s)\n- **Rule**: What should be true\n- **Status**: PASS / WARN / FAIL\n- **Records Affected**: Count\n- **Recommendation**: Specific action\n- **Business Risk**: If not fixed\n\nAlso provide an overall data reliability score.';},
+  '4':function(task){return 'Perform Phase 4 Exploratory Data Analysis. Task: '+task+'\n\nProvide:\n## DISTRIBUTION ANALYSIS\nKey stats for each numeric column (mean, median, std dev, range)\n## CORRELATION INSIGHTS\nRelationships between columns in plain business language\n## OUTLIER SUMMARY\nAnomalies found and what they mean\n## TREND PATTERNS\nTime-based or categorical patterns\n## TOP 5 BUSINESS INSIGHTS\nIn plain language - what does this data tell us?\n## CHART RECOMMENDATIONS\nBest visualisations with reasons\n\nTranslate all statistics into business language.';},
+  '5':function(task){return 'Perform Phase 5 KPI Analysis. Task: '+task+'\n\nFor each KPI provide:\n## KPI: [name]\n- **Category**: Critical / Growth / Risk / Operational\n- **Business Meaning**: Why this matters\n- **Formula**: Mathematical formula\n- **Excel Formula**: Using actual column names\n- **DAX Measure**: Power BI measure\n- **SQL Query**: To calculate it\n- **Target/Benchmark**: Recommended range\n- **Recommended Visual**: Chart type\n\nFocus only on KPIs calculable from available columns.';},
+  '6':function(task){return 'Perform Phase 6 Root Cause Analysis. Task: '+task+'\n\nProvide:\n## PROBLEM STATEMENT\nClear definition of the issue\n## SYMPTOMS FROM DATA\nWhat the data shows with specific numbers\n## 5 WHYS CHAIN\nStep by step: Why 1 -> Why 2 -> Why 3 -> Why 4 -> Root Cause\n## FISHBONE ANALYSIS\nCauses by category: People, Process, Data, Technology, External\n## PARETO INSIGHT\nTop 20% of causes driving 80% of the problem\n## EVIDENCE FROM DATASET\nSpecific column values and patterns that support each cause\n## ACTION PLAN\nPrioritised recommendations with expected impact\n## PRIORITY: HIGH / MEDIUM / LOW'}
+};
+
+async function rph(num,task){
+  var outId='p'+num+'o';
+  setOut(outId,'','AI is analysing your '+DS.detectedType+' dataset...');
+  try{
+    var prompt=DS.loaded?phasePrompts[num](task):('Perform Phase '+num+' analysis on: '+task+'\nProvide structured answer with clear sections, examples and recommendations.');
+    var result=await callAI(prompt);
+    setOut(outId,fmtOut(result));
+    DONE['p'+num]=true; updProg(); updMem();
+    addDD('nb-p'+num);
+  }catch(e){setOut(outId,'<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+function rphc(num,inId,outId){
+  var q=document.getElementById(inId).value.trim();
+  if(!q){toast('Please enter a question or select a prompt above');return;}
+  setOut(outId,'','AI is analysing...');
+  callAI(DS.loaded?phasePrompts[num](q):('Perform Phase '+num+' analysis on: '+q)).then(function(r){
+    setOut(outId,fmtOut(r)); DONE['p'+num]=true; updProg(); updMem(); addDD('nb-p'+num);
+  }).catch(function(e){setOut(outId,'<div style="color:var(--red)">Error: '+e.message+'</div>');});
+}
+
+// ============================================================
+// TOOL RUNNERS
+// ============================================================
+async function rSQL(task){
+  if(!task||!task.trim()){toast('Please enter a SQL request');return;}
+  setOut('sqlout','','Generating '+curDialect+' SQL...');
+  var prompt='Generate '+curDialect+' SQL for: '+task+'\n\n'+buildSys()+'\n\nProvide:\n1. SQL query with inline comments\n2. Plain English explanation of what it does\n3. Expected output description\n4. Performance tips\n5. Difficulty level\n6. Python pandas equivalent\n\nUse table/column names from the schema above.';
+  try{var r=await callAI(prompt);setOut('sqlout',fmtOut(r));addDD('nb-sql');}
+  catch(e){setOut('sqlout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+async function rExcel(task){
+  if(!task||!task.trim()){toast('Please enter an Excel request');return;}
+  setOut('exout','','Generating Excel solution...');
+  var prompt='Provide Excel solution for: '+task+(DS.loaded?'\n\nDataset columns available: '+DS.headers.join(', '):'')+'\n\nFor each formula:\n1. Exact Excel formula using actual column names\n2. Simple plain English explanation\n3. Example output\n4. Common errors and fixes\n5. Alternative approaches\n6. Power Query equivalent if relevant';
+  try{var r=await callAI(prompt);setOut('exout',fmtOut(r));}
+  catch(e){setOut('exout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+async function rPython(task){
+  if(!task||!task.trim()){toast('Please enter a Python request');return;}
+  setOut('pyout','','Generating Python code...');
+  var prompt='Write Python code for: '+task+(DS.loaded?'\n\nDataset columns: '+DS.headers.join(', ')+'\nSample:\n'+DS.sampleCSV:'')+'\n\nProvide:\n1. Complete runnable Python code with comments on every line\n2. Step-by-step explanation of what each section does\n3. Expected output description\n4. Common errors and how to fix them\n5. How to customise or extend the code\n\nUse pandas, numpy, matplotlib, seaborn, scikit-learn as needed.';
+  try{var r=await callAI(prompt);setOut('pyout',fmtOut(r));}
+  catch(e){setOut('pyout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+async function rPBI(task){
+  if(!task||!task.trim()){toast('Please enter a Power BI request');return;}
+  setOut('pbiout','','Generating Power BI solution...');
+  var prompt='Provide Power BI solution for: '+task+(DS.loaded?'\n\nDataset columns: '+DS.headers.join(', '):'')+'\n\nInclude:\n1. DAX measures with formula and plain English explanation\n2. Recommended visual type and placement\n3. Power Query M transformation steps\n4. Star schema suggestion if relevant\n5. Dashboard layout wireframe in text\n6. What executives should see first\n\nExplain each DAX formula in simple language.';
+  try{var r=await callAI(prompt);setOut('pbiout',fmtOut(r));}
+  catch(e){setOut('pbiout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+async function rStats(task){
+  if(!task||!task.trim()){toast('Please enter a statistics question');return;}
+  setOut('stout','','Generating statistics explanation...');
+  var prompt='Explain this statistics topic or answer this question: '+task+'\n\nStructure:\n## SIMPLE ENGLISH\nWhat it means in everyday language\n## TECHNICAL EXPLANATION\nHow it works mathematically\n## WHEN TO USE IT\nBusiness scenarios where this applies\n## FORMULA\nWith explanation of each component\n## PYTHON CODE\nWith comments on every line\n## EXCEL METHOD\nStep-by-step\n## BUSINESS INTERPRETATION\nWhat results mean for decision making\n## COMMON MISTAKES\nWhat to avoid\n\nBeginner-friendly but academically correct.';
+  try{var r=await callAI(prompt);setOut('stout',fmtOut(r));}
+  catch(e){setOut('stout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+// ============================================================
+// REPORT WRITER
+// ============================================================
+async function rReport(){
+  var extra=document.getElementById('repq').value.trim();
+  setOut('repout','','Writing '+curTone+' '+curRepTab+' report...');
+  document.getElementById('rep-ex').style.display='none';
+  var ctx=DS.loaded?'\n\nDataset: '+DS.filename+'\nType: '+DS.detectedType+'\nRows: '+DS.rowCount+' | Columns: '+DS.colCount+'\nColumns: '+DS.headers.join(', ')+'\nQuality Score: '+DS.qualityScore+'/100\nMissing: '+DS.missingCount+' | Duplicates: '+DS.duplicateCount+'\nAI Impression: '+DS.aiImpression:'';
+  var prompt='Write a professional '+curTone+' tone '+curRepTab+'.'+ctx+(extra?'\n\nAdditional instructions: '+extra:'')+'\n\nReport structure:\n## TITLE\n## OBJECTIVE\n## DATASET OVERVIEW\n## DATA QUALITY ASSESSMENT\n## KEY FINDINGS\n## KPIs AND METRICS\n## VISUALISATION RECOMMENDATIONS\n## ROOT CAUSES AND RISKS\n## STRATEGIC RECOMMENDATIONS\n## LIMITATIONS\n## NEXT STEPS\n\nTone: '+curTone+'. Be professional, specific and actionable. Use actual dataset details throughout.';
+  try{
+    var r=await callAI(prompt);
+    setOut('repout',fmtOut(r));
+    document.getElementById('rep-ex').style.display='flex';
+    DONE.report=true; updProg(); updMem(); addDD('nb-report');
+  }catch(e){setOut('repout','<div style="color:var(--red)">Error: '+e.message+'</div>');}
+}
+
+function cpRep(){navigator.clipboard.writeText(document.getElementById('repout').innerText);toast('Report copied!');}
+function dlRep(fmt){
+  var text=document.getElementById('repout').innerText;
+  var ext=fmt==='md'?'.md':'.txt';
+  var blob=new Blob([text],{type:'text/plain'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DataMind_Report'+ext;a.click();
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+var chatH=[];
+function ckk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function cq(q){document.getElementById('cin').value=q;sendChat();}
+
+async function sendChat(){
+  var inp=document.getElementById('cin');var msg=inp.value.trim();if(!msg)return;
+  inp.value=''; document.getElementById('cbtn').disabled=true;
+  addMsg(msg,'user'); chatH.push({role:'user',content:msg});
+  var tid=addMsg('','ai',true);
+  try{
+    var res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:buildSys(),messages:chatH.slice(-12)})});
+    var data=await res.json();
+    var reply=data.content[0].text;
+    chatH.push({role:'assistant',content:reply}); updMsg(tid,reply);
+  }catch(e){updMsg(tid,'Error: '+e.message);}
+  document.getElementById('cbtn').disabled=false;
+}
+
+var mid=0;
+function addMsg(text,role,typing){
+  var id='m'+(++mid); var msgs=document.getElementById('cmsgs');
+  var div=document.createElement('div'); div.className='msg '+role; div.id=id;
+  div.innerHTML='<div class="mav">'+(role==='ai'?'AI':'You')+'</div><div class="mbbl">'+(typing?'<div class="ld"><div class="sp"></div>Thinking...</div>':fmtOut(text))+'</div>';
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return id;
+}
+function updMsg(id,text){var el=document.getElementById(id);if(el)el.querySelector('.mbbl').innerHTML=fmtOut(text);var m=document.getElementById('cmsgs');if(m)m.scrollTop=m.scrollHeight;}
+function clearChat(){chatH=[];document.getElementById('cmsgs').innerHTML='<div class="msg ai"><div class="mav">AI</div><div class="mbbl">Chat cleared! '+(DS.loaded?'Your '+DS.detectedType+' dataset ('+DS.rowCount+' rows) is still loaded.':'Upload a dataset to enable full context.')+'</div></div>';}
+
+// ============================================================
+// ROLE / TABS / DIALECT / TONE
+// ============================================================
+function setRole(role,el){curRole=role;document.querySelectorAll('.rc').forEach(function(c){c.classList.remove('on');});if(el)el.classList.add('on');toast('Role: '+role);}
+function setSQLd(d,btn){curDialect=d;document.querySelectorAll('.db').forEach(function(b){b.classList.remove('on');});if(btn)btn.classList.add('on');}
+function setTab(tid,idx,lbl){document.getElementById(tid).querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===idx);});if(tid==='p2t')curTool=lbl;if(tid==='rept')curRepTab=lbl;}
+function setTone(tone,el){curTone=tone;document.querySelectorAll('#tone-chips .chip').forEach(function(c){c.classList.remove('on');});if(el)el.classList.add('on');}
+
+// ============================================================
+// PROGRESS TRACKING
+// ============================================================
+function updProg(){
+  var phases=['upload','p1','p2','p3','p4','p5','p6','report'];
+  var count=phases.filter(function(p){return DONE[p];}).length;
+  var pct=Math.round(count/phases.length*100);
+  document.getElementById('prog-pct').textContent=pct;
+  phases.forEach(function(p){
+    var ps=document.getElementById('ps-'+p);
+    if(ps)ps.className='pb-step'+(DONE[p]?' done':'');
+  });
+  // Update phase timeline dots
+  var dotMap={upload:'pd-upload',p1:'pd-p1',p2:'pd-p2',p3:'pd-p3',p4:'pd-p4',p5:'pd-p5',p6:'pd-p6',report:'pd-report'};
+  var lineMap={upload:'pl1',p1:'pl2',p2:'pl3',p3:'pl4',p4:'pl5',p5:'pl6',p6:'pl7'};
+  var lblMap={upload:'pl-upload',p1:'pl-p1',p2:'pl-p2',p3:'pl-p3',p4:'pl-p4',p5:'pl-p5',p6:'pl-p6',report:'pl-report'};
+  phases.forEach(function(p){
+    var dot=document.getElementById(dotMap[p]);
+    var lbl=document.getElementById(lblMap[p]);
+    var line=document.getElementById(lineMap[p]);
+    if(dot){dot.classList.toggle('done',DONE[p]);dot.classList.toggle('cur',!DONE[p]&&p===phases.filter(function(x){return !DONE[x];})[0]);}
+    if(lbl){lbl.classList.toggle('done',DONE[p]);lbl.classList.toggle('cur',!DONE[p]&&p===phases.filter(function(x){return !DONE[x];})[0]);}
+    if(line)line.classList.toggle('done',DONE[p]);
   });
 }
 
-function downloadCleanCSV() {
-  if (!cleanRows.length) { showToast('No clean data to download'); return; }
-  var csv = rawHeaders.join(',') + '\n';
-  csv += cleanRows.map(function(row) {
-    return rawHeaders.map(function(h) {
-      var val = row[h] || '';
-      return val.indexOf(',') >= 0 ? '"' + val + '"' : val;
-    }).join(',');
-  }).join('\n');
-  var blob = new Blob([csv], {type:'text/csv'});
-  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cleaned_dataset.csv'; a.click();
-  showToast('Clean CSV downloaded!');
+function addDD(nbId){
+  var nb=document.getElementById(nbId); if(!nb||nb.querySelector('.dd'))return;
+  var d=document.createElement('div'); d.className='dd'; nb.appendChild(d);
 }
 
-// PROGRESS
-function updateProgress() {
-  var total = 16;
-  var done = completedPhases.size;
-  var pct = Math.round((done / total) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = done + ' / ' + total + ' phases complete';
+function updMem(){
+  var keys=['upload','p1','p2','p3','p4','p5','p6','report'];
+  keys.forEach(function(k){
+    var el=document.getElementById('mem-'+k);
+    if(el)el.classList.toggle('done',DONE[k]);
+  });
 }
 
+// ============================================================
 // UTILS
-function clearAll() {
-  uploadedData = null; rawCSVData = null; cleanRows = []; rawRows = [];
-  completedPhases.clear();
-  updateProgress();
-  ['p1output','p2output','p3output','p4output','p5output','p6output','sqloutput','exceloutput','pythonoutput','pbioutput','statsoutput','reportoutput'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) { el.innerHTML = 'Run analysis to see results here...'; el.className = 'output-area empty'; }
-  });
-  showToast('Cleared all results');
+// ============================================================
+function clearAll(){
+  DS.loaded=false; DS.filename=''; DS.rows=[]; DS.headers=[];
+  Object.keys(DONE).forEach(function(k){DONE[k]=false;});
+  chatH=[]; updProg(); updMem(); toast('All data and analysis cleared');
 }
 
-function exportResults() {
-  var results = [];
-  ['p1output','p2output','p3output','p4output','p5output','p6output','sqloutput','exceloutput','pythonoutput','pbioutput','statsoutput','reportoutput'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el && !el.classList.contains('empty')) { results.push('=== ' + id + ' ===\n' + el.innerText); }
-  });
-  if (!results.length) { showToast('No results to export'); return; }
-  var blob = new Blob([results.join('\n\n')], {type:'text/plain'});
-  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'DataMind_Analysis.txt'; a.click();
-}
-
-function showToast(msg) {
-  var t = document.createElement('div');
-  t.className = 'toast-el';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(function() { t.remove(); }, 3000);
+function toast(msg){
+  var t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t); setTimeout(function(){t.remove();},3000);
 }
 </script>
 </body>
