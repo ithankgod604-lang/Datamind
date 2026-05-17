@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DataMind AI — Professional Data Analytics Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #080C14;
+  --surface: #0E1421;
+  --surface2: #141B2D;
+  --border: #1E2A42;
+  --accent: #00E5FF;
+  --accent2: #7C3AED;
+  --gold: #F59E0B;
+  --green: #10B981;
+  --red: #EF4444;
+  --text: #E2E8F0;
+  --muted: #64748B;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-title {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.logo-title span { color: var(--accent); }
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 8px; }
+
+.nav-section-label {
+  font-size: 9px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #2D3F5C;
+  padding: 10px 10px 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 1px;
+}
+
+.nav-item:hover { background: rgba(0,229,255,0.05); color: #CBD5E1; border-color: rgba(0,229,255,0.08); }
+.nav-item.active { background: rgba(0,229,255,0.1); color: var(--accent); border-color: rgba(0,229,255,0.2); }
+.nav-item .ni { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.nav-badge { margin-left: auto; background: var(--accent); color: #000; border-radius: 4px; padding: 1px 6px; font-size: 9px; font-family: var(--mono); font-weight: 700; }
+
+.sidebar-footer {
+  padding: 12px 8px;
+  border-top: 1px solid var(--border);
+}
+
+.phase-progress {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.pp-label { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-bottom: 6px; }
+.pp-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.pp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.4s; }
+.pp-text { font-size: 10px; color: var(--accent); font-family: var(--mono); margin-top: 4px; }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  height: 54px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.topbar-title { font-family: var(--mono); font-size: 13px; color: #fff; }
+.topbar-badge {
+  background: rgba(0,229,255,0.1);
+  border: 1px solid rgba(0,229,255,0.25);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.tb-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tb-btn:hover { border-color: rgba(0,229,255,0.3); color: var(--accent); }
+.tb-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+.tb-btn.primary:hover { background: #33EAFF; }
+
+/* ── CONTENT AREA ── */
+.content { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── PANELS ── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,229,255,0.03);
+}
+
+.panel-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-body { padding: 18px; }
+
+/* ── UPLOAD ZONE ── */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--accent);
+  background: rgba(0,229,255,0.04);
+}
+
+.upload-icon { font-size: 36px; margin-bottom: 12px; }
+.upload-title { font-family: var(--mono); font-size: 14px; color: #fff; margin-bottom: 6px; }
+.upload-sub { font-size: 12px; color: var(--muted); }
+.upload-formats { display: flex; gap: 6px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+.fmt-badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; font-size: 10px; font-family: var(--mono); color: var(--muted); }
+#fileInput { display: none; }
+
+/* ── PHASE SELECTOR ── */
+.phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media(max-width:900px) { .phase-grid { grid-template-columns: repeat(2,1fr); } }
+
+.phase-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.phase-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-2px); }
+.phase-card.selected { border-color: var(--accent); background: rgba(0,229,255,0.08); }
+.phase-card.completed { border-color: var(--green); background: rgba(16,185,129,0.06); }
+
+.phase-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.phase-icon { font-size: 22px; margin-bottom: 6px; }
+.phase-name { font-size: 11px; font-weight: 600; color: #CBD5E1; line-height: 1.3; }
+.phase-card.selected .phase-name { color: var(--accent); }
+.phase-card.completed .phase-name { color: var(--green); }
+
+/* ── QUESTION INPUT ── */
+.question-row { display: flex; gap: 10px; }
+.question-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  min-height: 48px;
+  max-height: 120px;
+}
+.question-input:focus { border-color: rgba(0,229,255,0.4); }
+.question-input::placeholder { color: #2D3F5C; }
+
+.run-btn {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.run-btn:hover { background: #33EAFF; transform: translateY(-1px); }
+.run-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ── OUTPUT ── */
+.output-area {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #CBD5E1;
+  white-space: pre-wrap;
+  min-height: 200px;
+  font-family: var(--sans);
+}
+
+.output-area.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+/* ── DATA PREVIEW TABLE ── */
+.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--mono); }
+th { background: var(--surface2); padding: 10px 12px; text-align: left; color: var(--accent); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid rgba(30,42,66,0.5); color: #94A3B8; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(0,229,255,0.02); color: #CBD5E1; }
+
+/* ── STATS GRID ── */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+@media(max-width:700px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+
+.stat-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat-val { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--mono); }
+
+/* ── INSIGHT CARDS ── */
+.insight-cards { display: flex; flex-direction: column; gap: 10px; }
+.insight-card {
+  background: var(--surface2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #CBD5E1;
+  line-height: 1.65;
+}
+.insight-card.warning { border-left-color: var(--gold); }
+.insight-card.error { border-left-color: var(--red); }
+.insight-card.success { border-left-color: var(--green); }
+.insight-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+.insight-card.warning .insight-label { color: var(--gold); }
+.insight-card.error .insight-label { color: var(--red); }
+.insight-card.success .insight-label { color: var(--green); }
+
+/* ── CHAT MESSAGES ── */
+.messages { display: flex; flex-direction: column; gap: 16px; }
+.msg { display: flex; gap: 12px; }
+.msg.user { flex-direction: row-reverse; }
+.msg-avatar { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.msg.ai .msg-avatar { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); }
+.msg.user .msg-avatar { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25); }
+.msg-bubble { padding: 12px 16px; border-radius: 12px; font-size: 13.5px; line-height: 1.75; max-width: 85%; }
+.msg.ai .msg-bubble { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 4px 12px 12px 12px; }
+.msg.user .msg-bubble { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25); color: #fff; border-radius: 12px 4px 12px 12px; }
+
+/* ── QUICK PROMPTS ── */
+.quick-prompts { display: flex; flex-wrap: wrap; gap: 7px; }
+.qp-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.qp-btn:hover { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.25); color: var(--accent); }
+
+/* ── CODE BLOCKS ── */
+.code-block {
+  background: #020812;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #A8D4FF;
+  overflow-x: auto;
+  margin: 10px 0;
+  white-space: pre;
+  position: relative;
+}
+
+.code-label {
+  font-size: 9px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copy-code-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.copy-code-btn:hover { color: var(--accent); border-color: rgba(0,229,255,0.3); }
+
+/* ── LOADING ── */
+.loading { display: flex; align-items: center; gap: 10px; color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 16px 0; }
+.spin { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.fadeIn { animation: fadeUp 0.3s ease; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 2px; background: var(--surface2); border-radius: 8px; padding: 3px; margin-bottom: 16px; }
+.tab { flex: 1; padding: 8px; border: none; border-radius: 6px; font-family: var(--mono); font-size: 11px; cursor: pointer; transition: all 0.15s; background: transparent; color: var(--muted); }
+.tab.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* ── FORMULA BOX ── */
+.formula-box {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--gold);
+  margin: 8px 0;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  .sidebar { display: none; }
+  .phase-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid rgba(0,229,255,0.3);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #fff;
+  z-index: 9999;
+  animation: fadeUp 0.3s ease;
+  white-space: nowrap;
+}
+
+/* ── SECTION PAGES ── */
+.page { display: none; }
+.page.active { display: flex; flex-direction: column; gap: 20px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-title">Data<span>Mind</span> AI</div>
+      <div class="logo-sub">Professional Analytics Assistant</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Core</div>
+      <div class="nav-item active" onclick="navigate('home',this)"><span class="ni">🏠</span> Dashboard</div>
+      <div class="nav-item" onclick="navigate('upload',this)"><span class="ni">📁</span> Upload Dataset <span class="nav-badge">NEW</span></div>
+      <div class="nav-item" onclick="navigate('chat',this)"><span class="ni">💬</span> AI Chat Analyst</div>
+
+      <div class="nav-section-label" style="margin-top:8px">Analysis Phases</div>
+      <div class="nav-item" onclick="navigate('phase1',this)"><span class="ni">🔍</span> Phase 1 — Understand</div>
+      <div class="nav-item" onclick="navigate('phase2',this)"><span class="ni">🧹</span> Phase 2 — Clean Data</div>
+      <div class="nav-item" onclick="navigate('phase3',this)"><span class="ni">✅</span> Phase 3 — Validate</div>
+      <div class="nav-item" onclick="navigate('phase4',this)"><span class="ni">📊</span> Phase 4 — EDA</div>
+      <div class="nav-item" onclick="navigate('phase5',this)"><span class="ni">📈</span> Phase 5 — KPIs</div>
+      <div class="nav-item" onclick="navigate('phase6',this)"><span class="ni">🎯</span> Phase 6 — Root Cause</div>
+
+      <div class="nav-section-label" style="margin-top:8px">Tools</div>
+      <div class="nav-item" onclick="navigate('sql',this)"><span class="ni">🗄️</span> SQL Engine</div>
+      <div class="nav-item" onclick="navigate('excel',this)"><span class="ni">📗</span> Excel Mode</div>
+      <div class="nav-item" onclick="navigate('python',this)"><span class="ni">🐍</span> Python Mode</div>
+      <div class="nav-item" onclick="navigate('powerbi',this)"><span class="ni">⚡</span> Power BI Mode</div>
+      <div class="nav-item" onclick="navigate('stats',this)"><span class="ni">📐</span> Statistics</div>
+      <div class="nav-item" onclick="navigate('report',this)"><span class="ni">📝</span> Report Writer</div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="phase-progress">
+        <div class="pp-label">ANALYSIS PROGRESS</div>
+        <div class="pp-track"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="pp-text" id="progressText">0 / 16 phases complete</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+        <div class="topbar-badge" id="pageBadge">Ready</div>
+      </div>
+      <div class="topbar-right">
+        <button class="tb-btn" onclick="clearAll()">🗑 Clear</button>
+        <button class="tb-btn" onclick="exportResults()">⬇ Export</button>
+        <button class="tb-btn primary" onclick="navigate('chat', document.querySelector('.nav-item:nth-child(3)'))">⚡ Ask AI</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- HOME PAGE -->
+      <div class="page active" id="page-home">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-val" id="stat-rows">—</div><div class="stat-lbl">Rows</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-cols">—</div><div class="stat-lbl">Columns</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-missing">—</div><div class="stat-lbl">Missing Values</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-dupes">—</div><div class="stat-lbl">Duplicates</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🚀 Welcome to DataMind AI</div>
+          </div>
+          <div class="panel-body">
+            <div style="font-size:14px;color:#94A3B8;line-height:1.8;margin-bottom:20px">
+              Your professional AI-powered data analytics assistant. Upload a dataset or describe your data to get started. I will walk you through all <strong style="color:var(--accent)">16 analytical phases</strong> — from understanding your data to writing executive reports.
+            </div>
+            <div class="phase-grid">
+              <div class="phase-card" onclick="navigate('phase1',null)"><div class="phase-num">Phase 01</div><div class="phase-icon">🔍</div><div class="phase-name">Dataset Understanding</div></div>
+              <div class="phase-card" onclick="navigate('phase2',null)"><div class="phase-num">Phase 02</div><div class="phase-icon">🧹</div><div class="phase-name">Data Cleaning</div></div>
+              <div class="phase-card" onclick="navigate('phase3',null)"><div class="phase-num">Phase 03</div><div class="phase-icon">✅</div><div class="phase-name">Data Validation</div></div>
+              <div class="phase-card" onclick="navigate('phase4',null)"><div class="phase-num">Phase 04</div><div class="phase-icon">📊</div><div class="phase-name">EDA</div></div>
+              <div class="phase-card" onclick="navigate('phase5',null)"><div class="phase-num">Phase 05</div><div class="phase-icon">📈</div><div class="phase-name">KPI Analysis</div></div>
+              <div class="phase-card" onclick="navigate('phase6',null)"><div class="phase-num">Phase 06</div><div class="phase-icon">🎯</div><div class="phase-name">Root Cause</div></div>
+              <div class="phase-card" onclick="navigate('sql',null)"><div class="phase-num">Phase 07</div><div class="phase-icon">🗄️</div><div class="phase-name">SQL Engine</div></div>
+              <div class="phase-card" onclick="navigate('excel',null)"><div class="phase-num">Phase 08</div><div class="phase-icon">📗</div><div class="phase-name">Excel Mode</div></div>
+              <div class="phase-card" onclick="navigate('powerbi',null)"><div class="phase-num">Phase 09</div><div class="phase-icon">⚡</div><div class="phase-name">Power BI Mode</div></div>
+              <div class="phase-card" onclick="navigate('python',null)"><div class="phase-num">Phase 10</div><div class="phase-icon">🐍</div><div class="phase-name">Python Mode</div></div>
+              <div class="phase-card" onclick="navigate('stats',null)"><div class="phase-num">Phase 11</div><div class="phase-icon">📐</div><div class="phase-name">Statistics</div></div>
+              <div class="phase-card" onclick="navigate('report',null)"><div class="phase-num">Phase 12–16</div><div class="phase-icon">📝</div><div class="phase-name">Reports & Insights</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">⚡ Quick Start — Ask a Question</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="quickAsk('Analyse my sales dataset and identify top revenue drivers')">💰 Revenue Analysis</button>
+              <button class="qp-btn" onclick="quickAsk('Clean my dataset and identify all missing values and duplicates')">🧹 Data Cleaning</button>
+              <button class="qp-btn" onclick="quickAsk('Generate SQL queries to analyse customer behaviour')">🗄️ SQL Queries</button>
+              <button class="qp-btn" onclick="quickAsk('Write Python code to perform exploratory data analysis')">🐍 Python EDA</button>
+              <button class="qp-btn" onclick="quickAsk('Create Excel formulas and pivot table suggestions for my data')">📗 Excel Help</button>
+              <button class="qp-btn" onclick="quickAsk('Identify KPIs and build a dashboard structure for executives')">📊 KPI Dashboard</button>
+              <button class="qp-btn" onclick="quickAsk('Perform root cause analysis on declining performance metrics')">🎯 Root Cause</button>
+              <button class="qp-btn" onclick="quickAsk('Write an executive report summarising the key findings')">📝 Executive Report</button>
+            </div>
+            <div class="question-row">
+              <textarea class="question-input" id="homeInput" placeholder="Describe your dataset or ask any data analytics question..." rows="2"></textarea>
+              <button class="run-btn" onclick="runHomeQuery()">⚡ Analyse</button>
+            </div>
+            <div id="homeOutput" style="margin-top:14px;display:none">
+              <div class="output-area fadeIn" id="homeOutputText"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD PAGE -->
+      <div class="page" id="page-upload">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📁 Upload Your Dataset</div></div>
+          <div class="panel-body">
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+              <div class="upload-icon">📊</div>
+              <div class="upload-title">Drop your dataset here or click to browse</div>
+              <div class="upload-sub">Supports CSV, Excel, JSON, TXT files up to 10MB</div>
+              <div class="upload-formats">
+                <span class="fmt-badge">CSV</span>
+                <span class="fmt-badge">XLSX</span>
+                <span class="fmt-badge">JSON</span>
+                <span class="fmt-badge">TXT</span>
+              </div>
+            </div>
+            <input type="file" id="fileInput" accept=".csv,.xlsx,.json,.txt" onchange="handleFileUpload(event)" />
+          </div>
+        </div>
+
+        <div class="panel" id="dataPreviewPanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">👁 Data Preview</div>
+            <button class="tb-btn" onclick="analyseDataset()">🔍 Run Full Analysis</button>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:16px">
+              <div class="stat-card"><div class="stat-val" id="prev-rows">0</div><div class="stat-lbl">Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-cols">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-size">0KB</div><div class="stat-lbl">File Size</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-type">CSV</div><div class="stat-lbl">File Type</div></div>
+            </div>
+            <div class="table-wrap" id="dataTable"></div>
+          </div>
+        </div>
+
+        <div class="panel" id="autoAnalysisPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">🤖 AI Auto-Analysis Results</div></div>
+          <div class="panel-body">
+            <div class="output-area fadeIn" id="autoAnalysisText"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAT PAGE -->
+      <div class="page" id="page-chat">
+        <div class="panel" style="flex:1">
+          <div class="panel-header">
+            <div class="panel-title">💬 AI Data Analyst Chat</div>
+            <button class="tb-btn" onclick="clearChat()">🗑 Clear Chat</button>
+          </div>
+          <div class="panel-body" style="display:flex;flex-direction:column;gap:14px">
+            <div class="quick-prompts">
+              <button class="qp-btn" onclick="chatQuick('Perform a complete Phase 1 dataset understanding analysis')">Phase 1: Understand</button>
+              <button class="qp-btn" onclick="chatQuick('Identify and fix all data quality issues')">Phase 2: Clean</button>
+              <button class="qp-btn" onclick="chatQuick('Run full exploratory data analysis with charts recommendations')">Phase 4: EDA</button>
+              <button class="qp-btn" onclick="chatQuick('Generate all relevant KPIs for this dataset')">Phase 5: KPIs</button>
+              <button class="qp-btn" onclick="chatQuick('Write production-ready SQL queries for this data')">SQL Queries</button>
+              <button class="qp-btn" onclick="chatQuick('Write Python pandas code to analyse this dataset')">Python Code</button>
+              <button class="qp-btn" onclick="chatQuick('Create Power BI DAX measures and dashboard layout')">Power BI</button>
+              <button class="qp-btn" onclick="chatQuick('Write an executive summary report of findings')">Executive Report</button>
+            </div>
+            <div class="messages" id="chatMessages">
+              <div class="msg ai">
+                <div class="msg-avatar">🤖</div>
+                <div class="msg-bubble">Hello! I am DataMind AI — your professional data analytics assistant. I can help you with all 16 phases of data analysis:<br><br>📊 Dataset understanding, cleaning, validation and EDA<br>🗄️ SQL query generation (beginner to advanced)<br>🐍 Python / Pandas code<br>📗 Excel formulas and Power BI DAX<br>📈 KPIs, root cause analysis and statistics<br>📝 Executive reports and stakeholder presentations<br><br>Upload a dataset or describe your data and let's begin! What business problem are we solving today?</div>
+              </div>
+            </div>
+            <div class="question-row">
+              <textarea class="question-input" id="chatInput" placeholder="Ask anything about your data..." rows="2" onkeydown="handleChatKey(event)"></textarea>
+              <button class="run-btn" id="chatSendBtn" onclick="sendChatMessage()">Send ↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 1 -->
+      <div class="page" id="page-phase1">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🔍 Phase 1 — Dataset Understanding</div></div>
+          <div class="panel-body">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7">Inspect your dataset structure — rows, columns, data types, missing values, duplicates, and business meaning of each column.</div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p1input" placeholder="Describe your dataset (columns, rows, what it contains, industry/sector)..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('1','p1input','p1output','Dataset Understanding')">Analyse</button>
+            </div>
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card"><div class="insight-label">What Phase 1 covers</div>Number of rows and columns · Column names and data types · Missing values · Duplicate records · Potential errors · Business meaning of each column · Data quality risks · Dataset type identification (sales, healthcare, finance, HR, operations)</div>
+            </div>
+            <div id="p1output" class="output-area empty">Run analysis to see results here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="page" id="page-phase2">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🧹 Phase 2 — Data Cleaning</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="p2tabs">
+              <button class="tab active" onclick="switchTab('p2tabs','p2tab',0,'Excel')">Excel</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',1,'SQL')">SQL</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',2,'Python')">Python</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',3,'Power Query')">Power Query</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p2input" placeholder="Describe the data quality issues you are facing or paste a sample of your data..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhaseWithTool('2','p2input','p2output')">Clean</button>
+            </div>
+            <div id="p2output" class="output-area empty">Cleaning solutions will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="page" id="page-phase3">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">✅ Phase 3 — Data Validation</div></div>
+          <div class="panel-body">
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p3input" placeholder="Describe your data and the validation rules you need to check..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('3','p3input','p3output','Data Validation')">Validate</button>
+            </div>
+            <div id="p3output" class="output-area empty">Validation results will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 EDA -->
+      <div class="page" id="page-phase4">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📊 Phase 4 — Exploratory Data Analysis</div></div>
+          <div class="panel-body">
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card"><div class="insight-label">EDA covers</div>Summary statistics (mean, median, mode, std dev) · Distribution analysis · Trend identification · Correlation analysis · Anomaly detection · Chart recommendations with storytelling rationale</div>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p4input" placeholder="Describe your dataset for EDA or paste column names and sample values..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('4','p4input','p4output','Exploratory Data Analysis')">Run EDA</button>
+            </div>
+            <div id="p4output" class="output-area empty">EDA results will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 KPI -->
+      <div class="page" id="page-phase5">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📈 Phase 5 — KPI Analysis</div></div>
+          <div class="panel-body">
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p5input" placeholder="Describe your business and dataset. What sector? What are your goals?" rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('5','p5input','p5output','KPI Analysis')">Generate KPIs</button>
+            </div>
+            <div id="p5output" class="output-area empty">KPI analysis will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 6 ROOT CAUSE -->
+      <div class="page" id="page-phase6">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🎯 Phase 6 — Root Cause Analysis</div></div>
+          <div class="panel-body">
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card warning"><div class="insight-label">Methods used</div>5 Whys · Pareto Analysis · Correlation Analysis · Fishbone (Ishikawa) Thinking · Never assumes conclusions without evidence</div>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p6input" placeholder="What problem or trend are you investigating? Describe the symptoms and what you have observed..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('6','p6input','p6output','Root Cause Analysis')">Investigate</button>
+            </div>
+            <div id="p6output" class="output-area empty">Root cause analysis will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SQL PAGE -->
+      <div class="page" id="page-sql">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🗄️ SQL Solution Engine</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="sqltabs">
+              <button class="tab active" onclick="switchTab('sqltabs','sqltab',0,'Beginner')">Beginner</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',1,'Intermediate')">Intermediate</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',2,'Advanced')">Advanced</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',3,'Optimise')">Optimise</button>
+            </div>
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="sqlQuick('SELECT with WHERE and ORDER BY')">SELECT basics</button>
+              <button class="qp-btn" onclick="sqlQuick('GROUP BY with HAVING and aggregation')">GROUP BY</button>
+              <button class="qp-btn" onclick="sqlQuick('JOINS — INNER, LEFT, RIGHT, FULL')">JOINs</button>
+              <button class="qp-btn" onclick="sqlQuick('CTEs and subqueries')">CTEs</button>
+              <button class="qp-btn" onclick="sqlQuick('Window functions ROW_NUMBER RANK DENSE_RANK')">Window Functions</button>
+              <button class="qp-btn" onclick="sqlQuick('CASE WHEN statements')">CASE WHEN</button>
+              <button class="qp-btn" onclick="sqlQuick('Stored procedures and transactions')">Stored Procs</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="sqlinput" placeholder="Describe your table structure and what SQL query you need..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('sql','sqlinput','sqloutput')">Generate SQL</button>
+            </div>
+            <div id="sqloutput" class="output-area empty">SQL queries will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXCEL PAGE -->
+      <div class="page" id="page-excel">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📗 Excel Analyst Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="excelQuick('VLOOKUP vs XLOOKUP vs INDEX MATCH')">Lookup Formulas</button>
+              <button class="qp-btn" onclick="excelQuick('Pivot table setup and design')">Pivot Tables</button>
+              <button class="qp-btn" onclick="excelQuick('Conditional formatting rules')">Conditional Format</button>
+              <button class="qp-btn" onclick="excelQuick('Power Query data transformation')">Power Query</button>
+              <button class="qp-btn" onclick="excelQuick('Dashboard creation best practices')">Dashboard</button>
+              <button class="qp-btn" onclick="excelQuick('Data validation rules and dropdowns')">Data Validation</button>
+              <button class="qp-btn" onclick="excelQuick('SUMIFS COUNTIFS AVERAGEIFS formulas')">SUMIFS/COUNTIFS</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="excelinput" placeholder="Describe your Excel problem or what analysis you need to perform..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('excel','excelinput','exceloutput')">Get Excel Help</button>
+            </div>
+            <div id="exceloutput" class="output-area empty">Excel solutions will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PYTHON PAGE -->
+      <div class="page" id="page-python">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🐍 Python Analyst Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="pythonQuick('Load and inspect a CSV with pandas')">Load CSV</button>
+              <button class="qp-btn" onclick="pythonQuick('Clean data with pandas — missing values duplicates outliers')">Clean Data</button>
+              <button class="qp-btn" onclick="pythonQuick('EDA with matplotlib and seaborn charts')">EDA Charts</button>
+              <button class="qp-btn" onclick="pythonQuick('Correlation matrix and heatmap')">Correlation</button>
+              <button class="qp-btn" onclick="pythonQuick('Groupby aggregation and pivot tables in pandas')">GroupBy</button>
+              <button class="qp-btn" onclick="pythonQuick('Automate a data cleaning and reporting script')">Automation</button>
+              <button class="qp-btn" onclick="pythonQuick('Linear regression with scikit-learn')">Regression</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="pythoninput" placeholder="Describe what Python code you need for your data analysis task..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('python','pythoninput','pythonoutput')">Generate Python</button>
+            </div>
+            <div id="pythonoutput" class="output-area empty">Python code will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POWER BI PAGE -->
+      <div class="page" id="page-powerbi">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">⚡ Power BI Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="pbiQuick('DAX measures for sales analysis')">DAX Measures</button>
+              <button class="qp-btn" onclick="pbiQuick('Star schema data model design')">Star Schema</button>
+              <button class="qp-btn" onclick="pbiQuick('KPI cards and executive dashboard layout')">Dashboard Layout</button>
+              <button class="qp-btn" onclick="pbiQuick('Power Query M code transformations')">Power Query M</button>
+              <button class="qp-btn" onclick="pbiQuick('Calculated columns vs measures — when to use each')">Calc Columns</button>
+              <button class="qp-btn" onclick="pbiQuick('Drill through and drill down report design')">Drill Through</button>
+              <button class="qp-btn" onclick="pbiQuick('Row level security in Power BI')">Row Level Security</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="pbiinput" placeholder="Describe your Power BI report needs or paste your data model..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('powerbi','pbiinput','pbioutput')">Generate Power BI</button>
+            </div>
+            <div id="pbioutput" class="output-area empty">Power BI solutions will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS PAGE -->
+      <div class="page" id="page-stats">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📐 Statistics Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="statsQuick('Explain mean median mode with business examples')">Mean/Median/Mode</button>
+              <button class="qp-btn" onclick="statsQuick('Hypothesis testing step by step')">Hypothesis Testing</button>
+              <button class="qp-btn" onclick="statsQuick('Correlation vs causation with examples')">Correlation</button>
+              <button class="qp-btn" onclick="statsQuick('Confidence intervals explained simply')">Confidence Intervals</button>
+              <button class="qp-btn" onclick="statsQuick('A/B testing design and analysis')">A/B Testing</button>
+              <button class="qp-btn" onclick="statsQuick('Linear regression explained with business context')">Regression</button>
+              <button class="qp-btn" onclick="statsQuick('Standard deviation and variance for beginners')">Std Deviation</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="statsinput" placeholder="Ask any statistics question — I'll explain simply then technically then with business impact..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('stats','statsinput','statsoutput')">Explain</button>
+            </div>
+            <div id="statsoutput" class="output-area empty">Statistics explanations will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORT PAGE -->
+      <div class="page" id="page-report">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📝 Report Writer — Phases 12–16</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="reporttabs">
+              <button class="tab active" onclick="switchTab('reporttabs','reporttab',0,'Executive')">Executive Report</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',1,'Stakeholder')">Stakeholder</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',2,'Interview')">Interview Prep</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',3,'Portfolio')">Portfolio</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',4,'Learning')">Learning Path</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="reportinput" placeholder="Describe your analysis findings, dataset, industry and key insights to generate a professional report..." rows="4"></textarea>
+              <button class="run-btn" onclick="runReport()">Generate Report</button>
+            </div>
+            <div id="reportoutput" class="output-area empty">Your professional report will appear here...</div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="tb-btn" onclick="copyReport()">⎘ Copy Report</button>
+              <button class="tb-btn" onclick="downloadReport()">⬇ Download TXT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+var currentPage = 'home';
+var currentTool = 'Excel';
+var chatHistory = [];
+var uploadedData = null;
+var completedPhases = new Set();
+var currentReportType = 'Executive Report';
+
+// ═══════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════
+function navigate(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  var target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  if (el) el.classList.add('active');
+  currentPage = page;
+  var titles = {
+    home:'Dashboard', upload:'Upload Dataset', chat:'AI Chat Analyst',
+    phase1:'Phase 1 — Dataset Understanding', phase2:'Phase 2 — Data Cleaning',
+    phase3:'Phase 3 — Data Validation', phase4:'Phase 4 — EDA',
+    phase5:'Phase 5 — KPI Analysis', phase6:'Phase 6 — Root Cause Analysis',
+    sql:'SQL Solution Engine', excel:'Excel Mode', python:'Python Mode',
+    powerbi:'Power BI Mode', stats:'Statistics Mode', report:'Report Writer'
+  };
+  document.getElementById('pageTitle').textContent = titles[page] || page;
+  var badges = { sql:'Phase 7', excel:'Phase 8', powerbi:'Phase 9', python:'Phase 10', stats:'Phase 11', report:'Phases 12–16' };
+  document.getElementById('pageBadge').textContent = badges[page] || 'Active';
+}
+
+// ═══════════════════════════════════
+// TABS
+// ═══════════════════════════════════
+function switchTab(tabsId, prefix, idx, label) {
+  var tabs = document.getElementById(tabsId).querySelectorAll('.tab');
+  tabs.forEach((t,i) => t.classList.toggle('active', i === idx));
+  currentTool = label;
+}
+
+// ═══════════════════════════════════
+// API CALL
+// ═══════════════════════════════════
+async function callAI(prompt) {
+  const SYSTEM = `You are a world-class Professor of Data Analytics and Business Intelligence with over 20 years of experience in Data Analysis, Statistics, SQL, Excel, Power BI, Python, AI systems, Business Intelligence, healthcare analytics, and enterprise reporting.
+
+You are an intelligent AI Data Analyst mentor, consultant, teacher, and problem solver.
+
+Always think like a senior analyst. Explain step-by-step. Teach while solving.
+
+When generating SQL, always use code blocks with SQL labels.
+When generating Python, always use code blocks with Python labels.
+When generating Excel formulas, show them clearly formatted.
+Use emojis for section headers to improve readability.
+Structure your responses with clear sections.
+Always explain the business impact of your recommendations.
+Be specific, practical and actionable.`;
+
+  const res = await fetch('/.netlify/functions/claude', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1000,
+      system: SYSTEM,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content[0].text;
+}
+
+// ═══════════════════════════════════
+// FORMAT OUTPUT
+// ═══════════════════════════════════
+function formatOutput(text) {
+  // Format code blocks
+  text = text.replace(/```sql\n?([\s\S]*?)```/gi, (m,c) =>
+    `<div class="code-label"><span>SQL</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">${escHtml(c.trim())}</div>`);
+  text = text.replace(/```python\n?([\s\S]*?)```/gi, (m,c) =>
+    `<div class="code-label"><span>Python</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">${escHtml(c.trim())}</div>`);
+  text = text.replace(/```[\w]*\n?([\s\S]*?)```/gi, (m,c) =>
+    `<div class="code-label"><span>Code</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><div class="code-block">${escHtml(c.trim())}</div>`);
+  // Bold
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Line breaks
+  text = text.split('\n').join('<br>');
+  return text;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copyCode(btn) {
+  var block = btn.closest('.code-label').nextElementSibling;
+  navigator.clipboard.writeText(block.innerText);
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.textContent = 'Copy', 2000);
+}
+
+// ═══════════════════════════════════
+// HOME QUERY
+// ═══════════════════════════════════
+async function runHomeQuery() {
+  var q = document.getElementById('homeInput').value.trim();
+  if (!q) { toast('Please enter a question'); return; }
+  var out = document.getElementById('homeOutputText');
+  var wrap = document.getElementById('homeOutput');
+  wrap.style.display = 'block';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Analysing your request...</div>';
+  out.className = 'output-area fadeIn';
+  try {
+    var res = await callAI(q + (uploadedData ? '\n\nDataset context: ' + uploadedData : ''));
+    out.innerHTML = formatOutput(res);
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+function quickAsk(q) {
+  document.getElementById('homeInput').value = q;
+  navigate('chat', null);
+  setTimeout(() => {
+    document.getElementById('chatInput').value = q;
+    sendChatMessage();
+  }, 200);
+}
+
+// ═══════════════════════════════════
+// PHASE RUNNER
+// ═══════════════════════════════════
+async function runPhase(num, inputId, outputId, phaseName) {
+  var q = document.getElementById(inputId).value.trim();
+  if (!q) { toast('Please describe your dataset first'); return; }
+  var out = document.getElementById(outputId);
+  out.className = 'output-area';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Running Phase ' + num + ': ' + phaseName + '...</div>';
+
+  var phasePrompts = {
+    '1': `Perform a complete Phase 1 Dataset Understanding analysis on this dataset/description. Cover:
+1. Estimated number of rows and columns
+2. Column names and data types
+3. Missing values assessment
+4. Duplicate records risk
+5. Potential data errors
+6. Business meaning of each column
+7. Data quality risks
+8. Dataset type identification (sales/healthcare/finance/HR/operations etc)
+9. Ask the business question: what problem are we trying to solve?
+
+Dataset/Description: ${q}`,
+    '3': `Perform Phase 3 Data Validation on this dataset. Cover:
+1. Data accuracy checks
+2. Business logic consistency
+3. Range validation rules
+4. Duplicate key checks  
+5. Referential integrity
+6. Null checks
+7. Data completeness assessment
+8. Validation rules to implement
+9. Business impact if validation fails
+
+Dataset/Description: ${q}`,
+    '4': `Perform a complete Phase 4 Exploratory Data Analysis (EDA). Cover:
+1. Summary statistics (mean, median, mode, std dev, percentiles)
+2. Distribution analysis
+3. Trend analysis (highest, lowest, patterns, seasonality)
+4. Correlation analysis
+5. Anomaly detection
+6. Chart recommendations with exact chart types and storytelling rationale
+7. Key initial insights
+
+Dataset/Description: ${q}`,
+    '5': `Perform Phase 5 Business KPI Analysis. Cover:
+1. Identify all relevant KPIs for this business/dataset
+2. KPI formulas and calculations
+3. KPI targets and benchmarks
+4. KPI visualisation recommendations
+5. Dashboard structure
+6. Executive-level KPI summary
+
+Include specific formulas. Dataset/Description: ${q}`,
+    '6': `Perform Phase 6 Root Cause Analysis using:
+1. 5 Whys methodology
+2. Pareto Analysis (80/20 rule)
+3. Correlation analysis
+4. Fishbone/Ishikawa thinking
+5. Supporting evidence identification
+6. Alternative explanations
+7. Recommended actions
+
+Problem/Description: ${q}`
+  };
+
+  try {
+    var prompt = phasePrompts[num] || `Perform Phase ${num} ${phaseName} analysis on: ${q}`;
+    var res = await callAI(prompt);
+    out.innerHTML = formatOutput(res);
+    completedPhases.add(num);
+    updateProgress();
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+async function runPhaseWithTool(num, inputId, outputId) {
+  var q = document.getElementById(inputId).value.trim();
+  if (!q) { toast('Please describe your data cleaning needs'); return; }
+  var out = document.getElementById(outputId);
+  out.className = 'output-area';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Generating ' + currentTool + ' cleaning solutions...</div>';
+
+  var prompt = `Perform Phase 2 Data Cleaning using ${currentTool}. For each issue provide:
+- Problem identified
+- Reason it matters
+- Business risk
+- Step-by-step solution in ${currentTool}
+
+Cover: missing values, duplicates, incorrect formatting, blank records, outliers, invalid dates, inconsistent categories, spelling errors, negative values, data type problems.
+
+Show exact ${currentTool} formulas/code with explanations.
+
+Data/Issue: ${q}`;
+
+  try {
+    var res = await callAI(prompt);
+    out.innerHTML = formatOutput(res);
+    completedPhases.add(num);
+    updateProgress();
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+// ═══════════════════════════════════
+// TOOL RUNNERS
+// ═══════════════════════════════════
+var toolPrompts = {
+  sql: (q, tool) => `Generate SQL queries step by step (${tool} level). Cover the request thoroughly.
+Include: SELECT, WHERE, GROUP BY, HAVING, CASE, JOINs, CTEs, Window Functions as needed.
+Explain every part of the query. Show purpose, syntax, and business use case.
+Optimise where possible. Request: ${q}`,
+
+  excel: (q) => `Provide Excel solutions for: ${q}
+Include exact formulas, pivot table setup, conditional formatting rules, Power Query steps or dashboard design as needed.
+Show each formula with explanation. Provide alternatives where relevant.`,
+
+  python: (q) => `Write beginner-friendly Python code for: ${q}
+Use pandas, numpy, matplotlib, seaborn as needed.
+Explain every single line of code. Show:
+- Data loading
+- Cleaning/transformation
+- Analysis
+- Visualisation
+Include error handling and comments.`,
+
+  powerbi: (q) => `Provide Power BI solutions for: ${q}
+Include: DAX measures, calculated columns, Power Query M transformations, data model design, dashboard layout, visualisation recommendations.
+Explain each DAX formula. Suggest what executives need to see first.`,
+
+  stats: (q) => `Explain this statistics concept/question: ${q}
+Structure your answer:
+1. Simple English explanation (for beginners)
+2. Technical explanation
+3. Business impact and real-world application
+4. Formula or calculation
+5. Example with numbers
+6. Common mistakes to avoid`,
+};
+
+async function runTool(tool, inputId, outputId) {
+  var q = document.getElementById(inputId).value.trim();
+  if (!q) { toast('Please enter your question'); return; }
+  var out = document.getElementById(outputId);
+  out.className = 'output-area';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Generating ' + tool + ' solution...</div>';
+  try {
+    var prompt = toolPrompts[tool](q, currentTool);
+    var res = await callAI(prompt);
+    out.innerHTML = formatOutput(res);
+    completedPhases.add(tool);
+    updateProgress();
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+function sqlQuick(q) { document.getElementById('sqlinput').value = q; runTool('sql','sqlinput','sqloutput'); }
+function excelQuick(q) { document.getElementById('excelinput').value = q; runTool('excel','excelinput','exceloutput'); }
+function pythonQuick(q) { document.getElementById('pythoninput').value = q; runTool('python','pythoninput','pythonoutput'); }
+function pbiQuick(q) { document.getElementById('pbiinput').value = q; runTool('powerbi','pbiinput','pbioutput'); }
+function statsQuick(q) { document.getElementById('statsinput').value = q; runTool('stats','statsinput','statsoutput'); }
+
+// ═══════════════════════════════════
+// REPORT RUNNER
+// ═══════════════════════════════════
+async function runReport() {
+  var q = document.getElementById('reportinput').value.trim();
+  if (!q) { toast('Please describe your analysis findings'); return; }
+  var out = document.getElementById('reportoutput');
+  out.className = 'output-area';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Writing ' + currentReportType + '...</div>';
+
+  var reportPrompts = {
+    'Executive Report': `Write a professional executive report from this analysis. Include:
+1. Executive Summary (3-4 bullet key findings)
+2. Major Trends identified
+3. Business Risks
+4. Opportunities
+5. Strategic Recommendations
+6. Next Steps
+
+Translate all technical findings into clear business language. Analysis: ${q}`,
+    'Stakeholder Report': `Write a stakeholder report. Include: background, methodology, findings, recommendations, action items with owners and timelines. Analysis: ${q}`,
+    'Interview Prep': `Create interview preparation material for a data analyst role covering this analysis. Include: how to explain findings, key terms, potential questions and model answers, portfolio presentation tips. Analysis: ${q}`,
+    'Portfolio': `Write a portfolio project description for this data analysis. Include: problem statement, methodology, tools used, key findings, business impact, skills demonstrated. Analysis: ${q}`,
+    'Learning Path': `Based on this analysis, identify: skills used, skills missing, beginner mistakes, interview questions, portfolio ideas, real-world applications. Create a personalised learning roadmap. Analysis: ${q}`
+  };
+
+  var activeTab = document.querySelector('#reporttabs .tab.active');
+  var type = activeTab ? activeTab.textContent.trim() : 'Executive Report';
+  currentReportType = type;
+  var promptMap = { 'Executive': reportPrompts['Executive Report'], 'Stakeholder': reportPrompts['Stakeholder Report'], 'Interview Prep': reportPrompts['Interview Prep'], 'Portfolio': reportPrompts['Portfolio'], 'Learning Path': reportPrompts['Learning Path'] };
+
+  try {
+    var res = await callAI(promptMap[type] || reportPrompts['Executive Report']);
+    out.innerHTML = formatOutput(res);
+    completedPhases.add('report');
+    updateProgress();
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+function copyReport() {
+  var out = document.getElementById('reportoutput');
+  navigator.clipboard.writeText(out.innerText);
+  toast('Report copied to clipboard!');
+}
+
+function downloadReport() {
+  var text = document.getElementById('reportoutput').innerText;
+  var blob = new Blob([text], {type:'text/plain'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'DataMind_Report.txt'; a.click();
+}
+
+// ═══════════════════════════════════
+// CHAT
+// ═══════════════════════════════════
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
+}
+
+function chatQuick(q) {
+  document.getElementById('chatInput').value = q;
+  sendChatMessage();
+}
+
+async function sendChatMessage() {
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  var btn = document.getElementById('chatSendBtn');
+  btn.disabled = true;
+
+  appendMsg(msg, 'user');
+  chatHistory.push({ role:'user', content: msg + (uploadedData ? '\n\nDataset: ' + uploadedData : '') });
+
+  var typingId = appendMsg('', 'ai', true);
+
+  try {
+    var history = chatHistory.slice(-10);
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 1000,
+        system: `You are DataMind AI — a world-class Data Analytics Professor and senior analyst. You mentor users through all 16 phases of data analysis. Always teach while solving. Explain step by step. Use code blocks for SQL and Python. Be specific and practical.`,
+        messages: history
+      })
+    });
+    const data = await res.json();
+    var reply = data.content[0].text;
+    chatHistory.push({ role:'assistant', content: reply });
+    updateMsg(typingId, reply);
+  } catch(e) {
+    updateMsg(typingId, '⚠️ Error: ' + e.message);
+  }
+  btn.disabled = false;
+}
+
+var _msgId = 0;
+function appendMsg(text, role, typing) {
+  var id = 'cmsg_' + (++_msgId);
+  var msgs = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.id = id;
+  div.innerHTML = `<div class="msg-avatar">${role==='ai'?'🤖':'👤'}</div>
+    <div class="msg-bubble">${typing ? '<div class="loading"><div class="spin"></div>Analysing...</div>' : formatOutput(text)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+
+function updateMsg(id, text) {
+  var el = document.getElementById(id);
+  if (el) { el.querySelector('.msg-bubble').innerHTML = formatOutput(text); }
+  var msgs = document.getElementById('chatMessages');
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
+}
+
+function clearChat() {
+  chatHistory = [];
+  var msgs = document.getElementById('chatMessages');
+  msgs.innerHTML = `<div class="msg ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">Chat cleared. Ready for a new analysis session! What would you like to explore?</div></div>`;
+}
+
+// ═══════════════════════════════════
+// FILE UPLOAD
+// ═══════════════════════════════════
+function handleDrag(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('dragover'); }
+function handleDragLeave(e) { document.getElementById('uploadZone').classList.remove('dragover'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('dragover');
+  var file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+function handleFileUpload(e) { var file = e.target.files[0]; if (file) processFile(file); }
+
+function processFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var content = e.target.result;
+    var lines = content.split('\n').filter(l => l.trim());
+    var headers = lines[0] ? lines[0].split(',') : [];
+    var rows = lines.length - 1;
+    uploadedData = content.substring(0, 2000);
+
+    document.getElementById('prev-rows').textContent = rows;
+    document.getElementById('prev-cols').textContent = headers.length;
+    document.getElementById('prev-size').textContent = (file.size/1024).toFixed(1) + 'KB';
+    document.getElementById('prev-type').textContent = file.name.split('.').pop().toUpperCase();
+
+    // Update home stats
+    document.getElementById('stat-rows').textContent = rows;
+    document.getElementById('stat-cols').textContent = headers.length;
+    document.getElementById('stat-missing').textContent = '—';
+    document.getElementById('stat-dupes').textContent = '—';
+
+    // Preview table
+    var html = '<table><tr>' + headers.map(h => `<th>${h.trim()}</th>`).join('') + '</tr>';
+    lines.slice(1, 6).forEach(line => {
+      html += '<tr>' + line.split(',').map(c => `<td>${c.trim()}</td>`).join('') + '</tr>';
+    });
+    html += '</table>';
+    document.getElementById('dataTable').innerHTML = html;
+    document.getElementById('dataPreviewPanel').style.display = 'block';
+    toast('✅ File loaded: ' + file.name);
+  };
+  reader.readAsText(file);
+}
+
+async function analyseDataset() {
+  if (!uploadedData) { toast('No dataset loaded'); return; }
+  var panel = document.getElementById('autoAnalysisPanel');
+  var out = document.getElementById('autoAnalysisText');
+  panel.style.display = 'block';
+  out.innerHTML = '<div class="loading"><div class="spin"></div>Running full AI analysis on your dataset...</div>';
+
+  var prompt = `Perform a complete Phase 1 Dataset Understanding analysis on this data. Identify columns, data types, potential issues, business meaning, and what questions this data can answer. Dataset (first 2000 chars):\n\n${uploadedData}`;
+
+  try {
+    var res = await callAI(prompt);
+    out.innerHTML = formatOutput(res);
+    document.getElementById('stat-missing').textContent = '?';
+    document.getElementById('stat-dupes').textContent = '?';
+    completedPhases.add('1');
+    updateProgress();
+  } catch(e) { out.innerHTML = '⚠️ Error: ' + e.message; }
+}
+
+// ═══════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════
+function updateProgress() {
+  var total = 16;
+  var done = completedPhases.size;
+  var pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + total + ' phases complete';
+
+  // Update phase cards
+  document.querySelectorAll('.phase-card').forEach((card, i) => {
+    if (completedPhases.has(String(i+1))) card.classList.add('completed');
+  });
+}
+
+// ═══════════════════════════════════
+// UTILS
+// ═══════════════════════════════════
+function clearAll() {
+  uploadedData = null;
+  completedPhases.clear();
+  updateProgress();
+  ['p1output','p2output','p3output','p4output','p5output','p6output','sqloutput','exceloutput','pythonoutput','pbioutput','statsoutput','reportoutput','homeOutputText'].forEach(id => {
+    var el = document.getElementById(id);
+    if (el) { el.innerHTML = 'Run analysis to see results here...'; el.className = 'output-area empty'; }
+  });
+  ['stat-rows','stat-cols','stat-missing','stat-dupes'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  toast('Cleared all analysis results');
+}
+
+function exportResults() {
+  var results = [];
+  ['p1output','p2output','p3output','p4output','p5output','p6output','sqloutput','exceloutput','pythonoutput','pbioutput','statsoutput','reportoutput'].forEach(id => {
+    var el = document.getElementById(id);
+    if (el && !el.classList.contains('empty')) results.push('=== ' + id + ' ===\n' + el.innerText);
+  });
+  if (!results.length) { toast('No results to export'); return; }
+  var blob = new Blob([results.join('\n\n')], {type:'text/plain'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'DataMind_Analysis.txt'; a.click();
+}
+
+function toast(msg) {
+  var t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+</script>
+</body>
+</html>
