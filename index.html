@@ -8,7 +8,1184 @@
 <style>
 :root{--bg:#060A10;--surface:#0C1220;--surface2:#111827;--surface3:#1A2436;--border:#1E2D45;--border2:#2A3F5F;--accent:#00D4FF;--accent2:#7C3AED;--accent3:#10B981;--gold:#F59E0B;--red:#EF4444;--orange:#F97316;--text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;--mono:'Space Mono',monospace;--sans:'Outfit',sans-serif;--r8:8px;--r12:12px;--r16:16px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body{background:va<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DataMind AI - Professional Analytics Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#060A10;--sur:#0C1220;--sur2:#111827;--bor:#1E2D45;--bor2:#2A3F5F;--ac:#00D4FF;--ac2:#7C3AED;--ac3:#10B981;--go:#F59E0B;--re:#EF4444;--tx:#E2E8F0;--tx2:#94A3B8;--tx3:#64748B;--mn:'Space Mono',monospace;--sn:'Outfit',sans-serif;--r8:8px;--r12:12px;--r16:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--sn);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,212,255,.06),transparent);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;display:flex;height:100vh}
+.sidebar{width:252px;flex-shrink:0;background:var(--sur);border-right:1px solid var(--bor);display:flex;flex-direction:column;overflow:hidden}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.content{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--bor2);border-radius:2px}
+.page{display:none}
+.page.active{display:flex;flex-direction:column;gap:16px}
+.logo{padding:16px 14px 12px;border-bottom:1px solid var(--bor)}
+.logo-t{font-family:var(--mn);font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.logo-t span{color:var(--ac)}
+.ld{width:7px;height:7px;background:var(--ac3);border-radius:50%;animation:pu 2s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.3}}
+.logo-s{font-size:8px;color:var(--tx3);font-family:var(--mn);margin-top:2px;text-transform:uppercase;letter-spacing:.1em}
+.dsb{margin:8px 6px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:var(--r8);padding:9px 11px}
+.dsb-l{font-size:8px;font-family:var(--mn);text-transform:uppercase;letter-spacing:.1em;color:var(--tx3);margin-bottom:4px}
+.dsb-l.on{color:var(--ac)}
+.dsb-n{font-size:11px;font-weight:600;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.dsb-n.on{color:#fff}
+.dsb-m{display:grid;grid-template-columns:1fr 1fr;gap:2px;display:none}
+.dsb-mi{font-size:8px;font-family:var(--mn);color:var(--tx2)}
+.dsb-mi b{color:var(--ac)}
+.dsb-sc{display:none;align-items:center;gap:5px;margin-top:5px}
+.sc-bar{flex:1;height:3px;background:var(--bor);border-radius:2px;overflow:hidden}
+.sc-fill{height:100%;border-radius:2px;transition:width .5s}
+.sc-t{font-size:9px;font-family:var(--mn);font-weight:700}
+.nav{flex:1;overflow-y:auto;padding:6px}
+.nav::-webkit-scrollbar{width:0}
+.nl{font-size:8px;font-family:var(--mn);text-transform:uppercase;letter-spacing:.12em;color:var(--tx3);padding:7px 9px 2px;display:block}
+.nb{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--r8);cursor:pointer;border:1px solid transparent;color:var(--tx3);font-size:11px;font-weight:500;margin-bottom:1px;background:none;width:100%;text-align:left;font-family:var(--sn);transition:all .15s}
+.nb:hover{background:rgba(0,212,255,.05);color:var(--tx);border-color:rgba(0,212,255,.1)}
+.nb.on{background:rgba(0,212,255,.1);color:var(--ac);border-color:rgba(0,212,255,.2)}
+.nb .ic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.nb .dd{width:5px;height:5px;background:var(--ac3);border-radius:50%;margin-left:auto}
+.sfoot{padding:8px 6px;border-top:1px solid var(--bor)}
+.pbar{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r8);padding:8px 10px}
+.pb-steps{display:flex;gap:2px;margin-bottom:4px}
+.pb-step{flex:1;height:3px;border-radius:2px;background:var(--bor);transition:background .4s}
+.pb-step.done{background:var(--ac3)}
+.pb-txt{font-size:8px;color:var(--tx3);font-family:var(--mn)}
+.pb-txt b{color:var(--ac)}
+.topbar{height:50px;background:var(--sur);border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+.tb-t{font-family:var(--mn);font-size:12px;color:#fff;font-weight:700}
+.tb-s{font-size:10px;color:var(--tx3)}
+.tb-r{display:flex;gap:7px}
+.tbb{background:rgba(255,255,255,.04);border:1px solid var(--bor);border-radius:6px;padding:5px 12px;font-size:10px;font-family:var(--mn);color:var(--tx2);cursor:pointer;transition:all .15s}
+.tbb:hover{border-color:rgba(0,212,255,.3);color:var(--ac)}
+.tbb.pr{background:var(--ac);color:#000;border-color:var(--ac);font-weight:700}
+.tbb.pr:hover{background:#33DCFF}
+.panel{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r16);overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--bor);background:rgba(255,255,255,.02)}
+.pt{font-family:var(--mn);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ac)}
+.pb2{padding:15px}
+.cg{display:grid;gap:9px}
+.cg2{grid-template-columns:repeat(2,1fr)}
+.cg3{grid-template-columns:repeat(3,1fr)}
+.cg4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.cg4{grid-template-columns:repeat(2,1fr)}.cg3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cg2,.cg3,.cg4{grid-template-columns:1fr}.sidebar{display:none}}
+.sc2{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r12);padding:11px 13px}
+.sc2.ac{border-color:rgba(0,212,255,.2);background:rgba(0,212,255,.04)}
+.sc2.gr{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.04)}
+.sc2.re{border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.04)}
+.sc2.go{border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.04)}
+.sv{font-family:var(--mn);font-size:20px;font-weight:700;color:var(--ac);line-height:1;margin-bottom:3px}
+.sv.gr{color:var(--ac3)} .sv.re{color:var(--re)} .sv.go{color:var(--go)}
+.sl{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mn)}
+.ss{font-size:10px;color:var(--tx2);margin-top:2px}
+.ic2{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r12);padding:11px 13px;border-left:3px solid var(--ac)}
+.ic2.w{border-left-color:var(--go)} .ic2.e{border-left-color:var(--re)} .ic2.ok{border-left-color:var(--ac3)}
+.ic2-l{font-size:8px;font-family:var(--mn);text-transform:uppercase;letter-spacing:.1em;color:var(--ac);margin-bottom:4px}
+.ic2.w .ic2-l{color:var(--go)} .ic2.e .ic2-l{color:var(--re)} .ic2.ok .ic2-l{color:var(--ac3)}
+.ic2-t{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.ic2-b{font-size:11px;color:var(--tx2);line-height:1.6}
+.uz{border:2px dashed var(--bor2);border-radius:var(--r16);padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s}
+.uz:hover,.uz.drag{border-color:var(--ac);background:rgba(0,212,255,.03)}
+.uz.done{border-color:var(--ac3);border-style:solid;background:rgba(16,185,129,.03)}
+.uz.loading{border-color:var(--ac);animation:bp 1s ease-in-out infinite}
+@keyframes bp{0%,100%{border-color:var(--ac)}50%{border-color:rgba(0,212,255,.2)}}
+.uz-i{font-size:40px;margin-bottom:10px}
+.uz-t{font-family:var(--mn);font-size:13px;color:#fff;margin-bottom:6px;font-weight:700}
+.uz-s{font-size:11px;color:var(--tx3);margin-bottom:10px;line-height:1.5}
+.uz-f{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+.fmt{background:rgba(255,255,255,.05);border:1px solid var(--bor2);border-radius:4px;padding:2px 8px;font-size:8px;font-family:var(--mn);color:var(--tx3)}
+.up-st{display:none;flex-direction:column;align-items:center;gap:9px;padding:14px 0}
+.up-st.act{display:flex}
+.up-sp{width:32px;height:32px;border:3px solid var(--bor2);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.up-lbl{font-family:var(--mn);font-size:11px;color:var(--ac)}
+.up-p{width:160px;height:3px;background:var(--bor);border-radius:2px;overflow:hidden}
+.up-pf{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:2px;transition:width .3s}
+.rbtn{background:var(--ac);color:#000;border:none;border-radius:var(--r8);padding:8px 15px;font-family:var(--mn);font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.rbtn:hover{background:#33DCFF;transform:translateY(-1px)}
+.rbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.rbtn.gr{background:var(--ac3);color:#000} .rbtn.ou{background:transparent;color:var(--ac);border:1px solid rgba(0,212,255,.3)}
+.rbtn.ou:hover{background:rgba(0,212,255,.1)} .rbtn.sm{padding:5px 11px;font-size:9px} .rbtn.lg{padding:11px 20px;font-size:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.pnb{display:flex;align-items:center;justify-content:space-between;background:var(--sur2);border:1px solid rgba(0,212,255,.2);border-radius:var(--r12);padding:11px 15px;cursor:pointer;transition:all .2s;margin-top:4px}
+.pnb:hover{background:rgba(0,212,255,.07);border-color:var(--ac)}
+.pnb-l{display:flex;flex-direction:column;gap:2px}
+.pnb-t{font-family:var(--mn);font-size:10px;font-weight:700;color:var(--ac)}
+.pnb-s{font-size:11px;color:var(--tx3)}
+.pnb-a{font-size:17px;color:var(--ac)}
+.qin{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r8);padding:9px 12px;color:var(--tx);font-family:var(--sn);font-size:12px;outline:none;resize:none;width:100%;transition:border-color .2s}
+.qin:focus{border-color:rgba(0,212,255,.4)}
+.qin::placeholder{color:var(--tx3)}
+.qrow{display:flex;gap:8px}
+.qrow .qin{flex:1}
+.tabs{display:flex;gap:2px;background:var(--sur2);border-radius:var(--r8);padding:3px;margin-bottom:12px}
+.tab{flex:1;padding:6px 8px;border:none;border-radius:6px;font-family:var(--mn);font-size:9px;cursor:pointer;background:transparent;color:var(--tx3);transition:all .15s}
+.tab.on{background:var(--sur);color:var(--ac);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+.chip{background:rgba(255,255,255,.04);border:1px solid var(--bor);border-radius:16px;padding:4px 10px;font-size:9px;font-family:var(--mn);color:var(--tx3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.chip:hover{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.25);color:var(--ac)}
+.oa{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r12);padding:14px;font-size:12px;line-height:1.85;color:var(--tx2);min-height:140px}
+.oa.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;color:var(--tx3);font-family:var(--mn);font-size:10px;min-height:170px}
+.ei{font-size:30px;opacity:.4}
+.cb{background:#020812;border:1px solid var(--bor);border-radius:var(--r8);padding:11px 13px;font-family:var(--mn);font-size:10px;color:#93C5FD;overflow-x:auto;margin:6px 0;white-space:pre}
+.clabel{font-size:8px;font-family:var(--mn);text-transform:uppercase;color:var(--tx3);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.cpb{background:rgba(255,255,255,.06);border:1px solid var(--bor);border-radius:3px;padding:2px 7px;font-size:8px;font-family:var(--mn);color:var(--tx3);cursor:pointer}
+.cpb:hover{color:var(--ac)}
+.ldi{display:flex;align-items:center;gap:8px;color:var(--tx3);font-family:var(--mn);font-size:10px;padding:12px 0}
+.sp{width:13px;height:13px;border:2px solid var(--bor2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:16px;font-size:8px;font-family:var(--mn);font-weight:700;text-transform:uppercase}
+.badge.pass{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--ac3)}
+.badge.warn{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--go)}
+.badge.fail{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--re)}
+.badge.info{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--ac)}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r8);border:1px solid var(--bor)}
+table{width:100%;border-collapse:collapse;font-size:10px;font-family:var(--mn)}
+th{background:var(--sur2);padding:7px 10px;text-align:left;color:var(--ac);font-size:8px;text-transform:uppercase;border-bottom:1px solid var(--bor);white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid rgba(30,45,69,.5);color:var(--tx2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,212,255,.02);color:var(--tx)}
+.pt-wrap{display:flex;align-items:center;margin-bottom:6px}
+.pt-node{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.pt-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--bor2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--mn);color:var(--tx3);background:var(--sur2);transition:all .3s;cursor:pointer;flex-shrink:0}
+.pt-dot.done{border-color:var(--ac3);background:rgba(16,185,129,.15);color:var(--ac3)}
+.pt-dot.cur{border-color:var(--ac);background:rgba(0,212,255,.15);color:var(--ac);box-shadow:0 0 8px rgba(0,212,255,.2)}
+.pt-line{flex:1;height:2px;background:var(--bor);margin:0 -1px;margin-bottom:16px;transition:background .3s}
+.pt-line.done{background:var(--ac3)}
+.pt-lbl{font-size:7px;font-family:var(--mn);color:var(--tx3);text-align:center}
+.pt-lbl.done{color:var(--ac3)} .pt-lbl.cur{color:var(--ac)}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}
+.rc{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r8);padding:8px;cursor:pointer;transition:all .15s;text-align:center}
+.rc:hover{border-color:rgba(0,212,255,.3)} .rc.on{border-color:var(--ac);background:rgba(0,212,255,.1)}
+.rc-i{font-size:15px;margin-bottom:2px}
+.rc-n{font-size:9px;font-family:var(--mn);color:var(--tx2);font-weight:700}
+.rc.on .rc-n{color:var(--ac)}
+.msgs{display:flex;flex-direction:column;gap:13px;max-height:420px;overflow-y:auto;padding:2px 0}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--bor2)}
+.msg{display:flex;gap:8px}
+.msg.user{flex-direction:row-reverse}
+.mav{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;font-family:var(--mn);font-weight:700}
+.msg.ai .mav{background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.25);color:var(--ac)}
+.msg.user .mav{background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.3);color:#A78BFA}
+.mbbl{padding:9px 12px;border-radius:9px;font-size:11.5px;line-height:1.75;max-width:86%}
+.msg.ai .mbbl{background:var(--sur2);border:1px solid var(--bor);color:var(--tx);border-radius:3px 9px 9px 9px}
+.msg.user .mbbl{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.25);color:#E9D5FF;border-radius:9px 3px 9px 9px}
+.db-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.db{background:var(--sur2);border:1px solid var(--bor);border-radius:5px;padding:4px 9px;font-size:9px;font-family:var(--mn);color:var(--tx3);cursor:pointer;transition:all .15s}
+.db.on{border-color:var(--ac);color:var(--ac);background:rgba(0,212,255,.07)}
+.mi{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--tx3);padding:3px 0}
+.mi.done{color:var(--tx2)}
+.mi .dot{width:5px;height:5px;border-radius:50%;background:var(--bor2);flex-shrink:0}
+.mi.done .dot{background:var(--ac3)}
+.smg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.smb{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r12);padding:11px;cursor:pointer;transition:all .2s;text-align:center}
+.smb:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);transform:translateY(-1px)}
+.sm-i{font-size:20px;margin-bottom:5px}
+.sm-n{font-family:var(--mn);font-size:10px;color:var(--tx);font-weight:700;margin-bottom:2px}
+.sm-d{font-size:9px;color:var(--tx3)}
+.pn{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx2);background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.15);border-radius:6px;padding:8px 11px;margin-bottom:12px}
+.pn span{color:var(--ac3)}
+.vc{background:var(--sur2);border:1px solid var(--bor);border-radius:var(--r12);padding:11px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
+.vc-i{font-size:16px;flex-shrink:0}
+.vc-b{flex:1}
+.vc-t{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.vc-d{font-size:10px;color:var(--tx2);line-height:1.5;margin-bottom:3px}
+.vc-m{font-size:9px;font-family:var(--mn);color:var(--tx3)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--sur);border:1px solid rgba(0,212,255,.3);border-radius:var(--r12);padding:9px 17px;font-family:var(--mn);font-size:11px;color:#fff;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+</style>
+</head>
+<body>
+<script>
+var DS={loaded:false,filename:'',filetype:'',filesize:0,rowCount:0,colCount:0,headers:[],rows:[],dtypes:{},missingCount:0,missingByCol:{},duplicateCount:0,outlierCols:[],qualityScore:0,detectedType:'Unknown',typeConfidence:0,sampleCSV:'',sqlSchema:'',aiImpression:''};
+var DONE={upload:false,p1:false,p2:false,p3:false,p4:false,p5:false,p6:false,report:false};
+var curRole='Data Analyst',curDialect='MySQL',curTool='Excel',curRepTab='Executive',curTone='Executive';
+var chatH=[];
+
+function gp(pg,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  var p=document.getElementById('page-'+pg);
+  if(p) p.classList.add('active');
+  if(el) el.classList.add('on');
+  else{var nb=document.getElementById('nb-'+pg);if(nb) nb.classList.add('on');}
+  var titles={home:'Dashboard',upload:'Upload Dataset',chat:'AI Chat Analyst',p1:'Phase 1: Dataset Understanding',p2:'Phase 2: Data Cleaning',p3:'Phase 3: Validation',p4:'Phase 4: EDA',p5:'Phase 5: KPI Analysis',p6:'Phase 6: Root Cause',sql:'SQL Engine',excel:'Excel Mode',python:'Python Mode',pbi:'Power BI Mode',stats:'Statistics',report:'Report Writer'};
+  document.getElementById('tb-t').textContent=titles[pg]||pg;
+  document.getElementById('tb-s').textContent=DS.loaded?DS.detectedType+' | '+DS.rowCount+' rows':'No dataset loaded';
+  if(['p1','p2','p3','p4','p5','p6'].indexOf(pg)>=0) rfPC(pg);
+  if(pg==='sql'&&DS.loaded) rfSQL();
+  if(pg==='chat') rfChat();
+}
+
+async function callAI(prompt,sys){
+  var system=sys||buildSys();
+  var truncP=prompt.length>2500?prompt.substring(0,2500)+'...':prompt;
+  try{
+    var r=await fetch('/.netlify/functions/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:system,messages:[{role:'user',content:truncP}]})
+    });
+    if(!r.ok) throw new Error('Server error '+r.status);
+    var d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    if(!d.content||!d.content[0]) throw new Error('Empty response');
+    return d.content[0].text;
+  }catch(e){
+    if(e.message==='Failed to fetch') throw new Error('Cannot reach AI. Check internet and Netlify deployment.');
+    throw e;
+  }
+}
+
+function buildSys(){
+  var b='You are DataMind AI, a world-class Data Analytics Professor. You are acting as '+curRole+'. Structure responses clearly. Use code blocks for SQL and Python. Be specific and practical. Connect findings to business impact. For every response: 1.Summary 2.Key Findings 3.Explanation 4.Recommended Action 5.Next Step.';
+  if(DS.loaded){
+    var cols=DS.headers.slice(0,25).join(', ')+(DS.headers.length>25?' (and '+(DS.headers.length-25)+' more)':'');
+    b+=' DATASET: File='+DS.filename+' Type='+DS.detectedType+' Rows='+DS.rowCount+' Cols='+DS.colCount+' Columns='+cols+' Missing='+DS.missingCount+' Duplicates='+DS.duplicateCount+' Quality='+DS.qualityScore+'/100. Sample data: '+DS.sampleCSV+'. Always use actual column names.';
+  }
+  return b;
+}
+
+function fmtOut(t){
+  t=t.replace(/```sql\n?([\s\S]*?)```/gi,function(m,c){return '<div class="clabel"><span>SQL</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/```python\n?([\s\S]*?)```/gi,function(m,c){return '<div class="clabel"><span>Python</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/```[\w]*\n?([\s\S]*?)```/gi,function(m,c){return '<div class="clabel"><span>Code</span><button class="cpb" onclick="cpCode(this)">Copy</button></div><div class="cb">'+esc(c.trim())+'</div>';});
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#fff">$1</strong>');
+  t=t.replace(/^## (.*?)$/gm,'<div style="font-family:var(--mn);font-size:11px;font-weight:700;color:var(--ac);margin:11px 0 4px;text-transform:uppercase">$1</div>');
+  t=t.replace(/^### (.*?)$/gm,'<div style="font-weight:600;color:#CBD5E1;margin:7px 0 3px">$1</div>');
+  t=t.replace(/^(\d+)\. (.*?)$/gm,'<div style="display:flex;gap:7px;margin:3px 0"><span style="color:var(--ac);font-family:var(--mn);font-size:10px;font-weight:700;flex-shrink:0">$1.</span><span>$2</span></div>');
+  t=t.replace(/^- (.*?)$/gm,'<div style="display:flex;gap:7px;margin:2px 0"><span style="color:var(--ac3);flex-shrink:0">&#8226;</span><span>$1</span></div>');
+  return t.split('\n').join('<br>');
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function cpCode(btn){var bl=btn.closest('.clabel').nextElementSibling;navigator.clipboard.writeText(bl.innerText);btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},2000);}
+function setOut(id,html,loading){var el=document.getElementById(id);if(!el)return;if(loading){el.innerHTML='<div class="ldi"><div class="sp"></div>'+loading+'</div>';el.className='oa';}else{el.innerHTML=html;el.className='oa';}}
+
+function parseCSV(text){
+  var lines=text.split('\n').filter(function(l){return l.trim();});
+  if(!lines.length) return {headers:[],rows:[]};
+  var headers=lines[0].split(',').map(function(h){return h.trim().replace(/^"|"$/g,'');});
+  var rows=[];
+  for(var i=1;i<lines.length;i++){
+    var vals=lines[i].split(',').map(function(v){return v.trim().replace(/^"|"$/g,'');});
+    var row={};
+    headers.forEach(function(h,j){row[h]=vals[j]!==undefined?vals[j]:'';});
+    rows.push(row);
+  }
+  return {headers:headers,rows:rows};
+}
+
+function parseJSON(text){
+  var data=JSON.parse(text);
+  if(Array.isArray(data)&&data.length){
+    var headers=Object.keys(data[0]);
+    var rows=data.map(function(d){var row={};headers.forEach(function(h){row[h]=d[h]!==undefined?String(d[h]):'';});return row;});
+    return {headers:headers,rows:rows};
+  }
+  return {headers:[],rows:[]};
+}
+
+function parseTSV(text){
+  var lines=text.split('\n').filter(function(l){return l.trim();});
+  if(!lines.length) return {headers:[],rows:[]};
+  var headers=lines[0].split('\t').map(function(h){return h.trim();});
+  var rows=[];
+  for(var i=1;i<lines.length;i++){
+    var vals=lines[i].split('\t').map(function(v){return v.trim();});
+    var row={};
+    headers.forEach(function(h,j){row[h]=vals[j]!==undefined?vals[j]:'';});
+    rows.push(row);
+  }
+  return {headers:headers,rows:rows};
+}
+
+function analyseDS(parsed,filename,filesize,filetype){
+  var nulls=['','null','na','n/a','none','undefined','#n/a','nan'];
+  DS.loaded=true; DS.filename=filename; DS.filetype=filetype; DS.filesize=filesize;
+  DS.rowCount=parsed.rows.length; DS.colCount=parsed.headers.length;
+  DS.headers=parsed.headers; DS.rows=parsed.rows;
+  var mbc={};var totalMiss=0;
+  DS.headers.forEach(function(h){
+    var nc=DS.rows.filter(function(r){return nulls.indexOf((r[h]||'').toLowerCase().trim())>=0;}).length;
+    mbc[h]=nc; totalMiss+=nc;
+  });
+  DS.missingCount=totalMiss; DS.missingByCol=mbc;
+  var seen=new Set();var dupes=0;
+  DS.rows.forEach(function(row){var k=JSON.stringify(row);if(seen.has(k))dupes++;else seen.add(k);});
+  DS.duplicateCount=dupes;
+  var dtypes={};
+  DS.headers.forEach(function(h){
+    var vals=DS.rows.map(function(r){return r[h]||'';}).filter(function(v){return nulls.indexOf(v.toLowerCase())<0&&v!=='';});
+    var numCount=vals.filter(function(v){return !isNaN(v)&&v!=='';}).length;
+    var dateCount=vals.filter(function(v){return !isNaN(Date.parse(v))&&v.length>5;}).length;
+    if(numCount>vals.length*0.7) dtypes[h]='Numeric';
+    else if(dateCount>vals.length*0.5) dtypes[h]='Date';
+    else dtypes[h]='Text';
+  });
+  DS.dtypes=dtypes;
+  var outlierCols=[];
+  DS.headers.forEach(function(h){
+    if(dtypes[h]!=='Numeric') return;
+    var nums=DS.rows.map(function(r){return parseFloat(r[h]);}).filter(function(v){return !isNaN(v);});
+    if(nums.length<4) return;
+    var sorted=nums.slice().sort(function(a,b){return a-b;});
+    var q1=sorted[Math.floor(sorted.length*0.25)];
+    var q3=sorted[Math.floor(sorted.length*0.75)];
+    var iqr=q3-q1;
+    var out=nums.filter(function(v){return v<q1-1.5*iqr||v>q3+1.5*iqr;}).length;
+    if(out>0) outlierCols.push({col:h,count:out,pct:(out/nums.length*100).toFixed(1)});
+  });
+  DS.outlierCols=outlierCols;
+  var mp=Math.min(40,(totalMiss/Math.max(DS.rows.length*DS.headers.length,1))*100);
+  var dp=Math.min(20,(dupes/Math.max(DS.rows.length,1))*50);
+  var op=Math.min(10,outlierCols.length*3);
+  DS.qualityScore=Math.max(0,Math.round(100-mp-dp-op));
+  var hs=DS.headers.join(' ').toLowerCase();
+  var types=[
+    {type:'Sales',keys:['revenue','sales','order','product','customer','price','quantity']},
+    {type:'Healthcare',keys:['patient','diagnosis','treatment','hospital','doctor','ward']},
+    {type:'HR',keys:['employee','salary','department','hire','turnover','performance']},
+    {type:'Finance',keys:['budget','expense','profit','cost','payment','tax','balance']},
+    {type:'Marketing',keys:['campaign','conversion','click','impression','lead','roi']},
+    {type:'E-Commerce',keys:['order','cart','checkout','return','shipping','sku']},
+    {type:'Education',keys:['student','grade','course','teacher','attendance','exam']}
+  ];
+  types.forEach(function(t){t.conf=t.keys.filter(function(k){return hs.indexOf(k)>=0;}).length/t.keys.length*100;});
+  var best=types.sort(function(a,b){return b.conf-a.conf;})[0];
+  DS.detectedType=best.conf>20?best.type:'General';
+  DS.typeConfidence=Math.round(Math.min(97,best.conf*3+55));
+  var sh=DS.headers.slice(0,20);
+  DS.sampleCSV=sh.join(',')+' | '+DS.rows.slice(0,3).map(function(r){return sh.map(function(h){return (r[h]||'').substring(0,30);}).join(',');}).join(' | ');
+  var tname=filename.replace(/\.[^.]+$/,'').replace(/[^a-z0-9]/gi,'_').toLowerCase()||'dataset';
+  var sh2=DS.headers.slice(0,50);
+  DS.sqlSchema='CREATE TABLE '+tname+' ( '+sh2.map(function(h){var t2=dtypes[h]==='Numeric'?'DECIMAL(10,2)':dtypes[h]==='Date'?'DATE':'VARCHAR(255)';return h.replace(/[^a-z0-9]/gi,'_').toLowerCase()+' '+t2;}).join(', ')+' )'+(DS.headers.length>50?' -- '+DS.headers.length+' total cols':'');
+}
+
+function handleUpload(ev){var file=ev.target.files[0];if(file) processFile(file);}
+function odv(e){e.preventDefault();document.getElementById('upZ').classList.add('drag');}
+function odl(){document.getElementById('upZ').classList.remove('drag');}
+function odr(e){
+  e.preventDefault();
+  document.getElementById('upZ').classList.remove('drag');
+  var file=e.dataTransfer.files[0];
+  if(file) processFile(file);
+}
+
+function processFile(file){
+  var upZ=document.getElementById('upZ');
+  var idle=document.getElementById('up-idle');
+  var ld=document.getElementById('up-ld');
+  var lbl=document.getElementById('up-lbl');
+  var pf=document.getElementById('up-pf');
+  upZ.classList.add('loading'); idle.style.display='none'; ld.classList.add('act');
+  var steps=['Reading file...','Parsing data...','Detecting types...','Calculating quality...','Generating insights...'];
+  var step=0;
+  var timer=setInterval(function(){if(step<steps.length){lbl.textContent=steps[step];pf.style.width=((step+1)/steps.length*85)+'%';step++;}},350);
+  var reader=new FileReader();
+  reader.onload=function(e){
+    clearInterval(timer);
+    try{
+      var text=e.target.result;
+      var ext=file.name.split('.').pop().toLowerCase();
+      var parsed;
+      if(ext==='json') parsed=parseJSON(text);
+      else if(ext==='tsv') parsed=parseTSV(text);
+      else parsed=parseCSV(text);
+      if(!parsed.headers.length){toast('Could not parse file.');resetUZ();return;}
+      analyseDS(parsed,file.name,file.size,ext);
+      pf.style.width='100%'; lbl.textContent='Dataset ready!';
+      setTimeout(function(){
+        upZ.classList.remove('loading'); upZ.classList.add('done');
+        ld.classList.remove('act'); idle.style.display='';
+        upZ.querySelector('.uz-i').textContent='\u2705';
+        upZ.querySelector('.uz-t').textContent=file.name+' loaded';
+        upZ.querySelector('.uz-s').textContent=DS.rowCount+' rows, '+DS.colCount+' columns';
+        showUpSummary(); DONE.upload=true; updProg(); genAIImpression();
+      },500);
+    }catch(err){clearInterval(timer);toast('Error: '+err.message);resetUZ();}
+  };
+  reader.readAsText(file);
+}
+
+function resetUZ(){
+  var upZ=document.getElementById('upZ');
+  document.getElementById('up-idle').style.display='';
+  document.getElementById('up-ld').classList.remove('act');
+  upZ.classList.remove('loading','done');
+}
+
+function showUpSummary(){
+  document.getElementById('up-summary').style.display='';
+  document.getElementById('us-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('us-c').textContent=DS.colCount;
+  document.getElementById('us-m').textContent=DS.missingCount.toLocaleString();
+  document.getElementById('us-sc').textContent=DS.qualityScore+'/100';
+  document.getElementById('us-tp').textContent=DS.detectedType+' Dataset';
+  document.getElementById('us-conf').textContent='Confidence: '+DS.typeConfidence+'%';
+  document.getElementById('us-fn').textContent=DS.filename;
+  document.getElementById('us-fs').textContent=(DS.filesize/1024).toFixed(1)+' KB | '+DS.filetype.toUpperCase();
+  document.getElementById('us-dp').textContent=DS.duplicateCount+' duplicates';
+  document.getElementById('us-dpd').textContent=DS.duplicateCount>0?'Recommend removing.':'None found.';
+  var disp=DS.headers.slice(0,100);
+  var html='<table><tr><th>Column</th><th>Type</th><th>Missing</th><th>Missing %</th></tr>';
+  disp.forEach(function(h){
+    var miss=DS.missingByCol[h]||0;
+    var pct=DS.rowCount>0?(miss/DS.rowCount*100).toFixed(1):0;
+    html+='<tr><td>'+h+'</td><td><span class="badge info" style="font-size:7px">'+DS.dtypes[h]+'</span></td><td>'+(miss>0?'<span style="color:var(--re)">'+miss+'</span>':miss)+'</td><td>'+(miss>0?'<span style="color:var(--re)">'+pct+'%</span>':pct+'%')+'</td></tr>';
+  });
+  if(DS.headers.length>100) html+='<tr><td colspan="4" style="text-align:center;color:var(--tx3)">... and '+(DS.headers.length-100)+' more columns</td></tr>';
+  html+='</table>';
+  document.getElementById('col-ov').innerHTML=html;
+  updSidebar(); updHomeStats();
+}
+
+function updSidebar(){
+  if(!DS.loaded) return;
+  document.getElementById('dsb-l').textContent=DS.detectedType+' Dataset';
+  document.getElementById('dsb-l').classList.add('on');
+  document.getElementById('dsb-n').textContent=DS.filename;
+  document.getElementById('dsb-n').classList.add('on');
+  document.getElementById('dsb-m').style.display='grid';
+  document.getElementById('sb-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('sb-c').textContent=DS.colCount;
+  document.getElementById('sb-ms').textContent=DS.missingCount;
+  document.getElementById('sb-tp').textContent=DS.detectedType;
+  document.getElementById('dsb-sc').style.display='flex';
+  var score=DS.qualityScore;
+  var fill=document.getElementById('sc-f');
+  var txt=document.getElementById('sc-t');
+  fill.style.width=score+'%';
+  fill.style.background=score>=80?'var(--ac3)':score>=60?'var(--go)':'var(--re)';
+  txt.style.color=score>=80?'var(--ac3)':score>=60?'var(--go)':'var(--re)';
+  txt.textContent=score+'%';
+}
+
+function updHomeStats(){
+  if(!DS.loaded) return;
+  document.getElementById('h-r').textContent=DS.rowCount.toLocaleString();
+  document.getElementById('h-rs').textContent=DS.detectedType+' dataset';
+  document.getElementById('h-c').textContent=DS.colCount;
+  document.getElementById('h-cs').textContent='Columns detected';
+  document.getElementById('h-m').textContent=DS.missingCount;
+  document.getElementById('h-ms').textContent=DS.missingCount>0?'Need attention':'Clean';
+  document.getElementById('h-sc').textContent=DS.qualityScore;
+  document.getElementById('h-scs').textContent=DS.qualityScore>=80?'Good quality':DS.qualityScore>=60?'Needs cleaning':'Poor quality';
+  document.getElementById('ai-imp').style.display='';
+}
+
+async function genAIImpression(){
+  var prompt='In 2-3 sentences give an intelligent first impression of this dataset. Mention type, use cases and 2-3 specific insights using column names. File: '+DS.filename+' Columns: '+DS.headers.slice(0,15).join(', ')+' Rows: '+DS.rowCount;
+  try{
+    var text=await callAI(prompt,'You are DataMind AI. Give a 2-3 sentence first impression of a dataset. Be specific about columns and use cases.');
+    DS.aiImpression=text;
+    document.getElementById('ai-imp-t').textContent=text;
+    document.getElementById('us-ai').textContent=text;
+  }catch(e){
+    var fb='DataMind AI detected a '+DS.detectedType+' dataset with '+DS.rowCount.toLocaleString()+' records across '+DS.colCount+' columns including '+DS.headers.slice(0,3).join(', ')+'. Use cases include KPI analysis, trend reporting and data-driven decisions.';
+    document.getElementById('ai-imp-t').textContent=fb;
+    document.getElementById('us-ai').textContent=fb;
+  }
+}
+
+function loadSample(type){
+  var samples={
+    sales:'OrderID,CustomerName,Product,Category,Revenue,Quantity,OrderDate,Region,SalesRep\n1001,Acme Corp,Widget A,Electronics,1250.00,5,2024-01-15,North,John Smith\n1002,Beta Ltd,Widget B,Furniture,890.50,2,2024-01-16,South,Jane Doe\n1003,Gamma Inc,,Electronics,2100.00,8,2024-01-17,East,John Smith\n1004,Delta Co,Widget A,Electronics,1250.00,5,2024-01-15,North,John Smith\n1005,Echo Corp,Widget C,Clothing,450.00,,2024-01-18,West,Bob Jones\n1006,Foxtrot Ltd,Widget D,Electronics,3200.00,12,2024-01-19,North,Jane Doe\n1007,Golf Inc,Widget B,Furniture,890.50,2,2024-01-20,South,Bob Jones\n1008,Hotel Co,Widget E,Clothing,675.00,3,2024-01-21,East,John Smith\n1009,India Corp,Widget A,Electronics,1250.00,5,2024-01-22,North,\n1010,Juliet Ltd,Widget F,Furniture,1100.00,4,2024-01-23,West,Jane Doe',
+    hr:'EmployeeID,Name,Department,JobTitle,Salary,HireDate,ExitDate,Performance,Location\nE001,Alice Brown,Sales,Sales Manager,65000,2019-03-01,,Excellent,London\nE002,Bob Wilson,IT,Developer,55000,2020-06-15,,Good,Manchester\nE003,Carol Davis,HR,HR Officer,42000,2018-01-10,2024-01-05,Average,London\nE004,David Lee,Finance,Accountant,48000,2021-09-20,,Good,Birmingham\nE005,Emma Jones,Sales,Sales Rep,38000,2022-04-12,,Excellent,London\nE006,Frank Green,IT,Senior Dev,72000,2017-11-30,,Excellent,Manchester\nE007,Grace Kim,Marketing,Manager,,2020-08-25,,Good,London\nE008,Henry Pope,Sales,Sales Rep,38000,2023-01-15,2024-03-20,Poor,London\nE009,Iris Chan,Finance,Senior Accountant,58000,2016-05-10,,Excellent,Birmingham\nE010,Jack Ryan,IT,Junior Dev,42000,2023-07-01,,Good,Manchester',
+    healthcare:'PatientID,Name,Age,Diagnosis,AdmissionDate,DischargeDate,WaitTimeMins,Outcome,Ward\nP001,John A,45,Hypertension,2024-01-10,2024-01-13,45,Recovered,Cardiology\nP002,Mary B,67,Diabetes,2024-01-11,,120,Ongoing,Endocrinology\nP003,Peter C,23,Fracture,2024-01-12,2024-01-14,30,Recovered,Orthopaedics\nP004,Sarah D,55,Pneumonia,2024-01-13,2024-01-20,95,Recovered,Respiratory\nP005,Tom E,,Appendicitis,2024-01-14,2024-01-15,15,Recovered,Surgery\nP006,Lisa F,72,Heart Disease,2024-01-15,,180,Ongoing,Cardiology\nP007,James G,38,Back Pain,2024-01-16,2024-01-17,60,Recovered,Orthopaedics\nP008,Anna H,81,Stroke,2024-01-17,,210,Ongoing,Neurology\nP009,Chris I,44,Infection,2024-01-18,2024-01-22,75,Recovered,General\nP010,Diana J,59,Cancer,2024-01-19,,150,Ongoing,Oncology',
+    marketing:'CampaignID,Name,Channel,Budget,Spend,Impressions,Clicks,Conversions,Revenue\nC001,Spring Sale,Email,5000,4800,50000,2500,125,18750\nC002,Brand Awareness,Social,10000,9500,200000,8000,320,48000\nC003,Product Launch,PPC,15000,14200,100000,5000,450,90000\nC004,Retargeting,Display,3000,2800,75000,1500,180,27000\nC005,SEO Content,Organic,2000,1950,80000,4000,200,30000\nC006,Influencer,Social,,8000,150000,6000,,60000\nC007,Newsletter,Email,1500,1400,25000,1200,60,9000\nC008,Trade Show,Offline,20000,19500,5000,500,100,50000',
+    finance:'TransactionID,Date,Description,Category,Amount,Balance,Department,Approved\nT001,2024-01-05,Office Supplies,Operations,-250.00,50000,HR,Yes\nT002,2024-01-08,Software License,IT,-1200.00,48800,IT,Yes\nT003,2024-01-10,Sales Revenue,Revenue,15000.00,63800,Sales,Yes\nT004,2024-01-12,Staff Salaries,Personnel,-35000.00,28800,HR,Yes\nT005,2024-01-15,Marketing Campaign,Marketing,-5000.00,23800,Marketing,Yes\nT006,2024-01-18,Client Payment,Revenue,22000.00,45800,Finance,Yes\nT007,2024-01-20,Equipment Purchase,Capital,-8500.00,37300,Operations,\nT008,2024-01-22,Utilities,Operations,-450.00,36850,Facilities,Yes\nT009,2024-01-25,Consultant Fee,Professional,-3000.00,33850,IT,Yes\nT010,2024-01-28,Revenue,Revenue,,33850,Sales,Yes',
+    ecommerce:'OrderID,CustomerID,ProductName,Category,Price,Quantity,OrderDate,ShipDate,Status\nO001,C101,Laptop Pro,Electronics,1299.99,1,2024-01-10,2024-01-12,Delivered\nO002,C102,Running Shoes,Clothing,89.99,2,2024-01-11,2024-01-14,Delivered\nO003,C103,Desk Chair,Furniture,349.00,1,2024-01-12,,Processing\nO004,C101,Phone Case,Accessories,19.99,3,2024-01-13,2024-01-15,Returned\nO005,C104,Headphones,Electronics,199.99,1,2024-01-14,2024-01-16,Delivered\nO006,C105,T-Shirt,Clothing,,2,2024-01-15,2024-01-17,Delivered\nO007,C106,Monitor,Electronics,399.00,1,2024-01-16,2024-01-19,Shipped\nO008,C102,Yoga Mat,Sports,45.00,1,2024-01-17,2024-01-19,Delivered\nO009,C107,Keyboard,Electronics,129.00,1,2024-01-18,,Cancelled\nO010,C108,Backpack,Accessories,75.00,1,2024-01-19,2024-01-21,Delivered'
+  };
+  var csv=samples[type]||samples.sales;
+  var blob=new Blob([csv],{type:'text/csv'});
+  var f=new File([blob],type+'_sample.csv',{type:'text/csv',size:blob.size});
+  gp('upload',document.getElementById('nb-upload'));
+  setTimeout(function(){processFile(f);},100);
+  toast('Loading '+type+' sample dataset...');
+}
+
+function rfPC(pg){
+  if(!DS.loaded) return;
+  var e=document.getElementById(pg+'-e');
+  var c=document.getElementById(pg+'-c');
+  if(e) e.style.display='none';
+  if(c) c.style.display='';
+  if(pg==='p2'){
+    var html='';
+    if(DS.missingCount>0){
+      var topCol=Object.keys(DS.missingByCol).sort(function(a,b){return DS.missingByCol[b]-DS.missingByCol[a];})[0];
+      html+='<div class="vc"><div class="vc-i">&#128308;</div><div class="vc-b"><div class="vc-t">Missing Values Detected</div><div class="vc-d">'+DS.missingCount.toLocaleString()+' missing values across '+Object.keys(DS.missingByCol).filter(function(h){return DS.missingByCol[h]>0;}).length+' columns. Most affected: '+topCol+' ('+DS.missingByCol[topCol]+' missing).</div><div class="vc-m">Business impact: missing data skews analysis and KPIs</div></div><span class="badge fail">Fix Required</span></div>';
+    }
+    if(DS.duplicateCount>0){
+      html+='<div class="vc"><div class="vc-i">&#128257;</div><div class="vc-b"><div class="vc-t">Duplicate Rows Found</div><div class="vc-d">'+DS.duplicateCount+' duplicate rows inflate counts and distort aggregations.</div><div class="vc-m">Recommend removing before analysis</div></div><span class="badge warn">Review</span></div>';
+    }
+    if(DS.outlierCols.length>0){
+      html+='<div class="vc"><div class="vc-i">&#9888;&#65039;</div><div class="vc-b"><div class="vc-t">Outliers Detected</div><div class="vc-d">Outliers in '+DS.outlierCols.length+' column(s): '+DS.outlierCols.map(function(o){return o.col+' ('+o.count+', '+o.pct+'%)';}).join(', ')+'.</div><div class="vc-m">IQR method used. Review whether to cap or remove.</div></div><span class="badge warn">Review</span></div>';
+    }
+    if(!html) html='<div class="ic2 ok"><div class="ic2-l">Data Quality</div><div class="ic2-t">No major issues detected</div><div class="ic2-b">Run a full scan below for detailed recommendations.</div></div>';
+    document.getElementById('p2-ic').innerHTML=html;
+  }
+  if(pg==='p3'){
+    var vhtml='<div class="cg cg3" style="margin-bottom:12px">';
+    vhtml+='<div class="sc2 gr"><div class="sv gr">'+DS.rowCount.toLocaleString()+'</div><div class="sl">Rows</div></div>';
+    vhtml+='<div class="sc2 '+(DS.missingCount>0?'re':'gr')+'"><div class="sv '+(DS.missingCount>0?'re':'gr')+'">'+DS.missingCount+'</div><div class="sl">Missing</div></div>';
+    vhtml+='<div class="sc2 '+(DS.duplicateCount>0?'go':'gr')+'"><div class="sv '+(DS.duplicateCount>0?'go':'gr')+'">'+DS.duplicateCount+'</div><div class="sl">Duplicates</div></div>';
+    vhtml+='</div>';
+    document.getElementById('p3-vc').innerHTML=vhtml;
+  }
+}
+
+function rfSQL(){
+  if(!DS.loaded) return;
+  document.getElementById('sql-schema').style.display='';
+  document.getElementById('sql-schema-t').textContent=DS.sqlSchema;
+}
+
+function rfChat(){
+  if(DS.loaded){
+    document.getElementById('c-ds-status').textContent=DS.detectedType+' Dataset';
+    document.getElementById('c-ds-status').className='badge pass';
+    document.getElementById('c-ds-cards').style.display='';
+    document.getElementById('c-no-ds').style.display='none';
+    document.getElementById('c-r').textContent=DS.rowCount.toLocaleString();
+    document.getElementById('c-c').textContent=DS.colCount;
+    document.getElementById('c-sc').textContent=DS.qualityScore+'/100';
+    document.getElementById('c-tp').textContent=DS.detectedType;
+  }
+}
+
+var phPrompts={
+  '1':function(t){return 'Phase 1 Dataset Understanding. Task: '+t+'. Provide: SUMMARY (dataset type and purpose), COLUMN ANALYSIS (business meaning of each column), DATA QUALITY (score and issues found), TOP 3 RISKS (that could affect analysis), 5 BUSINESS QUESTIONS (this data can answer), NEXT STEPS (prioritised actions). Use actual column names.';},
+  '2':function(t){return 'Phase 2 Data Cleaning using '+curTool+'. Task: '+t+'. For each issue: PROBLEM (what it is), COLUMN (which column), RECORDS AFFECTED (count), BUSINESS IMPACT (why it matters), '+curTool+' SOLUTION (exact code/formula), WHY FIX (consequence if ignored). Be specific with column names.';},
+  '3':function(t){return 'Phase 3 Data Validation. Task: '+t+'. For each check: CHECK NAME, COLUMN, RULE (what should be true), STATUS (PASS/WARN/FAIL), RECORDS AFFECTED, RECOMMENDATION, BUSINESS RISK. Give an overall data reliability score.';},
+  '4':function(t){return 'Phase 4 EDA. Task: '+t+'. Provide: DISTRIBUTION (stats for numeric columns), CORRELATIONS (in plain business language), OUTLIERS (anomalies and meaning), TRENDS (patterns found), TOP 5 BUSINESS INSIGHTS (plain language), CHART RECOMMENDATIONS. Translate all stats into business language.';},
+  '5':function(t){return 'Phase 5 KPI Analysis. Task: '+t+'. For each KPI: NAME, CATEGORY (Critical/Growth/Risk/Operational), BUSINESS MEANING, FORMULA, EXCEL FORMULA (with actual column names), DAX MEASURE, SQL QUERY, TARGET/BENCHMARK, RECOMMENDED VISUAL. Only include KPIs calculable from available columns.';},
+  '6':function(t){return 'Phase 6 Root Cause Analysis. Task: '+t+'. Provide: PROBLEM STATEMENT, SYMPTOMS FROM DATA (specific numbers), 5 WHYS CHAIN (step by step), FISHBONE (People/Process/Data/Technology), PARETO (top 20% causes), EVIDENCE FROM DATASET, ACTION PLAN (prioritised), PRIORITY LEVEL.';}
+};
+
+async function rph(num,task){
+  var outId='p'+num+'o';
+  setOut(outId,'','AI is analysing your '+DS.detectedType+' dataset...');
+  try{
+    var prompt=DS.loaded?phPrompts[num](task):'Perform Phase '+num+' analysis: '+task;
+    var result=await callAI(prompt);
+    setOut(outId,fmtOut(result));
+    DONE['p'+num]=true; updProg(); updMem(); addDD('nb-p'+num);
+  }catch(e){setOut(outId,'<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+function rphc(num,inId,outId){
+  var q=document.getElementById(inId).value.trim();
+  if(!q){toast('Please enter a question or select a chip above');return;}
+  setOut(outId,'','Analysing...');
+  var prompt=DS.loaded?phPrompts[num](q):'Phase '+num+' analysis: '+q;
+  callAI(prompt).then(function(r){setOut(outId,fmtOut(r));DONE['p'+num]=true;updProg();updMem();addDD('nb-p'+num);}).catch(function(e){setOut(outId,'<div style="color:var(--re)">Error: '+e.message+'</div>');});
+}
+
+async function rSQL(task){
+  if(!task||!task.trim()){toast('Enter a SQL request');return;}
+  setOut('sqlout','','Generating '+curDialect+' SQL...');
+  var prompt='Generate '+curDialect+' SQL for: '+task+'. Provide: 1.SQL query with comments 2.Plain English explanation 3.Expected output 4.Performance tips 5.Python pandas equivalent. Use column names from schema.';
+  try{var r=await callAI(prompt);setOut('sqlout',fmtOut(r));addDD('nb-sql');}
+  catch(e){setOut('sqlout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+async function rExcel(task){
+  if(!task||!task.trim()){toast('Enter an Excel request');return;}
+  setOut('exout','','Generating Excel solution...');
+  var prompt='Excel solution for: '+task+(DS.loaded?' Dataset columns: '+DS.headers.slice(0,20).join(', '):'')+'. For each formula: 1.Exact formula with column names 2.Plain English explanation 3.Example output 4.Common errors and fixes 5.Alternative approaches.';
+  try{var r=await callAI(prompt);setOut('exout',fmtOut(r));}
+  catch(e){setOut('exout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+async function rPython(task){
+  if(!task||!task.trim()){toast('Enter a Python request');return;}
+  setOut('pyout','','Generating Python code...');
+  var prompt='Python code for: '+task+(DS.loaded?' Columns: '+DS.headers.slice(0,20).join(', '):'')+'. Provide: 1.Complete runnable code with comments on every line 2.Step by step explanation 3.Expected output 4.Common errors and fixes 5.How to extend it.';
+  try{var r=await callAI(prompt);setOut('pyout',fmtOut(r));}
+  catch(e){setOut('pyout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+async function rPBI(task){
+  if(!task||!task.trim()){toast('Enter a Power BI request');return;}
+  setOut('pbiout','','Generating Power BI solution...');
+  var prompt='Power BI solution for: '+task+(DS.loaded?' Columns: '+DS.headers.slice(0,20).join(', '):'')+'. Include: 1.DAX measures with explanation 2.Recommended visual 3.Power Query M steps 4.Dashboard layout 5.Star schema suggestion.';
+  try{var r=await callAI(prompt);setOut('pbiout',fmtOut(r));}
+  catch(e){setOut('pbiout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+async function rStats(task){
+  if(!task||!task.trim()){toast('Enter a statistics question');return;}
+  setOut('stout','','Explaining...');
+  var prompt='Statistics topic: '+task+'. Structure: SIMPLE ENGLISH (everyday meaning), TECHNICAL (how it works), WHEN TO USE (business scenarios), FORMULA (with component explanation), PYTHON CODE (with comments), EXCEL METHOD, BUSINESS INTERPRETATION, COMMON MISTAKES.';
+  try{var r=await callAI(prompt);setOut('stout',fmtOut(r));}
+  catch(e){setOut('stout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+async function rReport(){
+  var extra=document.getElementById('repq').value.trim();
+  setOut('repout','','Writing '+curTone+' '+curRepTab+'...');
+  document.getElementById('rep-ex').style.display='none';
+  var ctx=DS.loaded?' Dataset: '+DS.filename+' Type: '+DS.detectedType+' Rows: '+DS.rowCount+' Cols: '+DS.colCount+' Quality: '+DS.qualityScore+'/100 Missing: '+DS.missingCount+'.':('. No dataset loaded - write a general template.');
+  var prompt='Write a professional '+curTone+' tone '+curRepTab+'.'+ctx+(extra?' Additional instructions: '+extra:'')+' Structure: TITLE, OBJECTIVE, DATASET OVERVIEW, DATA QUALITY, KEY FINDINGS, KPIs AND METRICS, VISUAL RECOMMENDATIONS, RISKS, STRATEGIC RECOMMENDATIONS, LIMITATIONS, NEXT STEPS. Be specific and actionable.';
+  try{
+    var r=await callAI(prompt);
+    setOut('repout',fmtOut(r));
+    document.getElementById('rep-ex').style.display='flex';
+    DONE.report=true; updProg(); updMem(); addDD('nb-report');
+  }catch(e){setOut('repout','<div style="color:var(--re)">Error: '+e.message+'</div>');}
+}
+
+function cpRep(){navigator.clipboard.writeText(document.getElementById('repout').innerText);toast('Report copied!');}
+function dlRep(fmt){
+  var text=document.getElementById('repout').innerText;
+  var blob=new Blob([text],{type:'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='DataMind_Report.'+(fmt==='md'?'md':'txt'); a.click();
+}
+
+function ckk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function cq(q){document.getElementById('cin').value=q;sendChat();}
+
+async function sendChat(){
+  var inp=document.getElementById('cin');
+  var msg=inp.value.trim(); if(!msg) return;
+  inp.value=''; document.getElementById('cbtn').disabled=true;
+  addMsg(msg,'user'); chatH.push({role:'user',content:msg});
+  var tid=addMsg('','ai',true);
+  try{
+    var res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:buildSys(),messages:chatH.slice(-12)})});
+    if(!res.ok) throw new Error('Server error '+res.status);
+    var data=await res.json();
+    var reply=data.content[0].text;
+    chatH.push({role:'assistant',content:reply}); updMsg(tid,reply);
+  }catch(e){updMsg(tid,'Error: '+e.message);}
+  document.getElementById('cbtn').disabled=false;
+}
+
+var mid=0;
+function addMsg(text,role,typing){
+  var id='m'+(++mid);
+  var msgs=document.getElementById('cmsgs');
+  var div=document.createElement('div'); div.className='msg '+role; div.id=id;
+  div.innerHTML='<div class="mav">'+(role==='ai'?'AI':'You')+'</div><div class="mbbl">'+(typing?'<div class="ldi"><div class="sp"></div>Thinking...</div>':fmtOut(text))+'</div>';
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return id;
+}
+function updMsg(id,text){var el=document.getElementById(id);if(el)el.querySelector('.mbbl').innerHTML=fmtOut(text);var m=document.getElementById('cmsgs');if(m)m.scrollTop=m.scrollHeight;}
+function clearChat(){chatH=[];document.getElementById('cmsgs').innerHTML='<div class="msg ai"><div class="mav">AI</div><div class="mbbl">Chat cleared! '+(DS.loaded?'Your '+DS.detectedType+' dataset ('+DS.rowCount+' rows) is still loaded.':'Upload a dataset to enable full context.')+'</div></div>';}
+
+function setRole(role,el){curRole=role;document.querySelectorAll('.rc').forEach(function(c){c.classList.remove('on');});if(el)el.classList.add('on');toast('Role: '+role);}
+function setSQLd(d,btn){curDialect=d;document.querySelectorAll('.db').forEach(function(b){b.classList.remove('on');});if(btn)btn.classList.add('on');}
+function setTab(tid,idx,lbl){document.getElementById(tid).querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===idx);});if(tid==='p2t')curTool=lbl;if(tid==='rept')curRepTab=lbl;}
+function setTone(tone,el){curTone=tone;document.querySelectorAll('#tone-chips .chip').forEach(function(c){c.classList.remove('on');});if(el)el.classList.add('on');}
+
+function updProg(){
+  var phases=['upload','p1','p2','p3','p4','p5','p6','report'];
+  var count=phases.filter(function(p){return DONE[p];}).length;
+  document.getElementById('prog-pct').textContent=Math.round(count/phases.length*100);
+  phases.forEach(function(p){
+    var ps=document.getElementById('ps-'+p);
+    if(ps) ps.className='pb-step'+(DONE[p]?' done':'');
+    var dot=document.getElementById('pd-'+p);
+    var lbl=document.getElementById('pl-'+p);
+    if(dot){dot.classList.toggle('done',DONE[p]);dot.classList.toggle('cur',!DONE[p]&&p===phases.find(function(x){return !DONE[x];}));}
+    if(lbl){lbl.classList.toggle('done',DONE[p]);lbl.classList.toggle('cur',!DONE[p]&&p===phases.find(function(x){return !DONE[x];}));}
+    var line=document.getElementById('pl-line-'+p);
+    if(line) line.classList.toggle('done',DONE[p]);
+  });
+}
+
+function addDD(nbId){var nb=document.getElementById(nbId);if(!nb||nb.querySelector('.dd'))return;var d=document.createElement('div');d.className='dd';nb.appendChild(d);}
+function updMem(){['upload','p1','p2','p3','p4','p5','p6','report'].forEach(function(k){var el=document.getElementById('mem-'+k);if(el)el.classList.toggle('done',DONE[k]);});}
+function clearAll(){DS.loaded=false;DS.filename='';DS.rows=[];DS.headers=[];Object.keys(DONE).forEach(function(k){DONE[k]=false;});chatH=[];updProg();updMem();toast('All data cleared');}
+function toast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+</script>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logo-t"><div class="ld"></div>Data<span>Mind</span> AI</div><div class="logo-s">Professional Analytics Platform v2</div></div>
+  <div class="dsb" id="dsb">
+    <div class="dsb-l" id="dsb-l">No Dataset Loaded</div>
+    <div class="dsb-n" id="dsb-n">Upload a dataset to begin</div>
+    <div class="dsb-m" id="dsb-m"><div class="dsb-mi">Rows: <b id="sb-r">--</b></div><div class="dsb-mi">Cols: <b id="sb-c">--</b></div><div class="dsb-mi">Missing: <b id="sb-ms">--</b></div><div class="dsb-mi">Type: <b id="sb-tp">--</b></div></div>
+    <div class="dsb-sc" id="dsb-sc"><div class="sc-bar"><div class="sc-fill" id="sc-f" style="width:0%"></div></div><div class="sc-t" id="sc-t">0%</div></div>
+  </div>
+  <nav class="nav">
+    <span class="nl">Home</span>
+    <button class="nb on" id="nb-home" onclick="gp('home',this)"><span class="ic">&#127968;</span>Dashboard</button>
+    <button class="nb" id="nb-upload" onclick="gp('upload',this)"><span class="ic">&#128228;</span>Upload Dataset</button>
+    <button class="nb" id="nb-chat" onclick="gp('chat',this)"><span class="ic">&#129302;</span>AI Chat Analyst</button>
+    <span class="nl" style="margin-top:5px">Analysis Phases</span>
+    <button class="nb" id="nb-p1" onclick="gp('p1',this)"><span class="ic">&#128269;</span>Phase 1 Understand</button>
+    <button class="nb" id="nb-p2" onclick="gp('p2',this)"><span class="ic">&#129529;</span>Phase 2 Clean</button>
+    <button class="nb" id="nb-p3" onclick="gp('p3',this)"><span class="ic">&#9989;</span>Phase 3 Validate</button>
+    <button class="nb" id="nb-p4" onclick="gp('p4',this)"><span class="ic">&#128202;</span>Phase 4 EDA</button>
+    <button class="nb" id="nb-p5" onclick="gp('p5',this)"><span class="ic">&#128200;</span>Phase 5 KPIs</button>
+    <button class="nb" id="nb-p6" onclick="gp('p6',this)"><span class="ic">&#127919;</span>Phase 6 Root Cause</button>
+    <span class="nl" style="margin-top:5px">Tools</span>
+    <button class="nb" id="nb-sql" onclick="gp('sql',this)"><span class="ic">&#128451;</span>SQL Engine</button>
+    <button class="nb" id="nb-excel" onclick="gp('excel',this)"><span class="ic">&#128209;</span>Excel Mode</button>
+    <button class="nb" id="nb-python" onclick="gp('python',this)"><span class="ic">&#128013;</span>Python Mode</button>
+    <button class="nb" id="nb-pbi" onclick="gp('pbi',this)"><span class="ic">&#9889;</span>Power BI Mode</button>
+    <button class="nb" id="nb-stats" onclick="gp('stats',this)"><span class="ic">&#128208;</span>Statistics</button>
+    <button class="nb" id="nb-report" onclick="gp('report',this)"><span class="ic">&#128221;</span>Report Writer</button>
+  </nav>
+  <div class="sfoot">
+    <div class="pbar">
+      <div class="pb-steps"><div class="pb-step" id="ps-upload"></div><div class="pb-step" id="ps-p1"></div><div class="pb-step" id="ps-p2"></div><div class="pb-step" id="ps-p3"></div><div class="pb-step" id="ps-p4"></div><div class="pb-step" id="ps-p5"></div><div class="pb-step" id="ps-p6"></div><div class="pb-step" id="ps-report"></div></div>
+      <div class="pb-txt">Progress: <b id="prog-pct">0</b>% complete</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div><div class="tb-t" id="tb-t">Dashboard</div><div class="tb-s" id="tb-s">Welcome to DataMind AI</div></div>
+    <div class="tb-r">
+      <button class="tbb" onclick="clearAll()">Clear</button>
+      <button class="tbb" onclick="gp('upload',document.getElementById('nb-upload'))">Upload</button>
+      <button class="tbb pr" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Workflow</div></div>
+        <div class="pb2">
+          <div class="pt-wrap">
+            <div class="pt-node"><div class="pt-dot cur" id="pd-upload" onclick="gp('upload',document.getElementById('nb-upload'))">&#128228;</div><div class="pt-lbl cur" id="pl-upload">Upload</div></div>
+            <div class="pt-line" id="pl-line-upload"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p1" onclick="gp('p1',document.getElementById('nb-p1'))">1</div><div class="pt-lbl" id="pl-p1">Understand</div></div>
+            <div class="pt-line" id="pl-line-p1"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p2" onclick="gp('p2',document.getElementById('nb-p2'))">2</div><div class="pt-lbl" id="pl-p2">Clean</div></div>
+            <div class="pt-line" id="pl-line-p2"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p3" onclick="gp('p3',document.getElementById('nb-p3'))">3</div><div class="pt-lbl" id="pl-p3">Validate</div></div>
+            <div class="pt-line" id="pl-line-p3"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p4" onclick="gp('p4',document.getElementById('nb-p4'))">4</div><div class="pt-lbl" id="pl-p4">EDA</div></div>
+            <div class="pt-line" id="pl-line-p4"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p5" onclick="gp('p5',document.getElementById('nb-p5'))">5</div><div class="pt-lbl" id="pl-p5">KPIs</div></div>
+            <div class="pt-line" id="pl-line-p5"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p6" onclick="gp('p6',document.getElementById('nb-p6'))">6</div><div class="pt-lbl" id="pl-p6">Root Cause</div></div>
+            <div class="pt-line" id="pl-line-p6"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-report" onclick="gp('report',document.getElementById('nb-report'))">&#128221;</div><div class="pt-lbl" id="pl-report">Report</div></div>
+          </div>
+          <div class="pnb" onclick="gp('upload',document.getElementById('nb-upload'))" style="margin-top:8px">
+            <div class="pnb-l"><div class="pnb-t">Get Started -- Upload Your Dataset</div><div class="pnb-s">Upload once and all phases use your data automatically</div></div>
+            <div class="pnb-a">&#8594;</div>
+          </div>
+        </div>
+      </div>
+      <div class="cg cg4">
+        <div class="sc2"><div class="sv" id="h-r">--</div><div class="sl">Rows</div><div class="ss" id="h-rs">No dataset</div></div>
+        <div class="sc2"><div class="sv" id="h-c">--</div><div class="sl">Columns</div><div class="ss" id="h-cs">Upload a file</div></div>
+        <div class="sc2 re"><div class="sv re" id="h-m">--</div><div class="sl">Missing Values</div><div class="ss" id="h-ms">Quality check</div></div>
+        <div class="sc2 go"><div class="sv go" id="h-sc">--</div><div class="sl">Quality Score</div><div class="ss" id="h-scs">Out of 100</div></div>
+      </div>
+      <div class="panel" id="ai-imp" style="display:none">
+        <div class="ph"><div class="pt">AI First Impression</div><span class="badge info">Auto-detected</span></div>
+        <div class="pb2">
+          <div class="ic2 ok" style="margin-bottom:11px"><div class="ic2-l">Dataset Intelligence</div><div class="ic2-b" id="ai-imp-t">Analysing...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Analysis &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Quick Actions</div></div>
+        <div class="pb2">
+          <div class="cg cg4">
+            <div class="smb" onclick="gp('upload',document.getElementById('nb-upload'))"><div class="sm-i">&#128228;</div><div class="sm-n">Upload Dataset</div><div class="sm-d">CSV, JSON, TSV</div></div>
+            <div class="smb" onclick="gp('chat',document.getElementById('nb-chat'))"><div class="sm-i">&#129302;</div><div class="sm-n">Ask AI Analyst</div><div class="sm-d">Chat with your data</div></div>
+            <div class="smb" onclick="gp('report',document.getElementById('nb-report'))"><div class="sm-i">&#128221;</div><div class="sm-n">Generate Report</div><div class="sm-d">Executive or technical</div></div>
+            <div class="smb" onclick="gp('sql',document.getElementById('nb-sql'))"><div class="sm-i">&#128451;</div><div class="sm-n">SQL Engine</div><div class="sm-d">Query your data</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="page" id="page-upload">
+      <div class="panel">
+        <div class="ph"><div class="pt">Upload Dataset</div><span class="badge info">Step 1 of 8</span></div>
+        <div class="pb2">
+          <div class="pn"><span>&#128274;</span> Files processed securely. Not stored permanently. Your data stays private.</div>
+          <div class="uz" id="upZ" ondragover="odv(event)" ondragleave="odl()" ondrop="odr(event)" onclick="document.getElementById('fi').click()">
+            <div id="up-idle"><div class="uz-i">&#128202;</div><div class="uz-t">Drop your dataset here or click to browse</div><div class="uz-s">DataMind AI auto-analyses your data, detects types and suggests insights</div><div class="uz-f"><span class="fmt">CSV</span><span class="fmt">JSON</span><span class="fmt">TSV</span><span class="fmt">TXT</span></div></div>
+            <div class="up-st" id="up-ld"><div class="up-sp"></div><div class="up-lbl" id="up-lbl">Reading file...</div><div class="up-p"><div class="up-pf" id="up-pf" style="width:0%"></div></div></div>
+          </div>
+          <input type="file" id="fi" accept=".csv,.json,.tsv,.txt" style="display:none" onchange="handleUpload(event)"/>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Try Sample Datasets</div></div>
+        <div class="pb2">
+          <div class="smg">
+            <div class="smb" onclick="loadSample('sales')"><div class="sm-i">&#128184;</div><div class="sm-n">Sales Dataset</div><div class="sm-d">Revenue, customers, products</div></div>
+            <div class="smb" onclick="loadSample('hr')"><div class="sm-i">&#128101;</div><div class="sm-n">HR Dataset</div><div class="sm-d">Employees, salaries, turnover</div></div>
+            <div class="smb" onclick="loadSample('healthcare')"><div class="sm-i">&#127973;</div><div class="sm-n">Healthcare Dataset</div><div class="sm-d">Patients, outcomes, wait times</div></div>
+            <div class="smb" onclick="loadSample('marketing')"><div class="sm-i">&#128293;</div><div class="sm-n">Marketing Dataset</div><div class="sm-d">Campaigns, conversions, ROI</div></div>
+            <div class="smb" onclick="loadSample('finance')"><div class="sm-i">&#128176;</div><div class="sm-n">Finance Dataset</div><div class="sm-d">Transactions, budgets, profit</div></div>
+            <div class="smb" onclick="loadSample('ecommerce')"><div class="sm-i">&#128722;</div><div class="sm-n">E-Commerce Dataset</div><div class="sm-d">Orders, returns, customers</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="up-summary" style="display:none">
+        <div class="ph"><div class="pt">Dataset Processed</div><span class="badge pass">Ready</span></div>
+        <div class="pb2">
+          <div class="cg cg4" style="margin-bottom:12px">
+            <div class="sc2 gr"><div class="sv gr" id="us-r">--</div><div class="sl">Total Rows</div></div>
+            <div class="sc2 ac"><div class="sv" id="us-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc2 re"><div class="sv re" id="us-m">--</div><div class="sl">Missing Values</div></div>
+            <div class="sc2 go"><div class="sv go" id="us-sc">--</div><div class="sl">Quality Score</div></div>
+          </div>
+          <div class="cg cg3" style="margin-bottom:12px">
+            <div class="ic2 ok"><div class="ic2-l">Dataset Type</div><div class="ic2-t" id="us-tp">--</div><div class="ic2-b" id="us-conf"></div></div>
+            <div class="ic2"><div class="ic2-l">File Info</div><div class="ic2-t" id="us-fn">--</div><div class="ic2-b" id="us-fs"></div></div>
+            <div class="ic2 w"><div class="ic2-l">Duplicates</div><div class="ic2-t" id="us-dp">--</div><div class="ic2-b" id="us-dpd"></div></div>
+          </div>
+          <div class="panel" style="margin-bottom:11px"><div class="ph"><div class="pt">Column Overview</div></div><div class="pb2"><div id="col-ov" class="tbl-wrap"></div></div></div>
+          <div class="ic2 ok" style="margin-bottom:11px"><div class="ic2-l">AI First Impression</div><div class="ic2-b" id="us-ai">Analysing...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Understanding &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="page" id="page-chat">
+      <div class="panel">
+        <div class="ph"><div class="pt">AI Chat Analyst</div><div id="c-ds-status" class="badge info">No Dataset</div></div>
+        <div class="pb2" style="padding-top:10px;padding-bottom:10px">
+          <div id="c-ds-cards" class="cg cg4" style="display:none">
+            <div class="sc2"><div class="sv" id="c-r">--</div><div class="sl">Rows</div></div>
+            <div class="sc2"><div class="sv" id="c-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc2 go"><div class="sv go" id="c-sc">--</div><div class="sl">Quality</div></div>
+            <div class="sc2 gr"><div class="sv gr" style="font-size:13px" id="c-tp">--</div><div class="sl">Type</div></div>
+          </div>
+          <div id="c-no-ds" style="font-size:11px;color:var(--tx3)">Upload a dataset to enable full AI context. Every answer will reference your actual data and column names.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Role and Mode</div></div>
+        <div class="pb2" style="padding-bottom:10px">
+          <div class="rg">
+            <div class="rc on" onclick="setRole('Data Analyst',this)"><div class="rc-i">&#128202;</div><div class="rc-n">Data Analyst</div></div>
+            <div class="rc" onclick="setRole('SQL Expert',this)"><div class="rc-i">&#128451;</div><div class="rc-n">SQL Expert</div></div>
+            <div class="rc" onclick="setRole('Power BI Consultant',this)"><div class="rc-i">&#9889;</div><div class="rc-n">Power BI</div></div>
+            <div class="rc" onclick="setRole('Statistician',this)"><div class="rc-i">&#128208;</div><div class="rc-n">Statistician</div></div>
+            <div class="rc" onclick="setRole('Business Analyst',this)"><div class="rc-i">&#128188;</div><div class="rc-n">Business</div></div>
+            <div class="rc" onclick="setRole('Executive Advisor',this)"><div class="rc-i">&#127970;</div><div class="rc-n">Executive</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Conversation</div><button class="tbb" onclick="clearChat()">Clear</button></div>
+        <div class="pb2" style="display:flex;flex-direction:column;gap:10px">
+          <div class="chips">
+            <button class="chip" onclick="cq('Analyse all missing values and suggest fixes for each column')">Analyse missing values</button>
+            <button class="chip" onclick="cq('Suggest the most relevant KPIs for this dataset with formulas')">Suggest KPIs</button>
+            <button class="chip" onclick="cq('Generate SQL CREATE TABLE and analysis queries')">Generate SQL</button>
+            <button class="chip" onclick="cq('Write complete Python pandas code to analyse this dataset')">Python code</button>
+            <button class="chip" onclick="cq('Design a Power BI dashboard with DAX measures')">Power BI dashboard</button>
+            <button class="chip" onclick="cq('Find all anomalies and outliers using IQR method')">Find anomalies</button>
+            <button class="chip" onclick="cq('Explain key business insights in plain language')">Business insights</button>
+            <button class="chip" onclick="cq('Write a professional executive report summary')">Executive report</button>
+          </div>
+          <div class="msgs" id="cmsgs">
+            <div class="msg ai"><div class="mav">AI</div><div class="mbbl">Hello! I am DataMind AI.<br><br>&#128228; <strong>Upload a dataset</strong> and I will use your actual data in every answer.<br>&#127775; <strong>Switch roles</strong> above for SQL, Power BI, statistics or executive mode.<br><br>What would you like to analyse?</div></div>
+          </div>
+          <div class="qrow">
+            <textarea class="qin" id="cin" placeholder="Ask anything about your data..." rows="2" onkeydown="ckk(event)" style="min-height:42px"></textarea>
+            <button class="rbtn" id="cbtn" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Memory</div></div>
+        <div class="pb2">
+          <div class="mi" id="mem-upload"><div class="dot"></div>Dataset uploaded</div>
+          <div class="mi" id="mem-p1"><div class="dot"></div>Phase 1: Understanding complete</div>
+          <div class="mi" id="mem-p2"><div class="dot"></div>Phase 2: Cleaning complete</div>
+          <div class="mi" id="mem-p3"><div class="dot"></div>Phase 3: Validation complete</div>
+          <div class="mi" id="mem-p4"><div class="dot"></div>Phase 4: EDA complete</div>
+          <div class="mi" id="mem-p5"><div class="dot"></div>Phase 5: KPIs generated</div>
+          <div class="mi" id="mem-p6"><div class="dot"></div>Phase 6: Root causes identified</div>
+          <div class="mi" id="mem-report"><div class="dot"></div>Report generated</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="page" id="page-p1">
+      <div class="panel"><div class="ph"><div class="pt">Phase 1: Dataset Understanding</div><span class="badge info">Step 2 of 8</span></div><div class="pb2">
+        <div id="p1-e" class="oa empty"><div class="ei">&#128228;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p1-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('1','full dataset understanding with column meanings and data types')">Full Understanding</button>
+            <button class="chip" onclick="rph('1','business meaning of each column and potential use cases')">Column Meanings</button>
+            <button class="chip" onclick="rph('1','data quality risks and issues that could affect analysis')">Quality Risks</button>
+            <button class="chip" onclick="rph('1','5 important business questions this dataset can answer')">Suggested Questions</button>
+            <button class="chip" onclick="rph('1','recommended cleaning and preparation steps')">Cleaning Steps</button>
+            <button class="chip" onclick="rph('1','detect dataset type with confidence score')">Detect Type</button>
+          </div>
+          <div class="qrow" style="margin-bottom:11px"><textarea class="qin" id="p1q" placeholder="Ask anything about understanding this dataset..." rows="2"></textarea><button class="rbtn" onclick="rphc('1','p1q','p1o')">Analyse</button></div>
+          <div id="p1o" class="oa empty"><div class="ei">&#128269;</div><div>Select a chip or ask a question above</div></div>
+          <div class="pnb" onclick="gp('p2',document.getElementById('nb-p2'))"><div class="pnb-l"><div class="pnb-t">Phase 2: Clean Data</div><div class="pnb-s">Fix missing values, duplicates and formatting</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="page" id="page-p2">
+      <div class="panel"><div class="ph"><div class="pt">Phase 2: Data Cleaning</div><span class="badge warn">Step 3 of 8</span></div><div class="pb2">
+        <div id="p2-e" class="oa empty"><div class="ei">&#129529;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p2-c" style="display:none">
+          <div id="p2-ic" style="margin-bottom:11px"></div>
+          <div class="tabs" id="p2t"><button class="tab on" onclick="setTab('p2t',0,'Excel')">Excel</button><button class="tab" onclick="setTab('p2t',1,'SQL')">SQL</button><button class="tab" onclick="setTab('p2t',2,'Python')">Python</button><button class="tab" onclick="setTab('p2t',3,'Power Query')">Power Query</button></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('2','scan all data quality issues with severity ratings')">Scan All Issues</button>
+            <button class="chip" onclick="rph('2','fix all missing values with appropriate methods per column')">Fix Missing Values</button>
+            <button class="chip" onclick="rph('2','identify and remove all duplicate records')">Remove Duplicates</button>
+            <button class="chip" onclick="rph('2','fix formatting inconsistencies and standardise text')">Fix Formatting</button>
+            <button class="chip" onclick="rph('2','detect and handle outliers using IQR method')">Handle Outliers</button>
+            <button class="chip" onclick="rph('2','complete step-by-step data cleaning plan')">Full Cleaning Plan</button>
+          </div>
+          <div class="qrow" style="margin:9px 0"><textarea class="qin" id="p2q" placeholder="Describe a specific cleaning task..." rows="2"></textarea><button class="rbtn" onclick="rphc('2','p2q','p2o')">Get Solution</button></div>
+          <div id="p2o" class="oa empty"><div class="ei">&#129529;</div><div>Select a chip or describe a cleaning task</div></div>
+          <div class="pnb" onclick="gp('p3',document.getElementById('nb-p3'))"><div class="pnb-l"><div class="pnb-t">Phase 3: Validate Data</div><div class="pnb-s">Check reliability, rules and completeness</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="page" id="page-p3">
+      <div class="panel"><div class="ph"><div class="pt">Phase 3: Data Validation</div><span class="badge info">Step 4 of 8</span></div><div class="pb2">
+        <div id="p3-e" class="oa empty"><div class="ei">&#9989;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p3-c" style="display:none">
+          <div id="p3-vc" style="margin-bottom:11px"></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('3','run all validation checks with pass fail and severity')">Run All Checks</button>
+            <button class="chip" onclick="rph('3','check for duplicate ID values in key columns')">Duplicate IDs</button>
+            <button class="chip" onclick="rph('3','validate all date columns for correct format')">Validate Dates</button>
+            <button class="chip" onclick="rph('3','check for negative values where inappropriate')">Negative Values</button>
+            <button class="chip" onclick="rph('3','check required columns have no empty values')">Required Columns</button>
+            <button class="chip" onclick="rph('3','anomaly detection using statistical methods')">Anomaly Detection</button>
+          </div>
+          <div class="qrow" style="margin:9px 0"><textarea class="qin" id="p3q" placeholder="Add a custom validation rule..." rows="2"></textarea><button class="rbtn" onclick="rphc('3','p3q','p3o')">Validate</button></div>
+          <div id="p3o" class="oa empty"><div class="ei">&#9989;</div><div>Select a validation check above</div></div>
+          <div class="pnb" onclick="gp('p4',document.getElementById('nb-p4'))"><div class="pnb-l"><div class="pnb-t">Phase 4: EDA</div><div class="pnb-s">Explore patterns, trends and relationships</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="page" id="page-p4">
+      <div class="panel"><div class="ph"><div class="pt">Phase 4: Exploratory Data Analysis</div><span class="badge info">Step 5 of 8</span></div><div class="pb2">
+        <div id="p4-e" class="oa empty"><div class="ei">&#128202;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p4-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('4','distribution analysis for all numeric columns with business insight')">Distribution Analysis</button>
+            <button class="chip" onclick="rph('4','correlation analysis between columns with business interpretation')">Correlation Analysis</button>
+            <button class="chip" onclick="rph('4','outlier detection using IQR with business impact')">Outlier Detection</button>
+            <button class="chip" onclick="rph('4','trend analysis for time-based patterns')">Trend Analysis</button>
+            <button class="chip" onclick="rph('4','categorical column frequency analysis')">Categorical Analysis</button>
+            <button class="chip" onclick="rph('4','full EDA with top 5 business insights in plain language')">Full EDA + Insights</button>
+          </div>
+          <div class="qrow" style="margin:9px 0"><textarea class="qin" id="p4q" placeholder="Ask an EDA question..." rows="2"></textarea><button class="rbtn" onclick="rphc('4','p4q','p4o')">Analyse</button></div>
+          <div id="p4o" class="oa empty"><div class="ei">&#128202;</div><div>Select an analysis type above</div></div>
+          <div class="pnb" onclick="gp('p5',document.getElementById('nb-p5'))"><div class="pnb-l"><div class="pnb-t">Phase 5: KPI Analysis</div><div class="pnb-s">Generate performance metrics and business indicators</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="page" id="page-p5">
+      <div class="panel"><div class="ph"><div class="pt">Phase 5: KPI Analysis</div><span class="badge info">Step 6 of 8</span></div><div class="pb2">
+        <div id="p5-e" class="oa empty"><div class="ei">&#128200;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p5-c" style="display:none">
+          <div class="chips" style="margin-bottom:5px">
+            <button class="chip" onclick="rph('5','Sales KPIs with Excel formulas DAX and SQL')">Sales</button>
+            <button class="chip" onclick="rph('5','Healthcare KPIs including wait time and readmission')">Healthcare</button>
+            <button class="chip" onclick="rph('5','Finance KPIs including profit margin and cost ratios')">Finance</button>
+            <button class="chip" onclick="rph('5','HR KPIs including turnover rate and absenteeism')">HR</button>
+            <button class="chip" onclick="rph('5','E-Commerce KPIs including conversion and return rates')">E-Commerce</button>
+            <button class="chip" onclick="rph('5','Marketing KPIs including ROI and conversion rate')">Marketing</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('5','auto-detect best KPIs from this specific dataset')">Auto-Detect KPIs</button>
+            <button class="chip" onclick="rph('5','critical KPIs needing immediate attention')">Critical KPIs</button>
+            <button class="chip" onclick="rph('5','executive dashboard KPI layout recommendation')">Executive KPIs</button>
+            <button class="chip" onclick="rph('5','all KPIs with DAX SQL and Excel formulas')">Full KPI Pack</button>
+          </div>
+          <div class="qrow" style="margin:9px 0"><textarea class="qin" id="p5q" placeholder="Ask about specific KPIs..." rows="2"></textarea><button class="rbtn" onclick="rphc('5','p5q','p5o')">Generate KPIs</button></div>
+          <div id="p5o" class="oa empty"><div class="ei">&#128200;</div><div>Select an industry or ask for KPIs</div></div>
+          <div class="pnb" onclick="gp('p6',document.getElementById('nb-p6'))"><div class="pnb-l"><div class="pnb-t">Phase 6: Root Cause Analysis</div><div class="pnb-s">Investigate why trends occurred</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="page" id="page-p6">
+      <div class="panel"><div class="ph"><div class="pt">Phase 6: Root Cause Analysis</div><span class="badge info">Step 7 of 8</span></div><div class="pb2">
+        <div id="p6-e" class="oa empty"><div class="ei">&#127919;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p6-c" style="display:none">
+          <div class="chips" style="margin-bottom:5px">
+            <button class="chip" onclick="rph('6','investigate: Sales dropped unexpectedly')">Sales dropped</button>
+            <button class="chip" onclick="rph('6','investigate: Customer churn increased')">Customer churn</button>
+            <button class="chip" onclick="rph('6','investigate: Low conversion rate')">Low conversion</button>
+            <button class="chip" onclick="rph('6','investigate: High employee turnover')">Employee turnover</button>
+            <button class="chip" onclick="rph('6','investigate: High operational costs')">High costs</button>
+            <button class="chip" onclick="rph('6','investigate: Low productivity')">Low productivity</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('6','5 Whys analysis chain')">5 Whys</button>
+            <button class="chip" onclick="rph('6','Pareto 80/20 analysis to identify top causes')">Pareto Analysis</button>
+            <button class="chip" onclick="rph('6','Fishbone Ishikawa diagram analysis')">Fishbone</button>
+            <button class="chip" onclick="rph('6','full root cause investigation with action plan')">Full Investigation</button>
+          </div>
+          <div class="qrow" style="margin:9px 0"><textarea class="qin" id="p6q" placeholder="Describe the problem to investigate..." rows="2"></textarea><button class="rbtn" onclick="rphc('6','p6q','p6o')">Investigate</button></div>
+          <div id="p6o" class="oa empty"><div class="ei">&#127919;</div><div>Select a problem template or describe the issue</div></div>
+          <div class="pnb" onclick="gp('report',document.getElementById('nb-report'))"><div class="pnb-l"><div class="pnb-t">Generate Executive Report</div><div class="pnb-s">Turn all findings into a professional report</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SQL -->
+    <div class="page" id="page-sql">
+      <div class="panel"><div class="ph"><div class="pt">SQL Solution Engine</div></div><div class="pb2">
+        <div id="sql-schema" style="display:none;margin-bottom:11px"><div class="ic2"><div class="ic2-l">Auto-Detected Schema</div><div class="ic2-b" id="sql-schema-t" style="font-family:var(--mn);font-size:10px;white-space:pre-wrap"></div></div></div>
+        <div class="db-row"><button class="db on" onclick="setSQLd('MySQL',this)">MySQL</button><button class="db" onclick="setSQLd('PostgreSQL',this)">PostgreSQL</button><button class="db" onclick="setSQLd('SQL Server',this)">SQL Server</button><button class="db" onclick="setSQLd('SQLite',this)">SQLite</button><button class="db" onclick="setSQLd('BigQuery',this)">BigQuery</button></div>
+        <div class="tabs" id="sqlt"><button class="tab on" onclick="setTab('sqlt',0,'Beginner')">Beginner</button><button class="tab" onclick="setTab('sqlt',1,'Intermediate')">Intermediate</button><button class="tab" onclick="setTab('sqlt',2,'Advanced')">Advanced</button><button class="tab" onclick="setTab('sqlt',3,'Optimise')">Optimise</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rSQL('Show top 10 records ordered by main numeric column')">Top 10 records</button>
+          <button class="chip" onclick="rSQL('Find all duplicate rows')">Find duplicates</button>
+          <button class="chip" onclick="rSQL('Calculate total average min max for numeric columns')">Aggregation</button>
+          <button class="chip" onclick="rSQL('Group by each categorical column with counts')">Group by</button>
+          <button class="chip" onclick="rSQL('Find records with null missing values')">Find nulls</button>
+          <button class="chip" onclick="rSQL('Monthly trend analysis using date column')">Monthly trend</button>
+          <button class="chip" onclick="rSQL('Window functions for ranking and running totals')">Window functions</button>
+          <button class="chip" onclick="rSQL('CTE for complex multi-step business logic')">CTE example</button>
+        </div>
+        <div class="qrow" style="margin:9px 0"><textarea class="qin" id="sqlq" placeholder="Describe what SQL you need..." rows="2"></textarea><button class="rbtn" onclick="rSQL(document.getElementById('sqlq').value)">Generate SQL</button></div>
+        <div id="sqlout" class="oa empty"><div class="ei">&#128451;</div><div>Select a query type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- EXCEL -->
+    <div class="page" id="page-excel">
+      <div class="panel"><div class="ph"><div class="pt">Excel Analyst Mode</div></div><div class="pb2">
+        <div class="chips">
+          <button class="chip" onclick="rExcel('XLOOKUP vs VLOOKUP vs INDEX MATCH with examples')">XLOOKUP / VLOOKUP</button>
+          <button class="chip" onclick="rExcel('INDEX MATCH for flexible two-way lookups')">INDEX MATCH</button>
+          <button class="chip" onclick="rExcel('Pivot table complete setup guide')">Pivot Tables</button>
+          <button class="chip" onclick="rExcel('SUMIFS COUNTIFS AVERAGEIFS with multiple criteria')">SUMIFS / COUNTIFS</button>
+          <button class="chip" onclick="rExcel('Conditional formatting rules for data quality')">Conditional Formatting</button>
+          <button class="chip" onclick="rExcel('Data cleaning formulas TRIM CLEAN IFERROR PROPER')">Cleaning Formulas</button>
+          <button class="chip" onclick="rExcel('Dashboard formulas and dynamic named ranges')">Dashboard Formulas</button>
+          <button class="chip" onclick="rExcel('Power Query M transformation step-by-step guide')">Power Query</button>
+        </div>
+        <div class="qrow" style="margin:9px 0"><textarea class="qin" id="exq" placeholder="Describe your Excel problem..." rows="2"></textarea><button class="rbtn" onclick="rExcel(document.getElementById('exq').value)">Get Formula</button></div>
+        <div id="exout" class="oa empty"><div class="ei">&#128209;</div><div>Select a formula type or describe your problem</div></div>
+      </div></div>
+    </div>
+
+    <!-- PYTHON -->
+    <div class="page" id="page-python">
+      <div class="panel"><div class="ph"><div class="pt">Python Analyst Mode</div></div><div class="pb2">
+        <div class="tabs" id="pyt"><button class="tab on" onclick="setTab('pyt',0,'Load')">Load</button><button class="tab" onclick="setTab('pyt',1,'Clean')">Clean</button><button class="tab" onclick="setTab('pyt',2,'EDA')">EDA</button><button class="tab" onclick="setTab('pyt',3,'GroupBy')">GroupBy</button><button class="tab" onclick="setTab('pyt',4,'ML')">ML Starter</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rPython('Load and inspect CSV with pandas showing dtypes missing values shape head')">Load and Inspect</button>
+          <button class="chip" onclick="rPython('Clean data handle missing values remove duplicates fix data types')">Clean Data</button>
+          <button class="chip" onclick="rPython('Full EDA with matplotlib seaborn histograms boxplots correlation heatmap')">EDA Visualisations</button>
+          <button class="chip" onclick="rPython('Correlation matrix heatmap with seaborn')">Correlation Heatmap</button>
+          <button class="chip" onclick="rPython('Groupby aggregation analysis with multiple functions')">GroupBy Analysis</button>
+          <button class="chip" onclick="rPython('Linear regression with scikit-learn train test split R-squared')">Linear Regression</button>
+          <button class="chip" onclick="rPython('Classification with scikit-learn random forest confusion matrix')">Classification ML</button>
+        </div>
+        <div class="qrow" style="margin:9px 0"><textarea class="qin" id="pyq" placeholder="Describe what Python code you need..." rows="2"></textarea><button class="rbtn" onclick="rPython(document.getElementById('pyq').value)">Generate Code</button></div>
+        <div id="pyout" class="oa empty"><div class="ei">&#128013;</div><div>Select a code type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- POWER BI -->
+    <div class="page" id="page-pbi">
+      <div class="panel"><div class="ph"><div class="pt">Power BI Mode</div></div><div class="pb2">
+        <div class="chips" style="margin-bottom:5px">
+          <button class="chip" onclick="rPBI('Executive Dashboard with KPI cards and trend visuals')">Executive Dashboard</button>
+          <button class="chip" onclick="rPBI('Sales Dashboard with revenue profit and customer KPIs')">Sales Dashboard</button>
+          <button class="chip" onclick="rPBI('Finance Dashboard with P and L and budget vs actual')">Finance Dashboard</button>
+          <button class="chip" onclick="rPBI('HR Dashboard with headcount turnover and performance')">HR Dashboard</button>
+          <button class="chip" onclick="rPBI('Marketing Dashboard with campaign ROI and conversions')">Marketing Dashboard</button>
+          <button class="chip" onclick="rPBI('NHS Healthcare Dashboard with patient metrics')">NHS Dashboard</button>
+        </div>
+        <div class="chips">
+          <button class="chip" onclick="rPBI('DAX measures for this specific dataset')">DAX Measures</button>
+          <button class="chip" onclick="rPBI('Star schema data model with fact and dimension tables')">Star Schema</button>
+          <button class="chip" onclick="rPBI('Power Query M code transformation steps')">Power Query M</button>
+          <button class="chip" onclick="rPBI('Drill-through report design and setup')">Drill Through</button>
+        </div>
+        <div class="qrow" style="margin:9px 0"><textarea class="qin" id="pbiq" placeholder="Describe your Power BI needs..." rows="2"></textarea><button class="rbtn" onclick="rPBI(document.getElementById('pbiq').value)">Generate</button></div>
+        <div id="pbiout" class="oa empty"><div class="ei">&#9889;</div><div>Select a template or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="page" id="page-stats">
+      <div class="panel"><div class="ph"><div class="pt">Statistics Mode</div></div><div class="pb2">
+        <div class="ic2" style="margin-bottom:11px"><div class="ic2-l">What Test Should I Use?</div><div class="ic2-b">Tell me your goal and I will recommend the right test with Python and Excel examples.</div></div>
+        <div class="chips">
+          <button class="chip" onclick="rStats('mean median mode standard deviation with business examples')">Mean / Median / Mode</button>
+          <button class="chip" onclick="rStats('hypothesis testing step by step with p-value and significance')">Hypothesis Testing</button>
+          <button class="chip" onclick="rStats('correlation analysis Pearson Spearman business interpretation')">Correlation</button>
+          <button class="chip" onclick="rStats('A/B testing design setup and analysis')">A/B Testing</button>
+          <button class="chip" onclick="rStats('linear regression with R-squared interpretation')">Regression</button>
+          <button class="chip" onclick="rStats('ANOVA for comparing multiple groups')">ANOVA</button>
+          <button class="chip" onclick="rStats('t-test for comparing two group means')">T-Test</button>
+          <button class="chip" onclick="rStats('chi-square for categorical variable relationships')">Chi-Square</button>
+          <button class="chip" onclick="rStats('what statistical test should I use for my dataset')">What Test To Use?</button>
+        </div>
+        <div class="qrow" style="margin:9px 0"><textarea class="qin" id="stq" placeholder="Ask any statistics question..." rows="2"></textarea><button class="rbtn" onclick="rStats(document.getElementById('stq').value)">Explain</button></div>
+        <div id="stout" class="oa empty"><div class="ei">&#128208;</div><div>Select a topic or ask a question</div></div>
+      </div></div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="page" id="page-report">
+      <div class="panel"><div class="ph"><div class="pt">Report Writer</div><span class="badge info">Step 8 of 8</span></div><div class="pb2">
+        <div class="tabs" id="rept"><button class="tab on" onclick="setTab('rept',0,'Executive')">Executive</button><button class="tab" onclick="setTab('rept',1,'Technical')">Technical</button><button class="tab" onclick="setTab('rept',2,'Data Quality')">Data Quality</button><button class="tab" onclick="setTab('rept',3,'KPI Report')">KPI Report</button><button class="tab" onclick="setTab('rept',4,'Full Report')">Full Report</button></div>
+        <div style="margin-bottom:9px">
+          <div style="font-size:9px;color:var(--tx3);margin-bottom:5px;font-family:var(--mn);text-transform:uppercase;letter-spacing:.1em">Report Tone</div>
+          <div class="chips" id="tone-chips" style="margin-bottom:0"><button class="chip on" onclick="setTone('Executive',this)">Executive</button><button class="chip" onclick="setTone('Academic',this)">Academic</button><button class="chip" onclick="setTone('Beginner-friendly',this)">Beginner Friendly</button><button class="chip" onclick="setTone('Technical',this)">Technical</button><button class="chip" onclick="setTone('Business',this)">Business</button></div>
+        </div>
+        <div class="qrow" style="margin-bottom:9px"><textarea class="qin" id="repq" placeholder="Add specific instructions (optional)..." rows="2"></textarea><button class="rbtn lg" onclick="rReport()">Generate Report</button></div>
+        <div id="repout" class="oa empty"><div class="ei">&#128221;</div><div>Click Generate Report to create a professional report</div></div>
+        <div id="rep-ex" class="btn-row" style="display:none"><button class="rbtn ou sm" onclick="cpRep()">Copy Report</button><button class="rbtn ou sm" onclick="dlRep('txt')">Download TXT</button><button class="rbtn ou sm" onclick="dlRep('md')">Download Markdown</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+</div>
+</body>
+</html>
+r(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,212,255,.07),transparent);pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;display:flex;height:100vh}
 .sidebar{width:255px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
