@@ -495,525 +495,6 @@ tr:hover td { background: rgba(0,229,255,0.02); color: #CBD5E1; }
 </style>
 </head>
 <body>
-<div class="app">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-title">Data<span>Mind</span> AI</div>
-      <div class="logo-sub">Professional Analytics Assistant</div>
-    </div>
-
-    <nav class="sidebar-nav">
-      <div class="nav-section-label">Core</div>
-      <div class="nav-item active" onclick="navigate('home',this)"><span class="ni">🏠</span> Dashboard</div>
-      <div class="nav-item" onclick="navigate('upload',this)"><span class="ni">📁</span> Upload Dataset <span class="nav-badge">NEW</span></div>
-      <div class="nav-item" onclick="navigate('chat',this)"><span class="ni">💬</span> AI Chat Analyst</div>
-
-      <div class="nav-section-label" style="margin-top:8px">Analysis Phases</div>
-      <div class="nav-item" onclick="navigate('phase1',this)"><span class="ni">🔍</span> Phase 1 — Understand</div>
-      <div class="nav-item" onclick="navigate('phase2',this)"><span class="ni">🧹</span> Phase 2 — Clean Data</div>
-      <div class="nav-item" onclick="navigate('phase3',this)"><span class="ni">✅</span> Phase 3 — Validate</div>
-      <div class="nav-item" onclick="navigate('phase4',this)"><span class="ni">📊</span> Phase 4 — EDA</div>
-      <div class="nav-item" onclick="navigate('phase5',this)"><span class="ni">📈</span> Phase 5 — KPIs</div>
-      <div class="nav-item" onclick="navigate('phase6',this)"><span class="ni">🎯</span> Phase 6 — Root Cause</div>
-
-      <div class="nav-section-label" style="margin-top:8px">Tools</div>
-      <div class="nav-item" onclick="navigate('sql',this)"><span class="ni">🗄️</span> SQL Engine</div>
-      <div class="nav-item" onclick="navigate('excel',this)"><span class="ni">📗</span> Excel Mode</div>
-      <div class="nav-item" onclick="navigate('python',this)"><span class="ni">🐍</span> Python Mode</div>
-      <div class="nav-item" onclick="navigate('powerbi',this)"><span class="ni">⚡</span> Power BI Mode</div>
-      <div class="nav-item" onclick="navigate('stats',this)"><span class="ni">📐</span> Statistics</div>
-      <div class="nav-item" onclick="navigate('report',this)"><span class="ni">📝</span> Report Writer</div>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="phase-progress">
-        <div class="pp-label">ANALYSIS PROGRESS</div>
-        <div class="pp-track"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
-        <div class="pp-text" id="progressText">0 / 16 phases complete</div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <div class="topbar-title" id="pageTitle">Dashboard</div>
-        <div class="topbar-badge" id="pageBadge">Ready</div>
-      </div>
-      <div class="topbar-right">
-        <button class="tb-btn" onclick="clearAll()">🗑 Clear</button>
-        <button class="tb-btn" onclick="exportResults()">⬇ Export</button>
-        <button class="tb-btn primary" onclick="navigate('chat', document.querySelector('.nav-item:nth-child(3)'))">⚡ Ask AI</button>
-      </div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-      <!-- HOME PAGE -->
-      <div class="page active" id="page-home">
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-val" id="stat-rows">—</div><div class="stat-lbl">Rows</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-cols">—</div><div class="stat-lbl">Columns</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-missing">—</div><div class="stat-lbl">Missing Values</div></div>
-          <div class="stat-card"><div class="stat-val" id="stat-dupes">—</div><div class="stat-lbl">Duplicates</div></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">🚀 Welcome to DataMind AI</div>
-          </div>
-          <div class="panel-body">
-            <div style="font-size:14px;color:#94A3B8;line-height:1.8;margin-bottom:20px">
-              Your professional AI-powered data analytics assistant. Upload a dataset or describe your data to get started. I will walk you through all <strong style="color:var(--accent)">16 analytical phases</strong> — from understanding your data to writing executive reports.
-            </div>
-            <div class="phase-grid">
-              <div class="phase-card" onclick="navigate('phase1',null)"><div class="phase-num">Phase 01</div><div class="phase-icon">🔍</div><div class="phase-name">Dataset Understanding</div></div>
-              <div class="phase-card" onclick="navigate('phase2',null)"><div class="phase-num">Phase 02</div><div class="phase-icon">🧹</div><div class="phase-name">Data Cleaning</div></div>
-              <div class="phase-card" onclick="navigate('phase3',null)"><div class="phase-num">Phase 03</div><div class="phase-icon">✅</div><div class="phase-name">Data Validation</div></div>
-              <div class="phase-card" onclick="navigate('phase4',null)"><div class="phase-num">Phase 04</div><div class="phase-icon">📊</div><div class="phase-name">EDA</div></div>
-              <div class="phase-card" onclick="navigate('phase5',null)"><div class="phase-num">Phase 05</div><div class="phase-icon">📈</div><div class="phase-name">KPI Analysis</div></div>
-              <div class="phase-card" onclick="navigate('phase6',null)"><div class="phase-num">Phase 06</div><div class="phase-icon">🎯</div><div class="phase-name">Root Cause</div></div>
-              <div class="phase-card" onclick="navigate('sql',null)"><div class="phase-num">Phase 07</div><div class="phase-icon">🗄️</div><div class="phase-name">SQL Engine</div></div>
-              <div class="phase-card" onclick="navigate('excel',null)"><div class="phase-num">Phase 08</div><div class="phase-icon">📗</div><div class="phase-name">Excel Mode</div></div>
-              <div class="phase-card" onclick="navigate('powerbi',null)"><div class="phase-num">Phase 09</div><div class="phase-icon">⚡</div><div class="phase-name">Power BI Mode</div></div>
-              <div class="phase-card" onclick="navigate('python',null)"><div class="phase-num">Phase 10</div><div class="phase-icon">🐍</div><div class="phase-name">Python Mode</div></div>
-              <div class="phase-card" onclick="navigate('stats',null)"><div class="phase-num">Phase 11</div><div class="phase-icon">📐</div><div class="phase-name">Statistics</div></div>
-              <div class="phase-card" onclick="navigate('report',null)"><div class="phase-num">Phase 12–16</div><div class="phase-icon">📝</div><div class="phase-name">Reports & Insights</div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">⚡ Quick Start — Ask a Question</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="quickAsk('Analyse my sales dataset and identify top revenue drivers')">💰 Revenue Analysis</button>
-              <button class="qp-btn" onclick="quickAsk('Clean my dataset and identify all missing values and duplicates')">🧹 Data Cleaning</button>
-              <button class="qp-btn" onclick="quickAsk('Generate SQL queries to analyse customer behaviour')">🗄️ SQL Queries</button>
-              <button class="qp-btn" onclick="quickAsk('Write Python code to perform exploratory data analysis')">🐍 Python EDA</button>
-              <button class="qp-btn" onclick="quickAsk('Create Excel formulas and pivot table suggestions for my data')">📗 Excel Help</button>
-              <button class="qp-btn" onclick="quickAsk('Identify KPIs and build a dashboard structure for executives')">📊 KPI Dashboard</button>
-              <button class="qp-btn" onclick="quickAsk('Perform root cause analysis on declining performance metrics')">🎯 Root Cause</button>
-              <button class="qp-btn" onclick="quickAsk('Write an executive report summarising the key findings')">📝 Executive Report</button>
-            </div>
-            <div class="question-row">
-              <textarea class="question-input" id="homeInput" placeholder="Describe your dataset or ask any data analytics question..." rows="2"></textarea>
-              <button class="run-btn" onclick="runHomeQuery()">⚡ Analyse</button>
-            </div>
-            <div id="homeOutput" style="margin-top:14px;display:none">
-              <div class="output-area fadeIn" id="homeOutputText"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- UPLOAD PAGE -->
-      <div class="page" id="page-upload">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📁 Upload Your Dataset</div></div>
-          <div class="panel-body">
-            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-              <div class="upload-icon">📊</div>
-              <div class="upload-title">Drop your dataset here or click to browse</div>
-              <div class="upload-sub">Supports CSV, Excel, JSON, TXT files up to 10MB</div>
-              <div class="upload-formats">
-                <span class="fmt-badge">CSV</span>
-                <span class="fmt-badge">XLSX</span>
-                <span class="fmt-badge">JSON</span>
-                <span class="fmt-badge">TXT</span>
-              </div>
-            </div>
-            <input type="file" id="fileInput" accept=".csv,.xlsx,.json,.txt" onchange="handleFileUpload(event)" />
-          </div>
-        </div>
-
-        <div class="panel" id="dataPreviewPanel" style="display:none">
-          <div class="panel-header">
-            <div class="panel-title">👁 Data Preview</div>
-            <button class="tb-btn" onclick="analyseDataset()">🔍 Run Full Analysis</button>
-          </div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:16px">
-              <div class="stat-card"><div class="stat-val" id="prev-rows">0</div><div class="stat-lbl">Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-cols">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-size">0KB</div><div class="stat-lbl">File Size</div></div>
-              <div class="stat-card"><div class="stat-val" id="prev-type">CSV</div><div class="stat-lbl">File Type</div></div>
-            </div>
-            <div class="table-wrap" id="dataTable"></div>
-          </div>
-        </div>
-
-        <div class="panel" id="autoAnalysisPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">🤖 AI Auto-Analysis Results</div></div>
-          <div class="panel-body">
-            <div class="output-area fadeIn" id="autoAnalysisText"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHAT PAGE -->
-      <div class="page" id="page-chat">
-        <div class="panel" style="flex:1">
-          <div class="panel-header">
-            <div class="panel-title">💬 AI Data Analyst Chat</div>
-            <button class="tb-btn" onclick="clearChat()">🗑 Clear Chat</button>
-          </div>
-          <div class="panel-body" style="display:flex;flex-direction:column;gap:14px">
-            <div class="quick-prompts">
-              <button class="qp-btn" onclick="chatQuick('Perform a complete Phase 1 dataset understanding analysis')">Phase 1: Understand</button>
-              <button class="qp-btn" onclick="chatQuick('Identify and fix all data quality issues')">Phase 2: Clean</button>
-              <button class="qp-btn" onclick="chatQuick('Run full exploratory data analysis with charts recommendations')">Phase 4: EDA</button>
-              <button class="qp-btn" onclick="chatQuick('Generate all relevant KPIs for this dataset')">Phase 5: KPIs</button>
-              <button class="qp-btn" onclick="chatQuick('Write production-ready SQL queries for this data')">SQL Queries</button>
-              <button class="qp-btn" onclick="chatQuick('Write Python pandas code to analyse this dataset')">Python Code</button>
-              <button class="qp-btn" onclick="chatQuick('Create Power BI DAX measures and dashboard layout')">Power BI</button>
-              <button class="qp-btn" onclick="chatQuick('Write an executive summary report of findings')">Executive Report</button>
-            </div>
-            <div class="messages" id="chatMessages">
-              <div class="msg ai">
-                <div class="msg-avatar">🤖</div>
-                <div class="msg-bubble">Hello! I am DataMind AI — your professional data analytics assistant. I can help you with all 16 phases of data analysis:<br><br>📊 Dataset understanding, cleaning, validation and EDA<br>🗄️ SQL query generation (beginner to advanced)<br>🐍 Python / Pandas code<br>📗 Excel formulas and Power BI DAX<br>📈 KPIs, root cause analysis and statistics<br>📝 Executive reports and stakeholder presentations<br><br>Upload a dataset or describe your data and let's begin! What business problem are we solving today?</div>
-              </div>
-            </div>
-            <div class="question-row">
-              <textarea class="question-input" id="chatInput" placeholder="Ask anything about your data..." rows="2" onkeydown="handleChatKey(event)"></textarea>
-              <button class="run-btn" id="chatSendBtn" onclick="sendChatMessage()">Send ↑</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 1 -->
-      <div class="page" id="page-phase1">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">🔍 Phase 1 — Dataset Understanding</div></div>
-          <div class="panel-body">
-            <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7">Inspect your dataset structure — rows, columns, data types, missing values, duplicates, and business meaning of each column.</div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p1input" placeholder="Describe your dataset (columns, rows, what it contains, industry/sector)..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('1','p1input','p1output','Dataset Understanding')">Analyse</button>
-            </div>
-            <div class="insight-cards" style="margin-bottom:14px">
-              <div class="insight-card"><div class="insight-label">What Phase 1 covers</div>Number of rows and columns · Column names and data types · Missing values · Duplicate records · Potential errors · Business meaning of each column · Data quality risks · Dataset type identification (sales, healthcare, finance, HR, operations)</div>
-            </div>
-            <div id="p1output" class="output-area empty">Run analysis to see results here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 2 -->
-      <div class="page" id="page-phase2">
-
-        <!-- Upload for cleaning -->
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📁 Step 1 — Upload Your Dataset</div></div>
-          <div class="panel-body">
-            <div class="upload-zone" id="cleanUploadZone" onclick="document.getElementById('cleanFileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleCleanDrop(event)">
-              <div class="upload-icon">📊</div>
-              <div class="upload-title">Drop your CSV file here or click to browse</div>
-              <div class="upload-sub">Upload your raw dataset — AI will automatically detect and fix all issues</div>
-              <div class="upload-formats">
-                <span class="fmt-badge">CSV</span>
-                <span class="fmt-badge">TXT</span>
-              </div>
-            </div>
-            <input type="file" id="cleanFileInput" accept=".csv,.txt" onchange="handleCleanUpload(event)" style="display:none" />
-          </div>
-        </div>
-
-        <!-- Before preview -->
-        <div class="panel" id="cleanBeforePanel" style="display:none">
-          <div class="panel-header">
-            <div class="panel-title">⚠️ Raw Data — Before Cleaning</div>
-            <div style="display:flex;gap:8px">
-              <span id="cleanIssuesBadge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#F87171"></span>
-              <button class="run-btn" id="cleanBtn" onclick="runDataCleaning()" style="padding:8px 16px;font-size:12px">🧹 Clean This Data</button>
-            </div>
-          </div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:14px">
-              <div class="stat-card"><div class="stat-val" id="clean-rows" style="color:#F87171">0</div><div class="stat-lbl">Total Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-cols" style="color:#F87171">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-missing" style="color:#F87171">0</div><div class="stat-lbl">Missing Values</div></div>
-              <div class="stat-card"><div class="stat-val" id="clean-dupes" style="color:#F87171">0</div><div class="stat-lbl">Duplicates</div></div>
-            </div>
-            <div class="table-wrap" id="cleanBeforeTable"></div>
-          </div>
-        </div>
-
-        <!-- Issues found -->
-        <div class="panel" id="cleanIssuesPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">🔍 Issues Detected</div></div>
-          <div class="panel-body">
-            <div id="cleanIssuesList" class="insight-cards"></div>
-          </div>
-        </div>
-
-        <!-- After cleaning -->
-        <div class="panel" id="cleanAfterPanel" style="display:none">
-          <div class="panel-header">
-            <div class="panel-title">✅ Clean Data — After Cleaning</div>
-            <div style="display:flex;gap:8px">
-              <span id="cleanFixedBadge" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#10B981"></span>
-              <button class="tb-btn primary" onclick="downloadCleanCSV()">⬇ Download Clean CSV</button>
-            </div>
-          </div>
-          <div class="panel-body">
-            <div class="stats-grid" style="margin-bottom:14px">
-              <div class="stat-card"><div class="stat-val" id="after-rows" style="color:var(--green)">0</div><div class="stat-lbl">Clean Rows</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-cols" style="color:var(--green)">0</div><div class="stat-lbl">Columns</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-missing" style="color:var(--green)">0</div><div class="stat-lbl">Missing Values</div></div>
-              <div class="stat-card"><div class="stat-val" id="after-dupes" style="color:var(--green)">0</div><div class="stat-lbl">Duplicates</div></div>
-            </div>
-            <div class="table-wrap" id="cleanAfterTable"></div>
-          </div>
-        </div>
-
-        <!-- AI Cleaning Report -->
-        <div class="panel" id="cleanReportPanel" style="display:none">
-          <div class="panel-header"><div class="panel-title">📋 AI Cleaning Report</div></div>
-          <div class="panel-body">
-            <div id="cleanReportText" class="output-area fadeIn"></div>
-          </div>
-        </div>
-
-        <!-- Manual description fallback -->
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">💬 Or Describe Your Data Issues</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="p2tabs">
-              <button class="tab active" onclick="switchTab('p2tabs','p2tab',0,'Excel')">Excel</button>
-              <button class="tab" onclick="switchTab('p2tabs','p2tab',1,'SQL')">SQL</button>
-              <button class="tab" onclick="switchTab('p2tabs','p2tab',2,'Python')">Python</button>
-              <button class="tab" onclick="switchTab('p2tabs','p2tab',3,'Power Query')">Power Query</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p2input" placeholder="Describe your data issues or paste a sample — I will provide step-by-step cleaning solutions..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhaseWithTool('2','p2input','p2output')">Get Solutions</button>
-            </div>
-            <div id="p2output" class="output-area empty">Cleaning solutions will appear here...</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- PHASE 3 -->
-      <div class="page" id="page-phase3">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">✅ Phase 3 — Data Validation</div></div>
-          <div class="panel-body">
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p3input" placeholder="Describe your data and the validation rules you need to check..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('3','p3input','p3output','Data Validation')">Validate</button>
-            </div>
-            <div id="p3output" class="output-area empty">Validation results will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 4 EDA -->
-      <div class="page" id="page-phase4">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📊 Phase 4 — Exploratory Data Analysis</div></div>
-          <div class="panel-body">
-            <div class="insight-cards" style="margin-bottom:14px">
-              <div class="insight-card"><div class="insight-label">EDA covers</div>Summary statistics (mean, median, mode, std dev) · Distribution analysis · Trend identification · Correlation analysis · Anomaly detection · Chart recommendations with storytelling rationale</div>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p4input" placeholder="Describe your dataset for EDA or paste column names and sample values..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('4','p4input','p4output','Exploratory Data Analysis')">Run EDA</button>
-            </div>
-            <div id="p4output" class="output-area empty">EDA results will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 5 KPI -->
-      <div class="page" id="page-phase5">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📈 Phase 5 — KPI Analysis</div></div>
-          <div class="panel-body">
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p5input" placeholder="Describe your business and dataset. What sector? What are your goals?" rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('5','p5input','p5output','KPI Analysis')">Generate KPIs</button>
-            </div>
-            <div id="p5output" class="output-area empty">KPI analysis will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 6 ROOT CAUSE -->
-      <div class="page" id="page-phase6">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">🎯 Phase 6 — Root Cause Analysis</div></div>
-          <div class="panel-body">
-            <div class="insight-cards" style="margin-bottom:14px">
-              <div class="insight-card warning"><div class="insight-label">Methods used</div>5 Whys · Pareto Analysis · Correlation Analysis · Fishbone (Ishikawa) Thinking · Never assumes conclusions without evidence</div>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="p6input" placeholder="What problem or trend are you investigating? Describe the symptoms and what you have observed..." rows="3"></textarea>
-              <button class="run-btn" onclick="runPhase('6','p6input','p6output','Root Cause Analysis')">Investigate</button>
-            </div>
-            <div id="p6output" class="output-area empty">Root cause analysis will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SQL PAGE -->
-      <div class="page" id="page-sql">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">🗄️ SQL Solution Engine</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="sqltabs">
-              <button class="tab active" onclick="switchTab('sqltabs','sqltab',0,'Beginner')">Beginner</button>
-              <button class="tab" onclick="switchTab('sqltabs','sqltab',1,'Intermediate')">Intermediate</button>
-              <button class="tab" onclick="switchTab('sqltabs','sqltab',2,'Advanced')">Advanced</button>
-              <button class="tab" onclick="switchTab('sqltabs','sqltab',3,'Optimise')">Optimise</button>
-            </div>
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="sqlQuick('SELECT with WHERE and ORDER BY')">SELECT basics</button>
-              <button class="qp-btn" onclick="sqlQuick('GROUP BY with HAVING and aggregation')">GROUP BY</button>
-              <button class="qp-btn" onclick="sqlQuick('JOINS — INNER, LEFT, RIGHT, FULL')">JOINs</button>
-              <button class="qp-btn" onclick="sqlQuick('CTEs and subqueries')">CTEs</button>
-              <button class="qp-btn" onclick="sqlQuick('Window functions ROW_NUMBER RANK DENSE_RANK')">Window Functions</button>
-              <button class="qp-btn" onclick="sqlQuick('CASE WHEN statements')">CASE WHEN</button>
-              <button class="qp-btn" onclick="sqlQuick('Stored procedures and transactions')">Stored Procs</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="sqlinput" placeholder="Describe your table structure and what SQL query you need..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('sql','sqlinput','sqloutput')">Generate SQL</button>
-            </div>
-            <div id="sqloutput" class="output-area empty">SQL queries will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- EXCEL PAGE -->
-      <div class="page" id="page-excel">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📗 Excel Analyst Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="excelQuick('VLOOKUP vs XLOOKUP vs INDEX MATCH')">Lookup Formulas</button>
-              <button class="qp-btn" onclick="excelQuick('Pivot table setup and design')">Pivot Tables</button>
-              <button class="qp-btn" onclick="excelQuick('Conditional formatting rules')">Conditional Format</button>
-              <button class="qp-btn" onclick="excelQuick('Power Query data transformation')">Power Query</button>
-              <button class="qp-btn" onclick="excelQuick('Dashboard creation best practices')">Dashboard</button>
-              <button class="qp-btn" onclick="excelQuick('Data validation rules and dropdowns')">Data Validation</button>
-              <button class="qp-btn" onclick="excelQuick('SUMIFS COUNTIFS AVERAGEIFS formulas')">SUMIFS/COUNTIFS</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="excelinput" placeholder="Describe your Excel problem or what analysis you need to perform..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('excel','excelinput','exceloutput')">Get Excel Help</button>
-            </div>
-            <div id="exceloutput" class="output-area empty">Excel solutions will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PYTHON PAGE -->
-      <div class="page" id="page-python">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">🐍 Python Analyst Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="pythonQuick('Load and inspect a CSV with pandas')">Load CSV</button>
-              <button class="qp-btn" onclick="pythonQuick('Clean data with pandas — missing values duplicates outliers')">Clean Data</button>
-              <button class="qp-btn" onclick="pythonQuick('EDA with matplotlib and seaborn charts')">EDA Charts</button>
-              <button class="qp-btn" onclick="pythonQuick('Correlation matrix and heatmap')">Correlation</button>
-              <button class="qp-btn" onclick="pythonQuick('Groupby aggregation and pivot tables in pandas')">GroupBy</button>
-              <button class="qp-btn" onclick="pythonQuick('Automate a data cleaning and reporting script')">Automation</button>
-              <button class="qp-btn" onclick="pythonQuick('Linear regression with scikit-learn')">Regression</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="pythoninput" placeholder="Describe what Python code you need for your data analysis task..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('python','pythoninput','pythonoutput')">Generate Python</button>
-            </div>
-            <div id="pythonoutput" class="output-area empty">Python code will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POWER BI PAGE -->
-      <div class="page" id="page-powerbi">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">⚡ Power BI Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="pbiQuick('DAX measures for sales analysis')">DAX Measures</button>
-              <button class="qp-btn" onclick="pbiQuick('Star schema data model design')">Star Schema</button>
-              <button class="qp-btn" onclick="pbiQuick('KPI cards and executive dashboard layout')">Dashboard Layout</button>
-              <button class="qp-btn" onclick="pbiQuick('Power Query M code transformations')">Power Query M</button>
-              <button class="qp-btn" onclick="pbiQuick('Calculated columns vs measures — when to use each')">Calc Columns</button>
-              <button class="qp-btn" onclick="pbiQuick('Drill through and drill down report design')">Drill Through</button>
-              <button class="qp-btn" onclick="pbiQuick('Row level security in Power BI')">Row Level Security</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="pbiinput" placeholder="Describe your Power BI report needs or paste your data model..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('powerbi','pbiinput','pbioutput')">Generate Power BI</button>
-            </div>
-            <div id="pbioutput" class="output-area empty">Power BI solutions will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STATS PAGE -->
-      <div class="page" id="page-stats">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📐 Statistics Mode</div></div>
-          <div class="panel-body">
-            <div class="quick-prompts" style="margin-bottom:14px">
-              <button class="qp-btn" onclick="statsQuick('Explain mean median mode with business examples')">Mean/Median/Mode</button>
-              <button class="qp-btn" onclick="statsQuick('Hypothesis testing step by step')">Hypothesis Testing</button>
-              <button class="qp-btn" onclick="statsQuick('Correlation vs causation with examples')">Correlation</button>
-              <button class="qp-btn" onclick="statsQuick('Confidence intervals explained simply')">Confidence Intervals</button>
-              <button class="qp-btn" onclick="statsQuick('A/B testing design and analysis')">A/B Testing</button>
-              <button class="qp-btn" onclick="statsQuick('Linear regression explained with business context')">Regression</button>
-              <button class="qp-btn" onclick="statsQuick('Standard deviation and variance for beginners')">Std Deviation</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="statsinput" placeholder="Ask any statistics question — I'll explain simply then technically then with business impact..." rows="3"></textarea>
-              <button class="run-btn" onclick="runTool('stats','statsinput','statsoutput')">Explain</button>
-            </div>
-            <div id="statsoutput" class="output-area empty">Statistics explanations will appear here...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- REPORT PAGE -->
-      <div class="page" id="page-report">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">📝 Report Writer — Phases 12–16</div></div>
-          <div class="panel-body">
-            <div class="tabs" id="reporttabs">
-              <button class="tab active" onclick="switchTab('reporttabs','reporttab',0,'Executive')">Executive Report</button>
-              <button class="tab" onclick="switchTab('reporttabs','reporttab',1,'Stakeholder')">Stakeholder</button>
-              <button class="tab" onclick="switchTab('reporttabs','reporttab',2,'Interview')">Interview Prep</button>
-              <button class="tab" onclick="switchTab('reporttabs','reporttab',3,'Portfolio')">Portfolio</button>
-              <button class="tab" onclick="switchTab('reporttabs','reporttab',4,'Learning')">Learning Path</button>
-            </div>
-            <div class="question-row" style="margin-bottom:14px">
-              <textarea class="question-input" id="reportinput" placeholder="Describe your analysis findings, dataset, industry and key insights to generate a professional report..." rows="4"></textarea>
-              <button class="run-btn" onclick="runReport()">Generate Report</button>
-            </div>
-            <div id="reportoutput" class="output-area empty">Your professional report will appear here...</div>
-            <div style="margin-top:10px;display:flex;gap:8px">
-              <button class="tb-btn" onclick="copyReport()">⎘ Copy Report</button>
-              <button class="tb-btn" onclick="downloadReport()">⬇ Download TXT</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /app -->
-
 <script>
 // ═══════════════════════════════════
 // STATE
@@ -1822,5 +1303,525 @@ function downloadCleanCSV() {
   toast('✅ Clean CSV downloaded!');
 }
 </script>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-title">Data<span>Mind</span> AI</div>
+      <div class="logo-sub">Professional Analytics Assistant</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Core</div>
+      <div class="nav-item active" onclick="navigate('home',this)"><span class="ni">🏠</span> Dashboard</div>
+      <div class="nav-item" onclick="navigate('upload',this)"><span class="ni">📁</span> Upload Dataset <span class="nav-badge">NEW</span></div>
+      <div class="nav-item" onclick="navigate('chat',this)"><span class="ni">💬</span> AI Chat Analyst</div>
+
+      <div class="nav-section-label" style="margin-top:8px">Analysis Phases</div>
+      <div class="nav-item" onclick="navigate('phase1',this)"><span class="ni">🔍</span> Phase 1 — Understand</div>
+      <div class="nav-item" onclick="navigate('phase2',this)"><span class="ni">🧹</span> Phase 2 — Clean Data</div>
+      <div class="nav-item" onclick="navigate('phase3',this)"><span class="ni">✅</span> Phase 3 — Validate</div>
+      <div class="nav-item" onclick="navigate('phase4',this)"><span class="ni">📊</span> Phase 4 — EDA</div>
+      <div class="nav-item" onclick="navigate('phase5',this)"><span class="ni">📈</span> Phase 5 — KPIs</div>
+      <div class="nav-item" onclick="navigate('phase6',this)"><span class="ni">🎯</span> Phase 6 — Root Cause</div>
+
+      <div class="nav-section-label" style="margin-top:8px">Tools</div>
+      <div class="nav-item" onclick="navigate('sql',this)"><span class="ni">🗄️</span> SQL Engine</div>
+      <div class="nav-item" onclick="navigate('excel',this)"><span class="ni">📗</span> Excel Mode</div>
+      <div class="nav-item" onclick="navigate('python',this)"><span class="ni">🐍</span> Python Mode</div>
+      <div class="nav-item" onclick="navigate('powerbi',this)"><span class="ni">⚡</span> Power BI Mode</div>
+      <div class="nav-item" onclick="navigate('stats',this)"><span class="ni">📐</span> Statistics</div>
+      <div class="nav-item" onclick="navigate('report',this)"><span class="ni">📝</span> Report Writer</div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="phase-progress">
+        <div class="pp-label">ANALYSIS PROGRESS</div>
+        <div class="pp-track"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="pp-text" id="progressText">0 / 16 phases complete</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+        <div class="topbar-badge" id="pageBadge">Ready</div>
+      </div>
+      <div class="topbar-right">
+        <button class="tb-btn" onclick="clearAll()">🗑 Clear</button>
+        <button class="tb-btn" onclick="exportResults()">⬇ Export</button>
+        <button class="tb-btn primary" onclick="navigate('chat', document.querySelector('.nav-item:nth-child(3)'))">⚡ Ask AI</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- HOME PAGE -->
+      <div class="page active" id="page-home">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-val" id="stat-rows">—</div><div class="stat-lbl">Rows</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-cols">—</div><div class="stat-lbl">Columns</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-missing">—</div><div class="stat-lbl">Missing Values</div></div>
+          <div class="stat-card"><div class="stat-val" id="stat-dupes">—</div><div class="stat-lbl">Duplicates</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🚀 Welcome to DataMind AI</div>
+          </div>
+          <div class="panel-body">
+            <div style="font-size:14px;color:#94A3B8;line-height:1.8;margin-bottom:20px">
+              Your professional AI-powered data analytics assistant. Upload a dataset or describe your data to get started. I will walk you through all <strong style="color:var(--accent)">16 analytical phases</strong> — from understanding your data to writing executive reports.
+            </div>
+            <div class="phase-grid">
+              <div class="phase-card" onclick="navigate('phase1',null)"><div class="phase-num">Phase 01</div><div class="phase-icon">🔍</div><div class="phase-name">Dataset Understanding</div></div>
+              <div class="phase-card" onclick="navigate('phase2',null)"><div class="phase-num">Phase 02</div><div class="phase-icon">🧹</div><div class="phase-name">Data Cleaning</div></div>
+              <div class="phase-card" onclick="navigate('phase3',null)"><div class="phase-num">Phase 03</div><div class="phase-icon">✅</div><div class="phase-name">Data Validation</div></div>
+              <div class="phase-card" onclick="navigate('phase4',null)"><div class="phase-num">Phase 04</div><div class="phase-icon">📊</div><div class="phase-name">EDA</div></div>
+              <div class="phase-card" onclick="navigate('phase5',null)"><div class="phase-num">Phase 05</div><div class="phase-icon">📈</div><div class="phase-name">KPI Analysis</div></div>
+              <div class="phase-card" onclick="navigate('phase6',null)"><div class="phase-num">Phase 06</div><div class="phase-icon">🎯</div><div class="phase-name">Root Cause</div></div>
+              <div class="phase-card" onclick="navigate('sql',null)"><div class="phase-num">Phase 07</div><div class="phase-icon">🗄️</div><div class="phase-name">SQL Engine</div></div>
+              <div class="phase-card" onclick="navigate('excel',null)"><div class="phase-num">Phase 08</div><div class="phase-icon">📗</div><div class="phase-name">Excel Mode</div></div>
+              <div class="phase-card" onclick="navigate('powerbi',null)"><div class="phase-num">Phase 09</div><div class="phase-icon">⚡</div><div class="phase-name">Power BI Mode</div></div>
+              <div class="phase-card" onclick="navigate('python',null)"><div class="phase-num">Phase 10</div><div class="phase-icon">🐍</div><div class="phase-name">Python Mode</div></div>
+              <div class="phase-card" onclick="navigate('stats',null)"><div class="phase-num">Phase 11</div><div class="phase-icon">📐</div><div class="phase-name">Statistics</div></div>
+              <div class="phase-card" onclick="navigate('report',null)"><div class="phase-num">Phase 12–16</div><div class="phase-icon">📝</div><div class="phase-name">Reports & Insights</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">⚡ Quick Start — Ask a Question</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="quickAsk('Analyse my sales dataset and identify top revenue drivers')">💰 Revenue Analysis</button>
+              <button class="qp-btn" onclick="quickAsk('Clean my dataset and identify all missing values and duplicates')">🧹 Data Cleaning</button>
+              <button class="qp-btn" onclick="quickAsk('Generate SQL queries to analyse customer behaviour')">🗄️ SQL Queries</button>
+              <button class="qp-btn" onclick="quickAsk('Write Python code to perform exploratory data analysis')">🐍 Python EDA</button>
+              <button class="qp-btn" onclick="quickAsk('Create Excel formulas and pivot table suggestions for my data')">📗 Excel Help</button>
+              <button class="qp-btn" onclick="quickAsk('Identify KPIs and build a dashboard structure for executives')">📊 KPI Dashboard</button>
+              <button class="qp-btn" onclick="quickAsk('Perform root cause analysis on declining performance metrics')">🎯 Root Cause</button>
+              <button class="qp-btn" onclick="quickAsk('Write an executive report summarising the key findings')">📝 Executive Report</button>
+            </div>
+            <div class="question-row">
+              <textarea class="question-input" id="homeInput" placeholder="Describe your dataset or ask any data analytics question..." rows="2"></textarea>
+              <button class="run-btn" onclick="runHomeQuery()">⚡ Analyse</button>
+            </div>
+            <div id="homeOutput" style="margin-top:14px;display:none">
+              <div class="output-area fadeIn" id="homeOutputText"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD PAGE -->
+      <div class="page" id="page-upload">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📁 Upload Your Dataset</div></div>
+          <div class="panel-body">
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+              <div class="upload-icon">📊</div>
+              <div class="upload-title">Drop your dataset here or click to browse</div>
+              <div class="upload-sub">Supports CSV, Excel, JSON, TXT files up to 10MB</div>
+              <div class="upload-formats">
+                <span class="fmt-badge">CSV</span>
+                <span class="fmt-badge">XLSX</span>
+                <span class="fmt-badge">JSON</span>
+                <span class="fmt-badge">TXT</span>
+              </div>
+            </div>
+            <input type="file" id="fileInput" accept=".csv,.xlsx,.json,.txt" onchange="handleFileUpload(event)" />
+          </div>
+        </div>
+
+        <div class="panel" id="dataPreviewPanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">👁 Data Preview</div>
+            <button class="tb-btn" onclick="analyseDataset()">🔍 Run Full Analysis</button>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:16px">
+              <div class="stat-card"><div class="stat-val" id="prev-rows">0</div><div class="stat-lbl">Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-cols">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-size">0KB</div><div class="stat-lbl">File Size</div></div>
+              <div class="stat-card"><div class="stat-val" id="prev-type">CSV</div><div class="stat-lbl">File Type</div></div>
+            </div>
+            <div class="table-wrap" id="dataTable"></div>
+          </div>
+        </div>
+
+        <div class="panel" id="autoAnalysisPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">🤖 AI Auto-Analysis Results</div></div>
+          <div class="panel-body">
+            <div class="output-area fadeIn" id="autoAnalysisText"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAT PAGE -->
+      <div class="page" id="page-chat">
+        <div class="panel" style="flex:1">
+          <div class="panel-header">
+            <div class="panel-title">💬 AI Data Analyst Chat</div>
+            <button class="tb-btn" onclick="clearChat()">🗑 Clear Chat</button>
+          </div>
+          <div class="panel-body" style="display:flex;flex-direction:column;gap:14px">
+            <div class="quick-prompts">
+              <button class="qp-btn" onclick="chatQuick('Perform a complete Phase 1 dataset understanding analysis')">Phase 1: Understand</button>
+              <button class="qp-btn" onclick="chatQuick('Identify and fix all data quality issues')">Phase 2: Clean</button>
+              <button class="qp-btn" onclick="chatQuick('Run full exploratory data analysis with charts recommendations')">Phase 4: EDA</button>
+              <button class="qp-btn" onclick="chatQuick('Generate all relevant KPIs for this dataset')">Phase 5: KPIs</button>
+              <button class="qp-btn" onclick="chatQuick('Write production-ready SQL queries for this data')">SQL Queries</button>
+              <button class="qp-btn" onclick="chatQuick('Write Python pandas code to analyse this dataset')">Python Code</button>
+              <button class="qp-btn" onclick="chatQuick('Create Power BI DAX measures and dashboard layout')">Power BI</button>
+              <button class="qp-btn" onclick="chatQuick('Write an executive summary report of findings')">Executive Report</button>
+            </div>
+            <div class="messages" id="chatMessages">
+              <div class="msg ai">
+                <div class="msg-avatar">🤖</div>
+                <div class="msg-bubble">Hello! I am DataMind AI — your professional data analytics assistant. I can help you with all 16 phases of data analysis:<br><br>📊 Dataset understanding, cleaning, validation and EDA<br>🗄️ SQL query generation (beginner to advanced)<br>🐍 Python / Pandas code<br>📗 Excel formulas and Power BI DAX<br>📈 KPIs, root cause analysis and statistics<br>📝 Executive reports and stakeholder presentations<br><br>Upload a dataset or describe your data and let's begin! What business problem are we solving today?</div>
+              </div>
+            </div>
+            <div class="question-row">
+              <textarea class="question-input" id="chatInput" placeholder="Ask anything about your data..." rows="2" onkeydown="handleChatKey(event)"></textarea>
+              <button class="run-btn" id="chatSendBtn" onclick="sendChatMessage()">Send ↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 1 -->
+      <div class="page" id="page-phase1">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🔍 Phase 1 — Dataset Understanding</div></div>
+          <div class="panel-body">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7">Inspect your dataset structure — rows, columns, data types, missing values, duplicates, and business meaning of each column.</div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p1input" placeholder="Describe your dataset (columns, rows, what it contains, industry/sector)..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('1','p1input','p1output','Dataset Understanding')">Analyse</button>
+            </div>
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card"><div class="insight-label">What Phase 1 covers</div>Number of rows and columns · Column names and data types · Missing values · Duplicate records · Potential errors · Business meaning of each column · Data quality risks · Dataset type identification (sales, healthcare, finance, HR, operations)</div>
+            </div>
+            <div id="p1output" class="output-area empty">Run analysis to see results here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="page" id="page-phase2">
+
+        <!-- Upload for cleaning -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📁 Step 1 — Upload Your Dataset</div></div>
+          <div class="panel-body">
+            <div class="upload-zone" id="cleanUploadZone" onclick="document.getElementById('cleanFileInput').click()" ondragover="handleDrag(event)" ondragleave="handleDragLeave(event)" ondrop="handleCleanDrop(event)">
+              <div class="upload-icon">📊</div>
+              <div class="upload-title">Drop your CSV file here or click to browse</div>
+              <div class="upload-sub">Upload your raw dataset — AI will automatically detect and fix all issues</div>
+              <div class="upload-formats">
+                <span class="fmt-badge">CSV</span>
+                <span class="fmt-badge">TXT</span>
+              </div>
+            </div>
+            <input type="file" id="cleanFileInput" accept=".csv,.txt" onchange="handleCleanUpload(event)" style="display:none" />
+          </div>
+        </div>
+
+        <!-- Before preview -->
+        <div class="panel" id="cleanBeforePanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">⚠️ Raw Data — Before Cleaning</div>
+            <div style="display:flex;gap:8px">
+              <span id="cleanIssuesBadge" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#F87171"></span>
+              <button class="run-btn" id="cleanBtn" onclick="runDataCleaning()" style="padding:8px 16px;font-size:12px">🧹 Clean This Data</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:14px">
+              <div class="stat-card"><div class="stat-val" id="clean-rows" style="color:#F87171">0</div><div class="stat-lbl">Total Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-cols" style="color:#F87171">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-missing" style="color:#F87171">0</div><div class="stat-lbl">Missing Values</div></div>
+              <div class="stat-card"><div class="stat-val" id="clean-dupes" style="color:#F87171">0</div><div class="stat-lbl">Duplicates</div></div>
+            </div>
+            <div class="table-wrap" id="cleanBeforeTable"></div>
+          </div>
+        </div>
+
+        <!-- Issues found -->
+        <div class="panel" id="cleanIssuesPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">🔍 Issues Detected</div></div>
+          <div class="panel-body">
+            <div id="cleanIssuesList" class="insight-cards"></div>
+          </div>
+        </div>
+
+        <!-- After cleaning -->
+        <div class="panel" id="cleanAfterPanel" style="display:none">
+          <div class="panel-header">
+            <div class="panel-title">✅ Clean Data — After Cleaning</div>
+            <div style="display:flex;gap:8px">
+              <span id="cleanFixedBadge" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:#10B981"></span>
+              <button class="tb-btn primary" onclick="downloadCleanCSV()">⬇ Download Clean CSV</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="stats-grid" style="margin-bottom:14px">
+              <div class="stat-card"><div class="stat-val" id="after-rows" style="color:var(--green)">0</div><div class="stat-lbl">Clean Rows</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-cols" style="color:var(--green)">0</div><div class="stat-lbl">Columns</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-missing" style="color:var(--green)">0</div><div class="stat-lbl">Missing Values</div></div>
+              <div class="stat-card"><div class="stat-val" id="after-dupes" style="color:var(--green)">0</div><div class="stat-lbl">Duplicates</div></div>
+            </div>
+            <div class="table-wrap" id="cleanAfterTable"></div>
+          </div>
+        </div>
+
+        <!-- AI Cleaning Report -->
+        <div class="panel" id="cleanReportPanel" style="display:none">
+          <div class="panel-header"><div class="panel-title">📋 AI Cleaning Report</div></div>
+          <div class="panel-body">
+            <div id="cleanReportText" class="output-area fadeIn"></div>
+          </div>
+        </div>
+
+        <!-- Manual description fallback -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">💬 Or Describe Your Data Issues</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="p2tabs">
+              <button class="tab active" onclick="switchTab('p2tabs','p2tab',0,'Excel')">Excel</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',1,'SQL')">SQL</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',2,'Python')">Python</button>
+              <button class="tab" onclick="switchTab('p2tabs','p2tab',3,'Power Query')">Power Query</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p2input" placeholder="Describe your data issues or paste a sample — I will provide step-by-step cleaning solutions..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhaseWithTool('2','p2input','p2output')">Get Solutions</button>
+            </div>
+            <div id="p2output" class="output-area empty">Cleaning solutions will appear here...</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="page" id="page-phase3">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">✅ Phase 3 — Data Validation</div></div>
+          <div class="panel-body">
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p3input" placeholder="Describe your data and the validation rules you need to check..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('3','p3input','p3output','Data Validation')">Validate</button>
+            </div>
+            <div id="p3output" class="output-area empty">Validation results will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 EDA -->
+      <div class="page" id="page-phase4">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📊 Phase 4 — Exploratory Data Analysis</div></div>
+          <div class="panel-body">
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card"><div class="insight-label">EDA covers</div>Summary statistics (mean, median, mode, std dev) · Distribution analysis · Trend identification · Correlation analysis · Anomaly detection · Chart recommendations with storytelling rationale</div>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p4input" placeholder="Describe your dataset for EDA or paste column names and sample values..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('4','p4input','p4output','Exploratory Data Analysis')">Run EDA</button>
+            </div>
+            <div id="p4output" class="output-area empty">EDA results will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 KPI -->
+      <div class="page" id="page-phase5">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📈 Phase 5 — KPI Analysis</div></div>
+          <div class="panel-body">
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p5input" placeholder="Describe your business and dataset. What sector? What are your goals?" rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('5','p5input','p5output','KPI Analysis')">Generate KPIs</button>
+            </div>
+            <div id="p5output" class="output-area empty">KPI analysis will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 6 ROOT CAUSE -->
+      <div class="page" id="page-phase6">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🎯 Phase 6 — Root Cause Analysis</div></div>
+          <div class="panel-body">
+            <div class="insight-cards" style="margin-bottom:14px">
+              <div class="insight-card warning"><div class="insight-label">Methods used</div>5 Whys · Pareto Analysis · Correlation Analysis · Fishbone (Ishikawa) Thinking · Never assumes conclusions without evidence</div>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="p6input" placeholder="What problem or trend are you investigating? Describe the symptoms and what you have observed..." rows="3"></textarea>
+              <button class="run-btn" onclick="runPhase('6','p6input','p6output','Root Cause Analysis')">Investigate</button>
+            </div>
+            <div id="p6output" class="output-area empty">Root cause analysis will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SQL PAGE -->
+      <div class="page" id="page-sql">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🗄️ SQL Solution Engine</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="sqltabs">
+              <button class="tab active" onclick="switchTab('sqltabs','sqltab',0,'Beginner')">Beginner</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',1,'Intermediate')">Intermediate</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',2,'Advanced')">Advanced</button>
+              <button class="tab" onclick="switchTab('sqltabs','sqltab',3,'Optimise')">Optimise</button>
+            </div>
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="sqlQuick('SELECT with WHERE and ORDER BY')">SELECT basics</button>
+              <button class="qp-btn" onclick="sqlQuick('GROUP BY with HAVING and aggregation')">GROUP BY</button>
+              <button class="qp-btn" onclick="sqlQuick('JOINS — INNER, LEFT, RIGHT, FULL')">JOINs</button>
+              <button class="qp-btn" onclick="sqlQuick('CTEs and subqueries')">CTEs</button>
+              <button class="qp-btn" onclick="sqlQuick('Window functions ROW_NUMBER RANK DENSE_RANK')">Window Functions</button>
+              <button class="qp-btn" onclick="sqlQuick('CASE WHEN statements')">CASE WHEN</button>
+              <button class="qp-btn" onclick="sqlQuick('Stored procedures and transactions')">Stored Procs</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="sqlinput" placeholder="Describe your table structure and what SQL query you need..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('sql','sqlinput','sqloutput')">Generate SQL</button>
+            </div>
+            <div id="sqloutput" class="output-area empty">SQL queries will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXCEL PAGE -->
+      <div class="page" id="page-excel">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📗 Excel Analyst Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="excelQuick('VLOOKUP vs XLOOKUP vs INDEX MATCH')">Lookup Formulas</button>
+              <button class="qp-btn" onclick="excelQuick('Pivot table setup and design')">Pivot Tables</button>
+              <button class="qp-btn" onclick="excelQuick('Conditional formatting rules')">Conditional Format</button>
+              <button class="qp-btn" onclick="excelQuick('Power Query data transformation')">Power Query</button>
+              <button class="qp-btn" onclick="excelQuick('Dashboard creation best practices')">Dashboard</button>
+              <button class="qp-btn" onclick="excelQuick('Data validation rules and dropdowns')">Data Validation</button>
+              <button class="qp-btn" onclick="excelQuick('SUMIFS COUNTIFS AVERAGEIFS formulas')">SUMIFS/COUNTIFS</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="excelinput" placeholder="Describe your Excel problem or what analysis you need to perform..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('excel','excelinput','exceloutput')">Get Excel Help</button>
+            </div>
+            <div id="exceloutput" class="output-area empty">Excel solutions will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PYTHON PAGE -->
+      <div class="page" id="page-python">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🐍 Python Analyst Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="pythonQuick('Load and inspect a CSV with pandas')">Load CSV</button>
+              <button class="qp-btn" onclick="pythonQuick('Clean data with pandas — missing values duplicates outliers')">Clean Data</button>
+              <button class="qp-btn" onclick="pythonQuick('EDA with matplotlib and seaborn charts')">EDA Charts</button>
+              <button class="qp-btn" onclick="pythonQuick('Correlation matrix and heatmap')">Correlation</button>
+              <button class="qp-btn" onclick="pythonQuick('Groupby aggregation and pivot tables in pandas')">GroupBy</button>
+              <button class="qp-btn" onclick="pythonQuick('Automate a data cleaning and reporting script')">Automation</button>
+              <button class="qp-btn" onclick="pythonQuick('Linear regression with scikit-learn')">Regression</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="pythoninput" placeholder="Describe what Python code you need for your data analysis task..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('python','pythoninput','pythonoutput')">Generate Python</button>
+            </div>
+            <div id="pythonoutput" class="output-area empty">Python code will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POWER BI PAGE -->
+      <div class="page" id="page-powerbi">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">⚡ Power BI Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="pbiQuick('DAX measures for sales analysis')">DAX Measures</button>
+              <button class="qp-btn" onclick="pbiQuick('Star schema data model design')">Star Schema</button>
+              <button class="qp-btn" onclick="pbiQuick('KPI cards and executive dashboard layout')">Dashboard Layout</button>
+              <button class="qp-btn" onclick="pbiQuick('Power Query M code transformations')">Power Query M</button>
+              <button class="qp-btn" onclick="pbiQuick('Calculated columns vs measures — when to use each')">Calc Columns</button>
+              <button class="qp-btn" onclick="pbiQuick('Drill through and drill down report design')">Drill Through</button>
+              <button class="qp-btn" onclick="pbiQuick('Row level security in Power BI')">Row Level Security</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="pbiinput" placeholder="Describe your Power BI report needs or paste your data model..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('powerbi','pbiinput','pbioutput')">Generate Power BI</button>
+            </div>
+            <div id="pbioutput" class="output-area empty">Power BI solutions will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS PAGE -->
+      <div class="page" id="page-stats">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📐 Statistics Mode</div></div>
+          <div class="panel-body">
+            <div class="quick-prompts" style="margin-bottom:14px">
+              <button class="qp-btn" onclick="statsQuick('Explain mean median mode with business examples')">Mean/Median/Mode</button>
+              <button class="qp-btn" onclick="statsQuick('Hypothesis testing step by step')">Hypothesis Testing</button>
+              <button class="qp-btn" onclick="statsQuick('Correlation vs causation with examples')">Correlation</button>
+              <button class="qp-btn" onclick="statsQuick('Confidence intervals explained simply')">Confidence Intervals</button>
+              <button class="qp-btn" onclick="statsQuick('A/B testing design and analysis')">A/B Testing</button>
+              <button class="qp-btn" onclick="statsQuick('Linear regression explained with business context')">Regression</button>
+              <button class="qp-btn" onclick="statsQuick('Standard deviation and variance for beginners')">Std Deviation</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="statsinput" placeholder="Ask any statistics question — I'll explain simply then technically then with business impact..." rows="3"></textarea>
+              <button class="run-btn" onclick="runTool('stats','statsinput','statsoutput')">Explain</button>
+            </div>
+            <div id="statsoutput" class="output-area empty">Statistics explanations will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORT PAGE -->
+      <div class="page" id="page-report">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">📝 Report Writer — Phases 12–16</div></div>
+          <div class="panel-body">
+            <div class="tabs" id="reporttabs">
+              <button class="tab active" onclick="switchTab('reporttabs','reporttab',0,'Executive')">Executive Report</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',1,'Stakeholder')">Stakeholder</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',2,'Interview')">Interview Prep</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',3,'Portfolio')">Portfolio</button>
+              <button class="tab" onclick="switchTab('reporttabs','reporttab',4,'Learning')">Learning Path</button>
+            </div>
+            <div class="question-row" style="margin-bottom:14px">
+              <textarea class="question-input" id="reportinput" placeholder="Describe your analysis findings, dataset, industry and key insights to generate a professional report..." rows="4"></textarea>
+              <button class="run-btn" onclick="runReport()">Generate Report</button>
+            </div>
+            <div id="reportoutput" class="output-area empty">Your professional report will appear here...</div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="tb-btn" onclick="copyReport()">⎘ Copy Report</button>
+              <button class="tb-btn" onclick="downloadReport()">⬇ Download TXT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+
 </body>
 </html>
