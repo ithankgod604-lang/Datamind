@@ -211,489 +211,6 @@ tr:hover td{background:rgba(0,212,255,.02);color:var(--text)}
 </style>
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-  <div class="logo"><div class="logo-t"><div class="logo-dot"></div>Data<span>Mind</span> AI</div><div class="logo-s">Professional Analytics Platform v2</div></div>
-  <div class="ds-banner" id="dsb">
-    <div class="ds-bl e" id="dsb-l">No Dataset Loaded</div>
-    <div class="ds-bn" id="dsb-n" style="color:var(--text3);font-size:10px">Upload a dataset to begin</div>
-    <div class="ds-m" id="dsb-m" style="display:none">
-      <div class="ds-mi">Rows: <span id="sb-r">--</span></div><div class="ds-mi">Cols: <span id="sb-c">--</span></div>
-      <div class="ds-mi">Missing: <span id="sb-ms">--</span></div><div class="ds-mi">Type: <span id="sb-tp">--</span></div>
-    </div>
-    <div class="ds-sc" id="dsb-sc" style="display:none"><div class="sc-bar"><div class="sc-fill" id="sc-f" style="width:0%"></div></div><div class="sc-t" id="sc-t">0%</div></div>
-  </div>
-  <nav class="nav">
-    <span class="nl">Home</span>
-    <button class="nb on" id="nb-home" onclick="gp('home',this)"><span class="ic">&#127968;</span>Dashboard</button>
-    <button class="nb" id="nb-upload" onclick="gp('upload',this)"><span class="ic">&#128228;</span>Upload Dataset</button>
-    <button class="nb" id="nb-chat" onclick="gp('chat',this)"><span class="ic">&#129302;</span>AI Chat Analyst</button>
-    <span class="nl" style="margin-top:5px">Analysis Phases</span>
-    <button class="nb" id="nb-p1" onclick="gp('p1',this)"><span class="ic">&#128269;</span>Phase 1 Understand</button>
-    <button class="nb" id="nb-p2" onclick="gp('p2',this)"><span class="ic">&#129529;</span>Phase 2 Clean</button>
-    <button class="nb" id="nb-p3" onclick="gp('p3',this)"><span class="ic">&#9989;</span>Phase 3 Validate</button>
-    <button class="nb" id="nb-p4" onclick="gp('p4',this)"><span class="ic">&#128202;</span>Phase 4 EDA</button>
-    <button class="nb" id="nb-p5" onclick="gp('p5',this)"><span class="ic">&#128200;</span>Phase 5 KPIs</button>
-    <button class="nb" id="nb-p6" onclick="gp('p6',this)"><span class="ic">&#127919;</span>Phase 6 Root Cause</button>
-    <span class="nl" style="margin-top:5px">Tools</span>
-    <button class="nb" id="nb-sql" onclick="gp('sql',this)"><span class="ic">&#128451;</span>SQL Engine</button>
-    <button class="nb" id="nb-excel" onclick="gp('excel',this)"><span class="ic">&#128209;</span>Excel Mode</button>
-    <button class="nb" id="nb-python" onclick="gp('python',this)"><span class="ic">&#128013;</span>Python Mode</button>
-    <button class="nb" id="nb-pbi" onclick="gp('pbi',this)"><span class="ic">&#9889;</span>Power BI Mode</button>
-    <button class="nb" id="nb-stats" onclick="gp('stats',this)"><span class="ic">&#128208;</span>Statistics</button>
-    <button class="nb" id="nb-report" onclick="gp('report',this)"><span class="ic">&#128221;</span>Report Writer</button>
-  </nav>
-  <div class="sfoot">
-    <div class="pb">
-      <div class="pb-steps"><div class="pb-step" id="ps-upload"></div><div class="pb-step" id="ps-p1"></div><div class="pb-step" id="ps-p2"></div><div class="pb-step" id="ps-p3"></div><div class="pb-step" id="ps-p4"></div><div class="pb-step" id="ps-p5"></div><div class="pb-step" id="ps-p6"></div><div class="pb-step" id="ps-report"></div></div>
-      <div class="pb-txt">Progress: <span id="prog-pct">0</span>% complete</div>
-    </div>
-  </div>
-</aside>
-
-<div class="main">
-  <div class="topbar">
-    <div class="tb-l"><div><div class="tb-t" id="tb-t">Dashboard</div><div class="tb-s" id="tb-s">Welcome to DataMind AI</div></div></div>
-    <div class="tb-r">
-      <button class="tbb" onclick="clearAll()">Clear</button>
-      <button class="tbb" onclick="gp('upload',document.getElementById('nb-upload'))">Upload</button>
-      <button class="tbb p" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
-    </div>
-  </div>
-  <div class="content">
-
-    <!-- HOME -->
-    <div class="page active" id="page-home">
-      <div class="panel">
-        <div class="ph"><div class="pt">Analysis Workflow Progress</div></div>
-        <div class="pb2">
-          <div class="pt-wrap">
-            <div class="pt-node"><div class="pt-dot" id="pd-upload" onclick="gp('upload',document.getElementById('nb-upload'))">&#128228;</div><div class="pt-lbl" id="pl-upload">Upload</div></div>
-            <div class="pt-line" id="pl1"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p1" onclick="gp('p1',document.getElementById('nb-p1'))">1</div><div class="pt-lbl" id="pl-p1">Understand</div></div>
-            <div class="pt-line" id="pl2"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p2" onclick="gp('p2',document.getElementById('nb-p2'))">2</div><div class="pt-lbl" id="pl-p2">Clean</div></div>
-            <div class="pt-line" id="pl3"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p3" onclick="gp('p3',document.getElementById('nb-p3'))">3</div><div class="pt-lbl" id="pl-p3">Validate</div></div>
-            <div class="pt-line" id="pl4"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p4" onclick="gp('p4',document.getElementById('nb-p4'))">4</div><div class="pt-lbl" id="pl-p4">EDA</div></div>
-            <div class="pt-line" id="pl5"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p5" onclick="gp('p5',document.getElementById('nb-p5'))">5</div><div class="pt-lbl" id="pl-p5">KPIs</div></div>
-            <div class="pt-line" id="pl6"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-p6" onclick="gp('p6',document.getElementById('nb-p6'))">6</div><div class="pt-lbl" id="pl-p6">Root Cause</div></div>
-            <div class="pt-line" id="pl7"></div>
-            <div class="pt-node"><div class="pt-dot" id="pd-report" onclick="gp('report',document.getElementById('nb-report'))">&#128221;</div><div class="pt-lbl" id="pl-report">Report</div></div>
-          </div>
-          <div id="home-next" style="margin-top:8px">
-            <div class="pnb" onclick="gp('upload',document.getElementById('nb-upload'))">
-              <div class="pnb-l"><div class="pnb-t">Get Started -- Upload Your Dataset</div><div class="pnb-s">Upload once and all phases will use your data automatically</div></div>
-              <div class="pnb-a">&#8594;</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cg cg4" id="home-stats">
-        <div class="sc"><div class="sv" id="h-r">--</div><div class="sl">Dataset Rows</div><div class="ss" id="h-rs">No dataset loaded</div></div>
-        <div class="sc"><div class="sv" id="h-c">--</div><div class="sl">Columns</div><div class="ss" id="h-cs">Upload a file</div></div>
-        <div class="sc re"><div class="sv re" id="h-m">--</div><div class="sl">Missing Values</div><div class="ss" id="h-ms">Quality check</div></div>
-        <div class="sc go"><div class="sv go" id="h-sc">--</div><div class="sl">Quality Score</div><div class="ss" id="h-scs">Out of 100</div></div>
-      </div>
-      <div class="panel" id="ai-imp" style="display:none">
-        <div class="ph"><div class="pt">AI First Impression</div><span class="badge info">Auto-detected</span></div>
-        <div class="pb2">
-          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">Dataset Intelligence</div><div class="ic2-b" id="ai-imp-t">Analysing...</div></div>
-          <div class="btn-row">
-            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Analysis &#8594;</button>
-            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
-            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
-          </div>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="ph"><div class="pt">Quick Actions</div></div>
-        <div class="pb2">
-          <div class="cg cg4">
-            <div class="sm-b" onclick="gp('upload',document.getElementById('nb-upload'))"><div class="sm-i">&#128228;</div><div class="sm-n">Upload Dataset</div><div class="sm-d">CSV, Excel, JSON, TSV</div></div>
-            <div class="sm-b" onclick="gp('chat',document.getElementById('nb-chat'))"><div class="sm-i">&#129302;</div><div class="sm-n">Ask AI Analyst</div><div class="sm-d">Chat with your data</div></div>
-            <div class="sm-b" onclick="gp('report',document.getElementById('nb-report'))"><div class="sm-i">&#128221;</div><div class="sm-n">Generate Report</div><div class="sm-d">Executive or technical</div></div>
-            <div class="sm-b" onclick="gp('sql',document.getElementById('nb-sql'))"><div class="sm-i">&#128451;</div><div class="sm-n">SQL Engine</div><div class="sm-d">Query your data</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- UPLOAD -->
-    <div class="page" id="page-upload">
-      <div class="panel">
-        <div class="ph"><div class="pt">Upload Dataset</div><span class="badge info">Step 1 of 8</span></div>
-        <div class="pb2">
-          <div class="pn" style="margin-bottom:14px"><span>&#128274;</span> Files are processed securely and not stored permanently. Your data stays private.</div>
-          <div class="uz" id="upZ" ondragover="odv(event)" ondragleave="odl(event)" ondrop="odr(event)" onclick="document.getElementById('fi').click()">
-            <div id="up-idle"><div class="uz-i">&#128202;</div><div class="uz-t">Drop your dataset here or click to browse</div><div class="uz-s">DataMind AI auto-analyses your data, detects types and suggests insights</div><div class="uz-f"><span class="fmt">CSV</span><span class="fmt">XLSX</span><span class="fmt">JSON</span><span class="fmt">TSV</span><span class="fmt">TXT</span></div></div>
-            <div class="up-st" id="up-ld"><div class="up-sp"></div><div class="up-l" id="up-lbl">Reading file...</div><div class="up-p"><div class="up-pf" id="up-pf" style="width:0%"></div></div></div>
-          </div>
-          <input type="file" id="fi" accept=".csv,.xlsx,.json,.tsv,.txt" style="display:none" onchange="handleUpload(event)"/>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="ph"><div class="pt">Try Sample Datasets</div></div>
-        <div class="pb2">
-          <div class="sm-g">
-            <div class="sm-b" onclick="loadSample('sales')"><div class="sm-i">&#128184;</div><div class="sm-n">Sales Dataset</div><div class="sm-d">Revenue, customers, products</div></div>
-            <div class="sm-b" onclick="loadSample('hr')"><div class="sm-i">&#128101;</div><div class="sm-n">HR Dataset</div><div class="sm-d">Employees, salaries, turnover</div></div>
-            <div class="sm-b" onclick="loadSample('healthcare')"><div class="sm-i">&#127973;</div><div class="sm-n">Healthcare Dataset</div><div class="sm-d">Patients, wait times, outcomes</div></div>
-            <div class="sm-b" onclick="loadSample('marketing')"><div class="sm-i">&#128293;</div><div class="sm-n">Marketing Dataset</div><div class="sm-d">Campaigns, conversions, ROI</div></div>
-            <div class="sm-b" onclick="loadSample('finance')"><div class="sm-i">&#128176;</div><div class="sm-n">Finance Dataset</div><div class="sm-d">Budgets, expenses, profit</div></div>
-            <div class="sm-b" onclick="loadSample('ecommerce')"><div class="sm-i">&#128722;</div><div class="sm-n">E-Commerce Dataset</div><div class="sm-d">Orders, returns, customers</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="panel" id="up-summary" style="display:none">
-        <div class="ph"><div class="pt">Dataset Processed</div><span class="badge pass">Ready</span></div>
-        <div class="pb2">
-          <div class="cg cg4" style="margin-bottom:14px">
-            <div class="sc gr"><div class="sv gr" id="us-r">--</div><div class="sl">Total Rows</div></div>
-            <div class="sc ac"><div class="sv" id="us-c">--</div><div class="sl">Columns</div></div>
-            <div class="sc re"><div class="sv re" id="us-m">--</div><div class="sl">Missing Values</div></div>
-            <div class="sc go"><div class="sv go" id="us-sc">--</div><div class="sl">Quality Score</div></div>
-          </div>
-          <div class="cg cg3" style="margin-bottom:14px">
-            <div class="ic2 ok"><div class="ic2-l">Dataset Type</div><div class="ic2-t" id="us-tp">Detecting...</div><div class="ic2-b" id="us-conf"></div></div>
-            <div class="ic2"><div class="ic2-l">File Info</div><div class="ic2-t" id="us-fn">--</div><div class="ic2-b" id="us-fs"></div></div>
-            <div class="ic2 w"><div class="ic2-l">Duplicates</div><div class="ic2-t" id="us-dp">--</div><div class="ic2-b" id="us-dpd"></div></div>
-          </div>
-          <div class="panel" style="margin-bottom:12px"><div class="ph"><div class="pt">Column Overview</div></div><div class="pb2"><div id="col-ov" class="tbl-wrap"></div></div></div>
-          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">AI First Impression</div><div class="ic2-b" id="us-ai">Analysing your dataset...</div></div>
-          <div class="btn-row">
-            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Dataset Understanding &#8594;</button>
-            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
-            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CHAT -->
-    <div class="page" id="page-chat">
-      <div class="panel">
-        <div class="ph"><div class="pt">AI Chat Analyst</div><div id="c-ds-status" class="badge info">No Dataset</div></div>
-        <div class="pb2" style="padding-top:10px;padding-bottom:10px">
-          <div id="c-ds-cards" class="cg cg4" style="display:none;margin-bottom:0">
-            <div class="sc"><div class="sv" id="c-r">--</div><div class="sl">Rows</div></div>
-            <div class="sc"><div class="sv" id="c-c">--</div><div class="sl">Columns</div></div>
-            <div class="sc go"><div class="sv go" id="c-sc">--</div><div class="sl">Quality</div></div>
-            <div class="sc gr"><div class="sv gr" style="font-size:14px" id="c-tp">--</div><div class="sl">Type</div></div>
-          </div>
-          <div id="c-no-ds" style="font-size:11px;color:var(--text3)">Upload a dataset to enable full AI context. Every answer will use your actual data and column names.</div>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="ph"><div class="pt">Role and Mode</div></div>
-        <div class="pb2" style="padding-bottom:10px">
-          <div class="rg">
-            <div class="rc on" onclick="setRole('Data Analyst',this)"><div class="rc-i">&#128202;</div><div class="rc-n">Data Analyst</div></div>
-            <div class="rc" onclick="setRole('SQL Expert',this)"><div class="rc-i">&#128451;</div><div class="rc-n">SQL Expert</div></div>
-            <div class="rc" onclick="setRole('Power BI Consultant',this)"><div class="rc-i">&#9889;</div><div class="rc-n">Power BI</div></div>
-            <div class="rc" onclick="setRole('Statistician',this)"><div class="rc-i">&#128208;</div><div class="rc-n">Statistician</div></div>
-            <div class="rc" onclick="setRole('Business Analyst',this)"><div class="rc-i">&#128188;</div><div class="rc-n">Business</div></div>
-            <div class="rc" onclick="setRole('Executive Advisor',this)"><div class="rc-i">&#127970;</div><div class="rc-n">Executive</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="ph"><div class="pt">Conversation</div><button class="tbb" onclick="clearChat()">Clear</button></div>
-        <div class="pb2" style="display:flex;flex-direction:column;gap:10px">
-          <div class="chips">
-            <button class="chip" onclick="cq('Analyse all missing values and suggest specific fixes for each column')">Analyse missing values</button>
-            <button class="chip" onclick="cq('Suggest the most relevant KPIs for this dataset with formulas')">Suggest KPIs</button>
-            <button class="chip" onclick="cq('Generate SQL CREATE TABLE and analysis queries for this dataset')">Generate SQL</button>
-            <button class="chip" onclick="cq('Write complete Python pandas code to analyse this dataset')">Python code</button>
-            <button class="chip" onclick="cq('Design a Power BI dashboard with DAX measures for this data')">Power BI dashboard</button>
-            <button class="chip" onclick="cq('Find all anomalies and outliers in this dataset using IQR method')">Find anomalies</button>
-            <button class="chip" onclick="cq('Explain the key business insights from this dataset in plain language')">Business insights</button>
-            <button class="chip" onclick="cq('Write a professional executive report summary for this dataset')">Executive report</button>
-          </div>
-          <div class="msgs" id="cmsgs">
-            <div class="msg ai"><div class="mav">AI</div><div class="mbbl">Hello! I am DataMind AI -- your intelligent analytics assistant.<br><br>&#128228; <strong>Upload a dataset</strong> and I will use your actual data in every answer.<br>&#127775; <strong>Switch roles</strong> above for SQL, statistics, Power BI or executive perspective.<br><br>What would you like to analyse?</div></div>
-          </div>
-          <div class="qrow">
-            <textarea class="qin" id="cin" placeholder="Ask anything... e.g. What are the top 3 insights from my dataset?" rows="2" onkeydown="ckk(event)" style="min-height:44px"></textarea>
-            <button class="rbtn" id="cbtn" onclick="sendChat()">Send</button>
-          </div>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="ph"><div class="pt">Analysis Memory</div></div>
-        <div class="pb2">
-          <div id="mem-items">
-            <div class="mi" id="mem-upload"><div class="dot"></div>Dataset uploaded</div>
-            <div class="mi" id="mem-p1"><div class="dot"></div>Phase 1: Dataset Understanding complete</div>
-            <div class="mi" id="mem-p2"><div class="dot"></div>Phase 2: Data Cleaning complete</div>
-            <div class="mi" id="mem-p3"><div class="dot"></div>Phase 3: Validation complete</div>
-            <div class="mi" id="mem-p4"><div class="dot"></div>Phase 4: EDA complete</div>
-            <div class="mi" id="mem-p5"><div class="dot"></div>Phase 5: KPIs generated</div>
-            <div class="mi" id="mem-p6"><div class="dot"></div>Phase 6: Root causes identified</div>
-            <div class="mi" id="mem-report"><div class="dot"></div>Report generated</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PHASE 1 -->
-    <div class="page" id="page-p1">
-      <div class="panel"><div class="ph"><div class="pt">Phase 1: Dataset Understanding</div><span class="badge info">Step 2 of 8</span></div><div class="pb2">
-        <div id="p1-e" class="oa empty"><div class="ei">&#128228;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p1-c" style="display:none">
-          <div class="chips">
-            <button class="chip" onclick="rph('1','full dataset understanding with column meanings and data types')">Full Understanding</button>
-            <button class="chip" onclick="rph('1','business meaning of each column and potential use cases')">Column Meanings</button>
-            <button class="chip" onclick="rph('1','data quality risks and issues that could affect analysis')">Quality Risks</button>
-            <button class="chip" onclick="rph('1','5 important business questions this dataset can answer')">Suggested Questions</button>
-            <button class="chip" onclick="rph('1','recommended cleaning and preparation steps before analysis')">Cleaning Steps</button>
-            <button class="chip" onclick="rph('1','detect dataset type with confidence score and explain why')">Detect Type</button>
-          </div>
-          <div class="qrow" style="margin-bottom:12px"><textarea class="qin" id="p1q" placeholder="Ask anything about understanding this dataset..." rows="2"></textarea><button class="rbtn" onclick="rphc('1','p1q','p1o')">Analyse</button></div>
-          <div id="p1o" class="oa empty"><div class="ei">&#128269;</div><div>Select an analysis type or ask a question</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('p2',document.getElementById('nb-p2'))"><div class="pnb-l"><div class="pnb-t">Phase 2: Clean Data</div><div class="pnb-s">Fix missing values, duplicates and formatting issues</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- PHASE 2 -->
-    <div class="page" id="page-p2">
-      <div class="panel"><div class="ph"><div class="pt">Phase 2: Data Cleaning</div><span class="badge warn">Step 3 of 8</span></div><div class="pb2">
-        <div id="p2-e" class="oa empty"><div class="ei">&#129529;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p2-c" style="display:none">
-          <div id="p2-ic" style="margin-bottom:12px"></div>
-          <div class="tabs" id="p2t"><button class="tab on" onclick="setTab('p2t',0,'Excel')">Excel</button><button class="tab" onclick="setTab('p2t',1,'SQL')">SQL</button><button class="tab" onclick="setTab('p2t',2,'Python')">Python</button><button class="tab" onclick="setTab('p2t',3,'Power Query')">Power Query</button></div>
-          <div class="chips">
-            <button class="chip" onclick="rph('2','scan all data quality issues and provide severity ratings')">Scan All Issues</button>
-            <button class="chip" onclick="rph('2','fix all missing values with appropriate methods per column type')">Fix Missing Values</button>
-            <button class="chip" onclick="rph('2','identify and remove all duplicate records safely')">Remove Duplicates</button>
-            <button class="chip" onclick="rph('2','fix formatting inconsistencies and standardise text fields')">Fix Formatting</button>
-            <button class="chip" onclick="rph('2','detect and handle outliers using IQR method')">Handle Outliers</button>
-            <button class="chip" onclick="rph('2','complete step-by-step data cleaning plan')">Full Cleaning Plan</button>
-          </div>
-          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p2q" placeholder="Describe a specific cleaning task..." rows="2"></textarea><button class="rbtn" onclick="rphc('2','p2q','p2o')">Get Solution</button></div>
-          <div id="p2o" class="oa empty"><div class="ei">&#129529;</div><div>Select a cleaning task above</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('p3',document.getElementById('nb-p3'))"><div class="pnb-l"><div class="pnb-t">Phase 3: Validate Data</div><div class="pnb-s">Check data rules, reliability and completeness</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- PHASE 3 -->
-    <div class="page" id="page-p3">
-      <div class="panel"><div class="ph"><div class="pt">Phase 3: Data Validation</div><span class="badge info">Step 4 of 8</span></div><div class="pb2">
-        <div id="p3-e" class="oa empty"><div class="ei">&#9989;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p3-c" style="display:none">
-          <div id="p3-vc" style="margin-bottom:12px"></div>
-          <div class="chips">
-            <button class="chip" onclick="rph('3','run all validation checks with pass/fail and severity')">Run All Checks</button>
-            <button class="chip" onclick="rph('3','check for duplicate ID values in key columns')">Duplicate IDs</button>
-            <button class="chip" onclick="rph('3','validate all date columns for correct format and range')">Validate Dates</button>
-            <button class="chip" onclick="rph('3','check for negative values where logically inappropriate')">Negative Values</button>
-            <button class="chip" onclick="rph('3','check required columns have no empty values')">Required Columns</button>
-            <button class="chip" onclick="rph('3','anomaly detection with statistical methods')">Anomaly Detection</button>
-          </div>
-          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p3q" placeholder="Add a custom validation rule..." rows="2"></textarea><button class="rbtn" onclick="rphc('3','p3q','p3o')">Validate</button></div>
-          <div id="p3o" class="oa empty"><div class="ei">&#9989;</div><div>Select a validation check above</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('p4',document.getElementById('nb-p4'))"><div class="pnb-l"><div class="pnb-t">Phase 4: EDA</div><div class="pnb-s">Explore patterns, trends and relationships</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- PHASE 4 -->
-    <div class="page" id="page-p4">
-      <div class="panel"><div class="ph"><div class="pt">Phase 4: Exploratory Data Analysis</div><span class="badge info">Step 5 of 8</span></div><div class="pb2">
-        <div id="p4-e" class="oa empty"><div class="ei">&#128202;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p4-c" style="display:none">
-          <div class="chips">
-            <button class="chip" onclick="rph('4','distribution analysis for all numeric columns with business insight')">Distribution Analysis</button>
-            <button class="chip" onclick="rph('4','correlation analysis between columns with business interpretation')">Correlation Analysis</button>
-            <button class="chip" onclick="rph('4','outlier detection using IQR with business impact')">Outlier Detection</button>
-            <button class="chip" onclick="rph('4','trend analysis for time-based patterns')">Trend Analysis</button>
-            <button class="chip" onclick="rph('4','categorical column analysis with frequency distributions')">Categorical Analysis</button>
-            <button class="chip" onclick="rph('4','full EDA with top 5 business insights in plain language')">Full EDA + Insights</button>
-          </div>
-          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p4q" placeholder="Ask an EDA question about your data..." rows="2"></textarea><button class="rbtn" onclick="rphc('4','p4q','p4o')">Analyse</button></div>
-          <div id="p4o" class="oa empty"><div class="ei">&#128202;</div><div>Select an analysis type above</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('p5',document.getElementById('nb-p5'))"><div class="pnb-l"><div class="pnb-t">Phase 5: KPI Analysis</div><div class="pnb-s">Generate performance metrics and business indicators</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- PHASE 5 -->
-    <div class="page" id="page-p5">
-      <div class="panel"><div class="ph"><div class="pt">Phase 5: KPI Analysis</div><span class="badge info">Step 6 of 8</span></div><div class="pb2">
-        <div id="p5-e" class="oa empty"><div class="ei">&#128200;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p5-c" style="display:none">
-          <div class="chips" style="margin-bottom:6px">
-            <button class="chip" onclick="rph('5','Sales KPIs with Excel formulas DAX and SQL')">Sales</button>
-            <button class="chip" onclick="rph('5','Healthcare KPIs including patient wait time and readmission')">Healthcare</button>
-            <button class="chip" onclick="rph('5','Finance KPIs including profit margin and cost ratios')">Finance</button>
-            <button class="chip" onclick="rph('5','HR KPIs including turnover rate and absenteeism')">HR</button>
-            <button class="chip" onclick="rph('5','E-Commerce KPIs including conversion and return rates')">E-Commerce</button>
-            <button class="chip" onclick="rph('5','Marketing KPIs including ROI and conversion rate')">Marketing</button>
-            <button class="chip" onclick="rph('5','Operations KPIs including efficiency and throughput')">Operations</button>
-          </div>
-          <div class="chips">
-            <button class="chip" onclick="rph('5','auto-detect best KPIs from this specific dataset')">Auto-Detect KPIs</button>
-            <button class="chip" onclick="rph('5','critical KPIs that need immediate attention')">Critical KPIs</button>
-            <button class="chip" onclick="rph('5','executive dashboard KPI layout recommendation')">Executive KPIs</button>
-            <button class="chip" onclick="rph('5','all KPIs with DAX measures SQL queries and Excel formulas')">Full KPI Pack</button>
-          </div>
-          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p5q" placeholder="Ask about specific KPIs or metrics..." rows="2"></textarea><button class="rbtn" onclick="rphc('5','p5q','p5o')">Generate KPIs</button></div>
-          <div id="p5o" class="oa empty"><div class="ei">&#128200;</div><div>Select an industry or ask for specific KPIs</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('p6',document.getElementById('nb-p6'))"><div class="pnb-l"><div class="pnb-t">Phase 6: Root Cause Analysis</div><div class="pnb-s">Investigate why trends occurred and what to do</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- PHASE 6 -->
-    <div class="page" id="page-p6">
-      <div class="panel"><div class="ph"><div class="pt">Phase 6: Root Cause Analysis</div><span class="badge info">Step 7 of 8</span></div><div class="pb2">
-        <div id="p6-e" class="oa empty"><div class="ei">&#127919;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
-        <div id="p6-c" style="display:none">
-          <div class="chips" style="margin-bottom:6px">
-            <button class="chip" onclick="rph('6','investigate: Sales dropped unexpectedly')">Sales dropped</button>
-            <button class="chip" onclick="rph('6','investigate: Customer churn increased significantly')">Customer churn</button>
-            <button class="chip" onclick="rph('6','investigate: Low conversion rate')">Low conversion</button>
-            <button class="chip" onclick="rph('6','investigate: High employee turnover')">Employee turnover</button>
-            <button class="chip" onclick="rph('6','investigate: High operational costs')">High costs</button>
-            <button class="chip" onclick="rph('6','investigate: Low productivity metrics')">Low productivity</button>
-          </div>
-          <div class="chips">
-            <button class="chip" onclick="rph('6','5 Whys analysis chain')">5 Whys</button>
-            <button class="chip" onclick="rph('6','Pareto 80/20 analysis to identify top causes')">Pareto Analysis</button>
-            <button class="chip" onclick="rph('6','Fishbone Ishikawa diagram analysis')">Fishbone</button>
-            <button class="chip" onclick="rph('6','full root cause investigation with action plan')">Full Investigation</button>
-          </div>
-          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p6q" placeholder="Describe the problem you want to investigate..." rows="2"></textarea><button class="rbtn" onclick="rphc('6','p6q','p6o')">Investigate</button></div>
-          <div id="p6o" class="oa empty"><div class="ei">&#127919;</div><div>Select a problem template or describe the issue</div></div>
-          <div class="pnb" style="margin-top:12px" onclick="gp('report',document.getElementById('nb-report'))"><div class="pnb-l"><div class="pnb-t">Generate Executive Report</div><div class="pnb-s">Turn all findings into a professional report</div></div><div class="pnb-a">&#8594;</div></div>
-        </div>
-      </div></div>
-    </div>
-
-    <!-- SQL -->
-    <div class="page" id="page-sql">
-      <div class="panel"><div class="ph"><div class="pt">SQL Solution Engine</div></div><div class="pb2">
-        <div id="sql-schema" style="display:none;margin-bottom:12px"><div class="ic2"><div class="ic2-l">Auto-Detected Schema</div><div class="ic2-b" id="sql-schema-t" style="font-family:var(--mono);font-size:10px;white-space:pre-wrap"></div></div></div>
-        <div class="db-row"><button class="db on" onclick="setSQLd('MySQL',this)">MySQL</button><button class="db" onclick="setSQLd('PostgreSQL',this)">PostgreSQL</button><button class="db" onclick="setSQLd('SQL Server',this)">SQL Server</button><button class="db" onclick="setSQLd('SQLite',this)">SQLite</button><button class="db" onclick="setSQLd('BigQuery',this)">BigQuery</button></div>
-        <div class="tabs" id="sqlt"><button class="tab on" onclick="setTab('sqlt',0,'Beginner')">Beginner</button><button class="tab" onclick="setTab('sqlt',1,'Intermediate')">Intermediate</button><button class="tab" onclick="setTab('sqlt',2,'Advanced')">Advanced</button><button class="tab" onclick="setTab('sqlt',3,'Optimise')">Optimise</button></div>
-        <div class="chips">
-          <button class="chip" onclick="rSQL('Show top 10 records ordered by the main numeric column')">Top 10 records</button>
-          <button class="chip" onclick="rSQL('Find all duplicate rows in the dataset')">Find duplicates</button>
-          <button class="chip" onclick="rSQL('Calculate total average min max for all numeric columns')">Aggregation</button>
-          <button class="chip" onclick="rSQL('Group by each categorical column with counts')">Group by analysis</button>
-          <button class="chip" onclick="rSQL('Find records with missing null values')">Find nulls</button>
-          <button class="chip" onclick="rSQL('Monthly trend analysis if date column exists')">Monthly trend</button>
-          <button class="chip" onclick="rSQL('Window functions for ranking and running totals')">Window functions</button>
-          <button class="chip" onclick="rSQL('CTE for complex multi-step business logic')">CTE example</button>
-        </div>
-        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="sqlq" placeholder="Describe what SQL you need..." rows="2"></textarea><button class="rbtn" onclick="rSQL(document.getElementById('sqlq').value)">Generate SQL</button></div>
-        <div id="sqlout" class="oa empty"><div class="ei">&#128451;</div><div>Select a query type or describe what you need</div></div>
-      </div></div>
-    </div>
-
-    <!-- EXCEL -->
-    <div class="page" id="page-excel">
-      <div class="panel"><div class="ph"><div class="pt">Excel Analyst Mode</div></div><div class="pb2">
-        <div class="chips">
-          <button class="chip" onclick="rExcel('XLOOKUP vs VLOOKUP vs INDEX MATCH with examples')">XLOOKUP / VLOOKUP</button>
-          <button class="chip" onclick="rExcel('INDEX MATCH for flexible two-way lookups')">INDEX MATCH</button>
-          <button class="chip" onclick="rExcel('Pivot table complete setup guide for this dataset')">Pivot Tables</button>
-          <button class="chip" onclick="rExcel('SUMIFS COUNTIFS AVERAGEIFS with multiple criteria')">SUMIFS / COUNTIFS</button>
-          <button class="chip" onclick="rExcel('Conditional formatting rules for data quality checks')">Conditional Formatting</button>
-          <button class="chip" onclick="rExcel('Data cleaning formulas TRIM CLEAN IFERROR PROPER')">Cleaning Formulas</button>
-          <button class="chip" onclick="rExcel('Dashboard formulas and dynamic named ranges')">Dashboard Formulas</button>
-          <button class="chip" onclick="rExcel('IF nested IFERROR IFS SWITCH logic formulas')">IF Statements</button>
-          <button class="chip" onclick="rExcel('Power Query transformation step-by-step guide')">Power Query</button>
-        </div>
-        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="exq" placeholder="Describe your Excel problem..." rows="2"></textarea><button class="rbtn" onclick="rExcel(document.getElementById('exq').value)">Get Formula</button></div>
-        <div id="exout" class="oa empty"><div class="ei">&#128209;</div><div>Select a formula type or describe your problem</div></div>
-      </div></div>
-    </div>
-
-    <!-- PYTHON -->
-    <div class="page" id="page-python">
-      <div class="panel"><div class="ph"><div class="pt">Python Analyst Mode</div></div><div class="pb2">
-        <div class="tabs" id="pyt"><button class="tab on" onclick="setTab('pyt',0,'Load')">Load</button><button class="tab" onclick="setTab('pyt',1,'Clean')">Clean</button><button class="tab" onclick="setTab('pyt',2,'EDA')">EDA</button><button class="tab" onclick="setTab('pyt',3,'GroupBy')">GroupBy</button><button class="tab" onclick="setTab('pyt',4,'ML')">ML Starter</button></div>
-        <div class="chips">
-          <button class="chip" onclick="rPython('Load and inspect CSV with pandas showing dtypes missing values shape and head')">Load and Inspect</button>
-          <button class="chip" onclick="rPython('Clean data: handle missing values remove duplicates fix data types')">Clean Data</button>
-          <button class="chip" onclick="rPython('Full EDA with matplotlib seaborn histograms boxplots correlation heatmap')">EDA Visualisations</button>
-          <button class="chip" onclick="rPython('Correlation matrix heatmap with seaborn and annotation')">Correlation Heatmap</button>
-          <button class="chip" onclick="rPython('Groupby aggregation analysis with multiple functions')">GroupBy Analysis</button>
-          <button class="chip" onclick="rPython('Linear regression with scikit-learn train test split and R-squared evaluation')">Linear Regression</button>
-          <button class="chip" onclick="rPython('Classification with scikit-learn random forest and confusion matrix')">Classification ML</button>
-        </div>
-        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pyq" placeholder="Describe what Python code you need..." rows="2"></textarea><button class="rbtn" onclick="rPython(document.getElementById('pyq').value)">Generate Code</button></div>
-        <div id="pyout" class="oa empty"><div class="ei">&#128013;</div><div>Select a code type or describe what you need</div></div>
-      </div></div>
-    </div>
-
-    <!-- POWER BI -->
-    <div class="page" id="page-pbi">
-      <div class="panel"><div class="ph"><div class="pt">Power BI Mode</div></div><div class="pb2">
-        <div class="chips" style="margin-bottom:6px">
-          <button class="chip" onclick="rPBI('Executive Dashboard template with KPI cards and trend visuals')">Executive Dashboard</button>
-          <button class="chip" onclick="rPBI('Sales Dashboard with revenue profit and customer KPIs')">Sales Dashboard</button>
-          <button class="chip" onclick="rPBI('Finance Dashboard with P and L and budget vs actual')">Finance Dashboard</button>
-          <button class="chip" onclick="rPBI('HR Dashboard with headcount turnover and performance')">HR Dashboard</button>
-          <button class="chip" onclick="rPBI('Marketing Dashboard with campaign ROI and conversions')">Marketing Dashboard</button>
-          <button class="chip" onclick="rPBI('NHS Healthcare Dashboard with patient metrics')">NHS Dashboard</button>
-        </div>
-        <div class="chips">
-          <button class="chip" onclick="rPBI('DAX measures for this specific dataset columns')">DAX Measures</button>
-          <button class="chip" onclick="rPBI('Star schema data model with fact and dimension tables')">Star Schema</button>
-          <button class="chip" onclick="rPBI('Power Query M code transformation steps')">Power Query M</button>
-          <button class="chip" onclick="rPBI('Drill-through report design and setup')">Drill Through</button>
-          <button class="chip" onclick="rPBI('Row Level Security setup for multi-tenant access')">Row Level Security</button>
-        </div>
-        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pbiq" placeholder="Describe your Power BI needs..." rows="2"></textarea><button class="rbtn" onclick="rPBI(document.getElementById('pbiq').value)">Generate</button></div>
-        <div id="pbiout" class="oa empty"><div class="ei">&#9889;</div><div>Select a template or describe what you need</div></div>
-      </div></div>
-    </div>
-
-    <!-- STATISTICS -->
-    <div class="page" id="page-stats">
-      <div class="panel"><div class="ph"><div class="pt">Statistics Mode</div></div><div class="pb2">
-        <div class="ic2" style="margin-bottom:12px"><div class="ic2-l">What Statistical Test Should I Use?</div><div class="ic2-b">Tell me your goal and I will recommend the right test with Python code and Excel method.</div></div>
-        <div class="chips">
-          <button class="chip" onclick="rStats('explain mean median mode standard deviation with business examples')">Mean / Median / Mode</button>
-          <button class="chip" onclick="rStats('hypothesis testing step by step with p-value and significance')">Hypothesis Testing</button>
-          <button class="chip" onclick="rStats('correlation analysis with Pearson Spearman and business interpretation')">Correlation</button>
-          <button class="chip" onclick="rStats('A/B testing design setup analysis and interpretation')">A/B Testing</button>
-          <button class="chip" onclick="rStats('linear regression with R-squared and residual analysis')">Regression</button>
-          <button class="chip" onclick="rStats('ANOVA one-way test for comparing multiple groups')">ANOVA</button>
-          <button class="chip" onclick="rStats('t-test for comparing means of two independent groups')">T-Test</button>
-          <button class="chip" onclick="rStats('chi-square test for categorical variable relationships')">Chi-Square</button>
-          <button class="chip" onclick="rStats('recommend statistical test for my dataset and goals')">What Test To Use?</button>
-        </div>
-        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="stq" placeholder="Ask any statistics question..." rows="2"></textarea><button class="rbtn" onclick="rStats(document.getElementById('stq').value)">Explain</button></div>
-        <div id="stout" class="oa empty"><div class="ei">&#128208;</div><div>Select a statistical concept or ask a question</div></div>
-      </div></div>
-    </div>
-
-    <!-- REPORT -->
-    <div class="page" id="page-report">
-      <div class="panel"><div class="ph"><div class="pt">Report Writer</div><span class="badge info">Step 8 of 8</span></div><div class="pb2">
-        <div class="tabs" id="rept"><button class="tab on" onclick="setTab('rept',0,'Executive')">Executive</button><button class="tab" onclick="setTab('rept',1,'Technical')">Technical</button><button class="tab" onclick="setTab('rept',2,'Data Quality')">Data Quality</button><button class="tab" onclick="setTab('rept',3,'KPI Report')">KPI Report</button><button class="tab" onclick="setTab('rept',4,'Full Report')">Full Report</button></div>
-        <div style="margin-bottom:10px">
-          <div style="font-size:9px;color:var(--text3);margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em">Report Tone</div>
-          <div class="chips" id="tone-chips" style="margin-bottom:0"><button class="chip on" onclick="setTone('Executive',this)">Executive</button><button class="chip" onclick="setTone('Academic',this)">Academic</button><button class="chip" onclick="setTone('Beginner-friendly',this)">Beginner Friendly</button><button class="chip" onclick="setTone('Technical',this)">Technical</button><button class="chip" onclick="setTone('Business',this)">Business</button></div>
-        </div>
-        <div class="qrow" style="margin-bottom:10px"><textarea class="qin" id="repq" placeholder="Add specific instructions (optional)..." rows="2"></textarea><button class="rbtn lg" onclick="rReport()">Generate Report</button></div>
-        <div id="repout" class="oa empty"><div class="ei">&#128221;</div><div>Click Generate Report to create a professional report</div></div>
-        <div id="rep-ex" class="btn-row" style="display:none"><button class="rbtn ou sm" onclick="cpRep()">Copy Report</button><button class="rbtn ou sm" onclick="dlRep('txt')">Download TXT</button><button class="rbtn ou sm" onclick="dlRep('md')">Download Markdown</button></div>
-      </div></div>
-    </div>
-
-  </div>
-</div>
-</div>
-
 <script>
 // GLOBAL DATASET MEMORY
 var DS={loaded:false,filename:'',filetype:'',filesize:0,rowCount:0,colCount:0,headers:[],rows:[],dtypes:{},missingCount:0,missingByCol:{},duplicateCount:0,outlierCols:[],qualityScore:0,detectedType:'Unknown',typeConfidence:0,sampleCSV:'',sqlSchema:'',aiImpression:''};
@@ -1273,5 +790,489 @@ function toast(msg){
   document.body.appendChild(t); setTimeout(function(){t.remove();},3000);
 }
 </script>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logo-t"><div class="logo-dot"></div>Data<span>Mind</span> AI</div><div class="logo-s">Professional Analytics Platform v2</div></div>
+  <div class="ds-banner" id="dsb">
+    <div class="ds-bl e" id="dsb-l">No Dataset Loaded</div>
+    <div class="ds-bn" id="dsb-n" style="color:var(--text3);font-size:10px">Upload a dataset to begin</div>
+    <div class="ds-m" id="dsb-m" style="display:none">
+      <div class="ds-mi">Rows: <span id="sb-r">--</span></div><div class="ds-mi">Cols: <span id="sb-c">--</span></div>
+      <div class="ds-mi">Missing: <span id="sb-ms">--</span></div><div class="ds-mi">Type: <span id="sb-tp">--</span></div>
+    </div>
+    <div class="ds-sc" id="dsb-sc" style="display:none"><div class="sc-bar"><div class="sc-fill" id="sc-f" style="width:0%"></div></div><div class="sc-t" id="sc-t">0%</div></div>
+  </div>
+  <nav class="nav">
+    <span class="nl">Home</span>
+    <button class="nb on" id="nb-home" onclick="gp('home',this)"><span class="ic">&#127968;</span>Dashboard</button>
+    <button class="nb" id="nb-upload" onclick="gp('upload',this)"><span class="ic">&#128228;</span>Upload Dataset</button>
+    <button class="nb" id="nb-chat" onclick="gp('chat',this)"><span class="ic">&#129302;</span>AI Chat Analyst</button>
+    <span class="nl" style="margin-top:5px">Analysis Phases</span>
+    <button class="nb" id="nb-p1" onclick="gp('p1',this)"><span class="ic">&#128269;</span>Phase 1 Understand</button>
+    <button class="nb" id="nb-p2" onclick="gp('p2',this)"><span class="ic">&#129529;</span>Phase 2 Clean</button>
+    <button class="nb" id="nb-p3" onclick="gp('p3',this)"><span class="ic">&#9989;</span>Phase 3 Validate</button>
+    <button class="nb" id="nb-p4" onclick="gp('p4',this)"><span class="ic">&#128202;</span>Phase 4 EDA</button>
+    <button class="nb" id="nb-p5" onclick="gp('p5',this)"><span class="ic">&#128200;</span>Phase 5 KPIs</button>
+    <button class="nb" id="nb-p6" onclick="gp('p6',this)"><span class="ic">&#127919;</span>Phase 6 Root Cause</button>
+    <span class="nl" style="margin-top:5px">Tools</span>
+    <button class="nb" id="nb-sql" onclick="gp('sql',this)"><span class="ic">&#128451;</span>SQL Engine</button>
+    <button class="nb" id="nb-excel" onclick="gp('excel',this)"><span class="ic">&#128209;</span>Excel Mode</button>
+    <button class="nb" id="nb-python" onclick="gp('python',this)"><span class="ic">&#128013;</span>Python Mode</button>
+    <button class="nb" id="nb-pbi" onclick="gp('pbi',this)"><span class="ic">&#9889;</span>Power BI Mode</button>
+    <button class="nb" id="nb-stats" onclick="gp('stats',this)"><span class="ic">&#128208;</span>Statistics</button>
+    <button class="nb" id="nb-report" onclick="gp('report',this)"><span class="ic">&#128221;</span>Report Writer</button>
+  </nav>
+  <div class="sfoot">
+    <div class="pb">
+      <div class="pb-steps"><div class="pb-step" id="ps-upload"></div><div class="pb-step" id="ps-p1"></div><div class="pb-step" id="ps-p2"></div><div class="pb-step" id="ps-p3"></div><div class="pb-step" id="ps-p4"></div><div class="pb-step" id="ps-p5"></div><div class="pb-step" id="ps-p6"></div><div class="pb-step" id="ps-report"></div></div>
+      <div class="pb-txt">Progress: <span id="prog-pct">0</span>% complete</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><div><div class="tb-t" id="tb-t">Dashboard</div><div class="tb-s" id="tb-s">Welcome to DataMind AI</div></div></div>
+    <div class="tb-r">
+      <button class="tbb" onclick="clearAll()">Clear</button>
+      <button class="tbb" onclick="gp('upload',document.getElementById('nb-upload'))">Upload</button>
+      <button class="tbb p" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Workflow Progress</div></div>
+        <div class="pb2">
+          <div class="pt-wrap">
+            <div class="pt-node"><div class="pt-dot" id="pd-upload" onclick="gp('upload',document.getElementById('nb-upload'))">&#128228;</div><div class="pt-lbl" id="pl-upload">Upload</div></div>
+            <div class="pt-line" id="pl1"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p1" onclick="gp('p1',document.getElementById('nb-p1'))">1</div><div class="pt-lbl" id="pl-p1">Understand</div></div>
+            <div class="pt-line" id="pl2"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p2" onclick="gp('p2',document.getElementById('nb-p2'))">2</div><div class="pt-lbl" id="pl-p2">Clean</div></div>
+            <div class="pt-line" id="pl3"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p3" onclick="gp('p3',document.getElementById('nb-p3'))">3</div><div class="pt-lbl" id="pl-p3">Validate</div></div>
+            <div class="pt-line" id="pl4"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p4" onclick="gp('p4',document.getElementById('nb-p4'))">4</div><div class="pt-lbl" id="pl-p4">EDA</div></div>
+            <div class="pt-line" id="pl5"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p5" onclick="gp('p5',document.getElementById('nb-p5'))">5</div><div class="pt-lbl" id="pl-p5">KPIs</div></div>
+            <div class="pt-line" id="pl6"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-p6" onclick="gp('p6',document.getElementById('nb-p6'))">6</div><div class="pt-lbl" id="pl-p6">Root Cause</div></div>
+            <div class="pt-line" id="pl7"></div>
+            <div class="pt-node"><div class="pt-dot" id="pd-report" onclick="gp('report',document.getElementById('nb-report'))">&#128221;</div><div class="pt-lbl" id="pl-report">Report</div></div>
+          </div>
+          <div id="home-next" style="margin-top:8px">
+            <div class="pnb" onclick="gp('upload',document.getElementById('nb-upload'))">
+              <div class="pnb-l"><div class="pnb-t">Get Started -- Upload Your Dataset</div><div class="pnb-s">Upload once and all phases will use your data automatically</div></div>
+              <div class="pnb-a">&#8594;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cg cg4" id="home-stats">
+        <div class="sc"><div class="sv" id="h-r">--</div><div class="sl">Dataset Rows</div><div class="ss" id="h-rs">No dataset loaded</div></div>
+        <div class="sc"><div class="sv" id="h-c">--</div><div class="sl">Columns</div><div class="ss" id="h-cs">Upload a file</div></div>
+        <div class="sc re"><div class="sv re" id="h-m">--</div><div class="sl">Missing Values</div><div class="ss" id="h-ms">Quality check</div></div>
+        <div class="sc go"><div class="sv go" id="h-sc">--</div><div class="sl">Quality Score</div><div class="ss" id="h-scs">Out of 100</div></div>
+      </div>
+      <div class="panel" id="ai-imp" style="display:none">
+        <div class="ph"><div class="pt">AI First Impression</div><span class="badge info">Auto-detected</span></div>
+        <div class="pb2">
+          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">Dataset Intelligence</div><div class="ic2-b" id="ai-imp-t">Analysing...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Analysis &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Quick Actions</div></div>
+        <div class="pb2">
+          <div class="cg cg4">
+            <div class="sm-b" onclick="gp('upload',document.getElementById('nb-upload'))"><div class="sm-i">&#128228;</div><div class="sm-n">Upload Dataset</div><div class="sm-d">CSV, Excel, JSON, TSV</div></div>
+            <div class="sm-b" onclick="gp('chat',document.getElementById('nb-chat'))"><div class="sm-i">&#129302;</div><div class="sm-n">Ask AI Analyst</div><div class="sm-d">Chat with your data</div></div>
+            <div class="sm-b" onclick="gp('report',document.getElementById('nb-report'))"><div class="sm-i">&#128221;</div><div class="sm-n">Generate Report</div><div class="sm-d">Executive or technical</div></div>
+            <div class="sm-b" onclick="gp('sql',document.getElementById('nb-sql'))"><div class="sm-i">&#128451;</div><div class="sm-n">SQL Engine</div><div class="sm-d">Query your data</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="page" id="page-upload">
+      <div class="panel">
+        <div class="ph"><div class="pt">Upload Dataset</div><span class="badge info">Step 1 of 8</span></div>
+        <div class="pb2">
+          <div class="pn" style="margin-bottom:14px"><span>&#128274;</span> Files are processed securely and not stored permanently. Your data stays private.</div>
+          <div class="uz" id="upZ" ondragover="odv(event)" ondragleave="odl(event)" ondrop="odr(event)" onclick="document.getElementById('fi').click()">
+            <div id="up-idle"><div class="uz-i">&#128202;</div><div class="uz-t">Drop your dataset here or click to browse</div><div class="uz-s">DataMind AI auto-analyses your data, detects types and suggests insights</div><div class="uz-f"><span class="fmt">CSV</span><span class="fmt">XLSX</span><span class="fmt">JSON</span><span class="fmt">TSV</span><span class="fmt">TXT</span></div></div>
+            <div class="up-st" id="up-ld"><div class="up-sp"></div><div class="up-l" id="up-lbl">Reading file...</div><div class="up-p"><div class="up-pf" id="up-pf" style="width:0%"></div></div></div>
+          </div>
+          <input type="file" id="fi" accept=".csv,.xlsx,.json,.tsv,.txt" style="display:none" onchange="handleUpload(event)"/>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Try Sample Datasets</div></div>
+        <div class="pb2">
+          <div class="sm-g">
+            <div class="sm-b" onclick="loadSample('sales')"><div class="sm-i">&#128184;</div><div class="sm-n">Sales Dataset</div><div class="sm-d">Revenue, customers, products</div></div>
+            <div class="sm-b" onclick="loadSample('hr')"><div class="sm-i">&#128101;</div><div class="sm-n">HR Dataset</div><div class="sm-d">Employees, salaries, turnover</div></div>
+            <div class="sm-b" onclick="loadSample('healthcare')"><div class="sm-i">&#127973;</div><div class="sm-n">Healthcare Dataset</div><div class="sm-d">Patients, wait times, outcomes</div></div>
+            <div class="sm-b" onclick="loadSample('marketing')"><div class="sm-i">&#128293;</div><div class="sm-n">Marketing Dataset</div><div class="sm-d">Campaigns, conversions, ROI</div></div>
+            <div class="sm-b" onclick="loadSample('finance')"><div class="sm-i">&#128176;</div><div class="sm-n">Finance Dataset</div><div class="sm-d">Budgets, expenses, profit</div></div>
+            <div class="sm-b" onclick="loadSample('ecommerce')"><div class="sm-i">&#128722;</div><div class="sm-n">E-Commerce Dataset</div><div class="sm-d">Orders, returns, customers</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="up-summary" style="display:none">
+        <div class="ph"><div class="pt">Dataset Processed</div><span class="badge pass">Ready</span></div>
+        <div class="pb2">
+          <div class="cg cg4" style="margin-bottom:14px">
+            <div class="sc gr"><div class="sv gr" id="us-r">--</div><div class="sl">Total Rows</div></div>
+            <div class="sc ac"><div class="sv" id="us-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc re"><div class="sv re" id="us-m">--</div><div class="sl">Missing Values</div></div>
+            <div class="sc go"><div class="sv go" id="us-sc">--</div><div class="sl">Quality Score</div></div>
+          </div>
+          <div class="cg cg3" style="margin-bottom:14px">
+            <div class="ic2 ok"><div class="ic2-l">Dataset Type</div><div class="ic2-t" id="us-tp">Detecting...</div><div class="ic2-b" id="us-conf"></div></div>
+            <div class="ic2"><div class="ic2-l">File Info</div><div class="ic2-t" id="us-fn">--</div><div class="ic2-b" id="us-fs"></div></div>
+            <div class="ic2 w"><div class="ic2-l">Duplicates</div><div class="ic2-t" id="us-dp">--</div><div class="ic2-b" id="us-dpd"></div></div>
+          </div>
+          <div class="panel" style="margin-bottom:12px"><div class="ph"><div class="pt">Column Overview</div></div><div class="pb2"><div id="col-ov" class="tbl-wrap"></div></div></div>
+          <div class="ic2 ok" style="margin-bottom:12px"><div class="ic2-l">AI First Impression</div><div class="ic2-b" id="us-ai">Analysing your dataset...</div></div>
+          <div class="btn-row">
+            <button class="rbtn gr lg" onclick="gp('p1',document.getElementById('nb-p1'))">Start Dataset Understanding &#8594;</button>
+            <button class="rbtn ou" onclick="gp('p2',document.getElementById('nb-p2'))">Clean Data</button>
+            <button class="rbtn ou" onclick="gp('chat',document.getElementById('nb-chat'))">Ask AI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="page" id="page-chat">
+      <div class="panel">
+        <div class="ph"><div class="pt">AI Chat Analyst</div><div id="c-ds-status" class="badge info">No Dataset</div></div>
+        <div class="pb2" style="padding-top:10px;padding-bottom:10px">
+          <div id="c-ds-cards" class="cg cg4" style="display:none;margin-bottom:0">
+            <div class="sc"><div class="sv" id="c-r">--</div><div class="sl">Rows</div></div>
+            <div class="sc"><div class="sv" id="c-c">--</div><div class="sl">Columns</div></div>
+            <div class="sc go"><div class="sv go" id="c-sc">--</div><div class="sl">Quality</div></div>
+            <div class="sc gr"><div class="sv gr" style="font-size:14px" id="c-tp">--</div><div class="sl">Type</div></div>
+          </div>
+          <div id="c-no-ds" style="font-size:11px;color:var(--text3)">Upload a dataset to enable full AI context. Every answer will use your actual data and column names.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Role and Mode</div></div>
+        <div class="pb2" style="padding-bottom:10px">
+          <div class="rg">
+            <div class="rc on" onclick="setRole('Data Analyst',this)"><div class="rc-i">&#128202;</div><div class="rc-n">Data Analyst</div></div>
+            <div class="rc" onclick="setRole('SQL Expert',this)"><div class="rc-i">&#128451;</div><div class="rc-n">SQL Expert</div></div>
+            <div class="rc" onclick="setRole('Power BI Consultant',this)"><div class="rc-i">&#9889;</div><div class="rc-n">Power BI</div></div>
+            <div class="rc" onclick="setRole('Statistician',this)"><div class="rc-i">&#128208;</div><div class="rc-n">Statistician</div></div>
+            <div class="rc" onclick="setRole('Business Analyst',this)"><div class="rc-i">&#128188;</div><div class="rc-n">Business</div></div>
+            <div class="rc" onclick="setRole('Executive Advisor',this)"><div class="rc-i">&#127970;</div><div class="rc-n">Executive</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Conversation</div><button class="tbb" onclick="clearChat()">Clear</button></div>
+        <div class="pb2" style="display:flex;flex-direction:column;gap:10px">
+          <div class="chips">
+            <button class="chip" onclick="cq('Analyse all missing values and suggest specific fixes for each column')">Analyse missing values</button>
+            <button class="chip" onclick="cq('Suggest the most relevant KPIs for this dataset with formulas')">Suggest KPIs</button>
+            <button class="chip" onclick="cq('Generate SQL CREATE TABLE and analysis queries for this dataset')">Generate SQL</button>
+            <button class="chip" onclick="cq('Write complete Python pandas code to analyse this dataset')">Python code</button>
+            <button class="chip" onclick="cq('Design a Power BI dashboard with DAX measures for this data')">Power BI dashboard</button>
+            <button class="chip" onclick="cq('Find all anomalies and outliers in this dataset using IQR method')">Find anomalies</button>
+            <button class="chip" onclick="cq('Explain the key business insights from this dataset in plain language')">Business insights</button>
+            <button class="chip" onclick="cq('Write a professional executive report summary for this dataset')">Executive report</button>
+          </div>
+          <div class="msgs" id="cmsgs">
+            <div class="msg ai"><div class="mav">AI</div><div class="mbbl">Hello! I am DataMind AI -- your intelligent analytics assistant.<br><br>&#128228; <strong>Upload a dataset</strong> and I will use your actual data in every answer.<br>&#127775; <strong>Switch roles</strong> above for SQL, statistics, Power BI or executive perspective.<br><br>What would you like to analyse?</div></div>
+          </div>
+          <div class="qrow">
+            <textarea class="qin" id="cin" placeholder="Ask anything... e.g. What are the top 3 insights from my dataset?" rows="2" onkeydown="ckk(event)" style="min-height:44px"></textarea>
+            <button class="rbtn" id="cbtn" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Analysis Memory</div></div>
+        <div class="pb2">
+          <div id="mem-items">
+            <div class="mi" id="mem-upload"><div class="dot"></div>Dataset uploaded</div>
+            <div class="mi" id="mem-p1"><div class="dot"></div>Phase 1: Dataset Understanding complete</div>
+            <div class="mi" id="mem-p2"><div class="dot"></div>Phase 2: Data Cleaning complete</div>
+            <div class="mi" id="mem-p3"><div class="dot"></div>Phase 3: Validation complete</div>
+            <div class="mi" id="mem-p4"><div class="dot"></div>Phase 4: EDA complete</div>
+            <div class="mi" id="mem-p5"><div class="dot"></div>Phase 5: KPIs generated</div>
+            <div class="mi" id="mem-p6"><div class="dot"></div>Phase 6: Root causes identified</div>
+            <div class="mi" id="mem-report"><div class="dot"></div>Report generated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="page" id="page-p1">
+      <div class="panel"><div class="ph"><div class="pt">Phase 1: Dataset Understanding</div><span class="badge info">Step 2 of 8</span></div><div class="pb2">
+        <div id="p1-e" class="oa empty"><div class="ei">&#128228;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p1-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('1','full dataset understanding with column meanings and data types')">Full Understanding</button>
+            <button class="chip" onclick="rph('1','business meaning of each column and potential use cases')">Column Meanings</button>
+            <button class="chip" onclick="rph('1','data quality risks and issues that could affect analysis')">Quality Risks</button>
+            <button class="chip" onclick="rph('1','5 important business questions this dataset can answer')">Suggested Questions</button>
+            <button class="chip" onclick="rph('1','recommended cleaning and preparation steps before analysis')">Cleaning Steps</button>
+            <button class="chip" onclick="rph('1','detect dataset type with confidence score and explain why')">Detect Type</button>
+          </div>
+          <div class="qrow" style="margin-bottom:12px"><textarea class="qin" id="p1q" placeholder="Ask anything about understanding this dataset..." rows="2"></textarea><button class="rbtn" onclick="rphc('1','p1q','p1o')">Analyse</button></div>
+          <div id="p1o" class="oa empty"><div class="ei">&#128269;</div><div>Select an analysis type or ask a question</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p2',document.getElementById('nb-p2'))"><div class="pnb-l"><div class="pnb-t">Phase 2: Clean Data</div><div class="pnb-s">Fix missing values, duplicates and formatting issues</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="page" id="page-p2">
+      <div class="panel"><div class="ph"><div class="pt">Phase 2: Data Cleaning</div><span class="badge warn">Step 3 of 8</span></div><div class="pb2">
+        <div id="p2-e" class="oa empty"><div class="ei">&#129529;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p2-c" style="display:none">
+          <div id="p2-ic" style="margin-bottom:12px"></div>
+          <div class="tabs" id="p2t"><button class="tab on" onclick="setTab('p2t',0,'Excel')">Excel</button><button class="tab" onclick="setTab('p2t',1,'SQL')">SQL</button><button class="tab" onclick="setTab('p2t',2,'Python')">Python</button><button class="tab" onclick="setTab('p2t',3,'Power Query')">Power Query</button></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('2','scan all data quality issues and provide severity ratings')">Scan All Issues</button>
+            <button class="chip" onclick="rph('2','fix all missing values with appropriate methods per column type')">Fix Missing Values</button>
+            <button class="chip" onclick="rph('2','identify and remove all duplicate records safely')">Remove Duplicates</button>
+            <button class="chip" onclick="rph('2','fix formatting inconsistencies and standardise text fields')">Fix Formatting</button>
+            <button class="chip" onclick="rph('2','detect and handle outliers using IQR method')">Handle Outliers</button>
+            <button class="chip" onclick="rph('2','complete step-by-step data cleaning plan')">Full Cleaning Plan</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p2q" placeholder="Describe a specific cleaning task..." rows="2"></textarea><button class="rbtn" onclick="rphc('2','p2q','p2o')">Get Solution</button></div>
+          <div id="p2o" class="oa empty"><div class="ei">&#129529;</div><div>Select a cleaning task above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p3',document.getElementById('nb-p3'))"><div class="pnb-l"><div class="pnb-t">Phase 3: Validate Data</div><div class="pnb-s">Check data rules, reliability and completeness</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="page" id="page-p3">
+      <div class="panel"><div class="ph"><div class="pt">Phase 3: Data Validation</div><span class="badge info">Step 4 of 8</span></div><div class="pb2">
+        <div id="p3-e" class="oa empty"><div class="ei">&#9989;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p3-c" style="display:none">
+          <div id="p3-vc" style="margin-bottom:12px"></div>
+          <div class="chips">
+            <button class="chip" onclick="rph('3','run all validation checks with pass/fail and severity')">Run All Checks</button>
+            <button class="chip" onclick="rph('3','check for duplicate ID values in key columns')">Duplicate IDs</button>
+            <button class="chip" onclick="rph('3','validate all date columns for correct format and range')">Validate Dates</button>
+            <button class="chip" onclick="rph('3','check for negative values where logically inappropriate')">Negative Values</button>
+            <button class="chip" onclick="rph('3','check required columns have no empty values')">Required Columns</button>
+            <button class="chip" onclick="rph('3','anomaly detection with statistical methods')">Anomaly Detection</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p3q" placeholder="Add a custom validation rule..." rows="2"></textarea><button class="rbtn" onclick="rphc('3','p3q','p3o')">Validate</button></div>
+          <div id="p3o" class="oa empty"><div class="ei">&#9989;</div><div>Select a validation check above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p4',document.getElementById('nb-p4'))"><div class="pnb-l"><div class="pnb-t">Phase 4: EDA</div><div class="pnb-s">Explore patterns, trends and relationships</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="page" id="page-p4">
+      <div class="panel"><div class="ph"><div class="pt">Phase 4: Exploratory Data Analysis</div><span class="badge info">Step 5 of 8</span></div><div class="pb2">
+        <div id="p4-e" class="oa empty"><div class="ei">&#128202;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p4-c" style="display:none">
+          <div class="chips">
+            <button class="chip" onclick="rph('4','distribution analysis for all numeric columns with business insight')">Distribution Analysis</button>
+            <button class="chip" onclick="rph('4','correlation analysis between columns with business interpretation')">Correlation Analysis</button>
+            <button class="chip" onclick="rph('4','outlier detection using IQR with business impact')">Outlier Detection</button>
+            <button class="chip" onclick="rph('4','trend analysis for time-based patterns')">Trend Analysis</button>
+            <button class="chip" onclick="rph('4','categorical column analysis with frequency distributions')">Categorical Analysis</button>
+            <button class="chip" onclick="rph('4','full EDA with top 5 business insights in plain language')">Full EDA + Insights</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p4q" placeholder="Ask an EDA question about your data..." rows="2"></textarea><button class="rbtn" onclick="rphc('4','p4q','p4o')">Analyse</button></div>
+          <div id="p4o" class="oa empty"><div class="ei">&#128202;</div><div>Select an analysis type above</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p5',document.getElementById('nb-p5'))"><div class="pnb-l"><div class="pnb-t">Phase 5: KPI Analysis</div><div class="pnb-s">Generate performance metrics and business indicators</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="page" id="page-p5">
+      <div class="panel"><div class="ph"><div class="pt">Phase 5: KPI Analysis</div><span class="badge info">Step 6 of 8</span></div><div class="pb2">
+        <div id="p5-e" class="oa empty"><div class="ei">&#128200;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p5-c" style="display:none">
+          <div class="chips" style="margin-bottom:6px">
+            <button class="chip" onclick="rph('5','Sales KPIs with Excel formulas DAX and SQL')">Sales</button>
+            <button class="chip" onclick="rph('5','Healthcare KPIs including patient wait time and readmission')">Healthcare</button>
+            <button class="chip" onclick="rph('5','Finance KPIs including profit margin and cost ratios')">Finance</button>
+            <button class="chip" onclick="rph('5','HR KPIs including turnover rate and absenteeism')">HR</button>
+            <button class="chip" onclick="rph('5','E-Commerce KPIs including conversion and return rates')">E-Commerce</button>
+            <button class="chip" onclick="rph('5','Marketing KPIs including ROI and conversion rate')">Marketing</button>
+            <button class="chip" onclick="rph('5','Operations KPIs including efficiency and throughput')">Operations</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('5','auto-detect best KPIs from this specific dataset')">Auto-Detect KPIs</button>
+            <button class="chip" onclick="rph('5','critical KPIs that need immediate attention')">Critical KPIs</button>
+            <button class="chip" onclick="rph('5','executive dashboard KPI layout recommendation')">Executive KPIs</button>
+            <button class="chip" onclick="rph('5','all KPIs with DAX measures SQL queries and Excel formulas')">Full KPI Pack</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p5q" placeholder="Ask about specific KPIs or metrics..." rows="2"></textarea><button class="rbtn" onclick="rphc('5','p5q','p5o')">Generate KPIs</button></div>
+          <div id="p5o" class="oa empty"><div class="ei">&#128200;</div><div>Select an industry or ask for specific KPIs</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('p6',document.getElementById('nb-p6'))"><div class="pnb-l"><div class="pnb-t">Phase 6: Root Cause Analysis</div><div class="pnb-s">Investigate why trends occurred and what to do</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="page" id="page-p6">
+      <div class="panel"><div class="ph"><div class="pt">Phase 6: Root Cause Analysis</div><span class="badge info">Step 7 of 8</span></div><div class="pb2">
+        <div id="p6-e" class="oa empty"><div class="ei">&#127919;</div><div>No dataset loaded</div><button class="rbtn ou" style="margin-top:8px" onclick="gp('upload',document.getElementById('nb-upload'))">Upload Dataset</button></div>
+        <div id="p6-c" style="display:none">
+          <div class="chips" style="margin-bottom:6px">
+            <button class="chip" onclick="rph('6','investigate: Sales dropped unexpectedly')">Sales dropped</button>
+            <button class="chip" onclick="rph('6','investigate: Customer churn increased significantly')">Customer churn</button>
+            <button class="chip" onclick="rph('6','investigate: Low conversion rate')">Low conversion</button>
+            <button class="chip" onclick="rph('6','investigate: High employee turnover')">Employee turnover</button>
+            <button class="chip" onclick="rph('6','investigate: High operational costs')">High costs</button>
+            <button class="chip" onclick="rph('6','investigate: Low productivity metrics')">Low productivity</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="rph('6','5 Whys analysis chain')">5 Whys</button>
+            <button class="chip" onclick="rph('6','Pareto 80/20 analysis to identify top causes')">Pareto Analysis</button>
+            <button class="chip" onclick="rph('6','Fishbone Ishikawa diagram analysis')">Fishbone</button>
+            <button class="chip" onclick="rph('6','full root cause investigation with action plan')">Full Investigation</button>
+          </div>
+          <div class="qrow" style="margin:10px 0"><textarea class="qin" id="p6q" placeholder="Describe the problem you want to investigate..." rows="2"></textarea><button class="rbtn" onclick="rphc('6','p6q','p6o')">Investigate</button></div>
+          <div id="p6o" class="oa empty"><div class="ei">&#127919;</div><div>Select a problem template or describe the issue</div></div>
+          <div class="pnb" style="margin-top:12px" onclick="gp('report',document.getElementById('nb-report'))"><div class="pnb-l"><div class="pnb-t">Generate Executive Report</div><div class="pnb-s">Turn all findings into a professional report</div></div><div class="pnb-a">&#8594;</div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SQL -->
+    <div class="page" id="page-sql">
+      <div class="panel"><div class="ph"><div class="pt">SQL Solution Engine</div></div><div class="pb2">
+        <div id="sql-schema" style="display:none;margin-bottom:12px"><div class="ic2"><div class="ic2-l">Auto-Detected Schema</div><div class="ic2-b" id="sql-schema-t" style="font-family:var(--mono);font-size:10px;white-space:pre-wrap"></div></div></div>
+        <div class="db-row"><button class="db on" onclick="setSQLd('MySQL',this)">MySQL</button><button class="db" onclick="setSQLd('PostgreSQL',this)">PostgreSQL</button><button class="db" onclick="setSQLd('SQL Server',this)">SQL Server</button><button class="db" onclick="setSQLd('SQLite',this)">SQLite</button><button class="db" onclick="setSQLd('BigQuery',this)">BigQuery</button></div>
+        <div class="tabs" id="sqlt"><button class="tab on" onclick="setTab('sqlt',0,'Beginner')">Beginner</button><button class="tab" onclick="setTab('sqlt',1,'Intermediate')">Intermediate</button><button class="tab" onclick="setTab('sqlt',2,'Advanced')">Advanced</button><button class="tab" onclick="setTab('sqlt',3,'Optimise')">Optimise</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rSQL('Show top 10 records ordered by the main numeric column')">Top 10 records</button>
+          <button class="chip" onclick="rSQL('Find all duplicate rows in the dataset')">Find duplicates</button>
+          <button class="chip" onclick="rSQL('Calculate total average min max for all numeric columns')">Aggregation</button>
+          <button class="chip" onclick="rSQL('Group by each categorical column with counts')">Group by analysis</button>
+          <button class="chip" onclick="rSQL('Find records with missing null values')">Find nulls</button>
+          <button class="chip" onclick="rSQL('Monthly trend analysis if date column exists')">Monthly trend</button>
+          <button class="chip" onclick="rSQL('Window functions for ranking and running totals')">Window functions</button>
+          <button class="chip" onclick="rSQL('CTE for complex multi-step business logic')">CTE example</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="sqlq" placeholder="Describe what SQL you need..." rows="2"></textarea><button class="rbtn" onclick="rSQL(document.getElementById('sqlq').value)">Generate SQL</button></div>
+        <div id="sqlout" class="oa empty"><div class="ei">&#128451;</div><div>Select a query type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- EXCEL -->
+    <div class="page" id="page-excel">
+      <div class="panel"><div class="ph"><div class="pt">Excel Analyst Mode</div></div><div class="pb2">
+        <div class="chips">
+          <button class="chip" onclick="rExcel('XLOOKUP vs VLOOKUP vs INDEX MATCH with examples')">XLOOKUP / VLOOKUP</button>
+          <button class="chip" onclick="rExcel('INDEX MATCH for flexible two-way lookups')">INDEX MATCH</button>
+          <button class="chip" onclick="rExcel('Pivot table complete setup guide for this dataset')">Pivot Tables</button>
+          <button class="chip" onclick="rExcel('SUMIFS COUNTIFS AVERAGEIFS with multiple criteria')">SUMIFS / COUNTIFS</button>
+          <button class="chip" onclick="rExcel('Conditional formatting rules for data quality checks')">Conditional Formatting</button>
+          <button class="chip" onclick="rExcel('Data cleaning formulas TRIM CLEAN IFERROR PROPER')">Cleaning Formulas</button>
+          <button class="chip" onclick="rExcel('Dashboard formulas and dynamic named ranges')">Dashboard Formulas</button>
+          <button class="chip" onclick="rExcel('IF nested IFERROR IFS SWITCH logic formulas')">IF Statements</button>
+          <button class="chip" onclick="rExcel('Power Query transformation step-by-step guide')">Power Query</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="exq" placeholder="Describe your Excel problem..." rows="2"></textarea><button class="rbtn" onclick="rExcel(document.getElementById('exq').value)">Get Formula</button></div>
+        <div id="exout" class="oa empty"><div class="ei">&#128209;</div><div>Select a formula type or describe your problem</div></div>
+      </div></div>
+    </div>
+
+    <!-- PYTHON -->
+    <div class="page" id="page-python">
+      <div class="panel"><div class="ph"><div class="pt">Python Analyst Mode</div></div><div class="pb2">
+        <div class="tabs" id="pyt"><button class="tab on" onclick="setTab('pyt',0,'Load')">Load</button><button class="tab" onclick="setTab('pyt',1,'Clean')">Clean</button><button class="tab" onclick="setTab('pyt',2,'EDA')">EDA</button><button class="tab" onclick="setTab('pyt',3,'GroupBy')">GroupBy</button><button class="tab" onclick="setTab('pyt',4,'ML')">ML Starter</button></div>
+        <div class="chips">
+          <button class="chip" onclick="rPython('Load and inspect CSV with pandas showing dtypes missing values shape and head')">Load and Inspect</button>
+          <button class="chip" onclick="rPython('Clean data: handle missing values remove duplicates fix data types')">Clean Data</button>
+          <button class="chip" onclick="rPython('Full EDA with matplotlib seaborn histograms boxplots correlation heatmap')">EDA Visualisations</button>
+          <button class="chip" onclick="rPython('Correlation matrix heatmap with seaborn and annotation')">Correlation Heatmap</button>
+          <button class="chip" onclick="rPython('Groupby aggregation analysis with multiple functions')">GroupBy Analysis</button>
+          <button class="chip" onclick="rPython('Linear regression with scikit-learn train test split and R-squared evaluation')">Linear Regression</button>
+          <button class="chip" onclick="rPython('Classification with scikit-learn random forest and confusion matrix')">Classification ML</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pyq" placeholder="Describe what Python code you need..." rows="2"></textarea><button class="rbtn" onclick="rPython(document.getElementById('pyq').value)">Generate Code</button></div>
+        <div id="pyout" class="oa empty"><div class="ei">&#128013;</div><div>Select a code type or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- POWER BI -->
+    <div class="page" id="page-pbi">
+      <div class="panel"><div class="ph"><div class="pt">Power BI Mode</div></div><div class="pb2">
+        <div class="chips" style="margin-bottom:6px">
+          <button class="chip" onclick="rPBI('Executive Dashboard template with KPI cards and trend visuals')">Executive Dashboard</button>
+          <button class="chip" onclick="rPBI('Sales Dashboard with revenue profit and customer KPIs')">Sales Dashboard</button>
+          <button class="chip" onclick="rPBI('Finance Dashboard with P and L and budget vs actual')">Finance Dashboard</button>
+          <button class="chip" onclick="rPBI('HR Dashboard with headcount turnover and performance')">HR Dashboard</button>
+          <button class="chip" onclick="rPBI('Marketing Dashboard with campaign ROI and conversions')">Marketing Dashboard</button>
+          <button class="chip" onclick="rPBI('NHS Healthcare Dashboard with patient metrics')">NHS Dashboard</button>
+        </div>
+        <div class="chips">
+          <button class="chip" onclick="rPBI('DAX measures for this specific dataset columns')">DAX Measures</button>
+          <button class="chip" onclick="rPBI('Star schema data model with fact and dimension tables')">Star Schema</button>
+          <button class="chip" onclick="rPBI('Power Query M code transformation steps')">Power Query M</button>
+          <button class="chip" onclick="rPBI('Drill-through report design and setup')">Drill Through</button>
+          <button class="chip" onclick="rPBI('Row Level Security setup for multi-tenant access')">Row Level Security</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="pbiq" placeholder="Describe your Power BI needs..." rows="2"></textarea><button class="rbtn" onclick="rPBI(document.getElementById('pbiq').value)">Generate</button></div>
+        <div id="pbiout" class="oa empty"><div class="ei">&#9889;</div><div>Select a template or describe what you need</div></div>
+      </div></div>
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="page" id="page-stats">
+      <div class="panel"><div class="ph"><div class="pt">Statistics Mode</div></div><div class="pb2">
+        <div class="ic2" style="margin-bottom:12px"><div class="ic2-l">What Statistical Test Should I Use?</div><div class="ic2-b">Tell me your goal and I will recommend the right test with Python code and Excel method.</div></div>
+        <div class="chips">
+          <button class="chip" onclick="rStats('explain mean median mode standard deviation with business examples')">Mean / Median / Mode</button>
+          <button class="chip" onclick="rStats('hypothesis testing step by step with p-value and significance')">Hypothesis Testing</button>
+          <button class="chip" onclick="rStats('correlation analysis with Pearson Spearman and business interpretation')">Correlation</button>
+          <button class="chip" onclick="rStats('A/B testing design setup analysis and interpretation')">A/B Testing</button>
+          <button class="chip" onclick="rStats('linear regression with R-squared and residual analysis')">Regression</button>
+          <button class="chip" onclick="rStats('ANOVA one-way test for comparing multiple groups')">ANOVA</button>
+          <button class="chip" onclick="rStats('t-test for comparing means of two independent groups')">T-Test</button>
+          <button class="chip" onclick="rStats('chi-square test for categorical variable relationships')">Chi-Square</button>
+          <button class="chip" onclick="rStats('recommend statistical test for my dataset and goals')">What Test To Use?</button>
+        </div>
+        <div class="qrow" style="margin:10px 0"><textarea class="qin" id="stq" placeholder="Ask any statistics question..." rows="2"></textarea><button class="rbtn" onclick="rStats(document.getElementById('stq').value)">Explain</button></div>
+        <div id="stout" class="oa empty"><div class="ei">&#128208;</div><div>Select a statistical concept or ask a question</div></div>
+      </div></div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="page" id="page-report">
+      <div class="panel"><div class="ph"><div class="pt">Report Writer</div><span class="badge info">Step 8 of 8</span></div><div class="pb2">
+        <div class="tabs" id="rept"><button class="tab on" onclick="setTab('rept',0,'Executive')">Executive</button><button class="tab" onclick="setTab('rept',1,'Technical')">Technical</button><button class="tab" onclick="setTab('rept',2,'Data Quality')">Data Quality</button><button class="tab" onclick="setTab('rept',3,'KPI Report')">KPI Report</button><button class="tab" onclick="setTab('rept',4,'Full Report')">Full Report</button></div>
+        <div style="margin-bottom:10px">
+          <div style="font-size:9px;color:var(--text3);margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em">Report Tone</div>
+          <div class="chips" id="tone-chips" style="margin-bottom:0"><button class="chip on" onclick="setTone('Executive',this)">Executive</button><button class="chip" onclick="setTone('Academic',this)">Academic</button><button class="chip" onclick="setTone('Beginner-friendly',this)">Beginner Friendly</button><button class="chip" onclick="setTone('Technical',this)">Technical</button><button class="chip" onclick="setTone('Business',this)">Business</button></div>
+        </div>
+        <div class="qrow" style="margin-bottom:10px"><textarea class="qin" id="repq" placeholder="Add specific instructions (optional)..." rows="2"></textarea><button class="rbtn lg" onclick="rReport()">Generate Report</button></div>
+        <div id="repout" class="oa empty"><div class="ei">&#128221;</div><div>Click Generate Report to create a professional report</div></div>
+        <div id="rep-ex" class="btn-row" style="display:none"><button class="rbtn ou sm" onclick="cpRep()">Copy Report</button><button class="rbtn ou sm" onclick="dlRep('txt')">Download TXT</button><button class="rbtn ou sm" onclick="dlRep('md')">Download Markdown</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+
 </body>
 </html>
